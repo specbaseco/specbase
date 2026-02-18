@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 import { searchProducts, manufacturers, categories, products } from '@/lib/data';
-import { formatApiResponse, formatApiError, corsHeaders } from '@/lib/api-helpers';
+import { formatApiResponse, formatApiError, sanitizePagination, corsHeaders } from '@/lib/api-helpers';
 
 // AI-optimized search endpoint
 // Accepts structured queries for programmatic product selection
@@ -17,16 +17,17 @@ import { formatApiResponse, formatApiError, corsHeaders } from '@/lib/api-helper
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { query, category, manufacturer, specs, page = 1, limit = 20 } = body;
+    const { query, category, manufacturer, specs } = body;
+    const { page, limit } = sanitizePagination(body.page, body.limit);
 
-    let results = searchProducts(query || '');
+    let results = searchProducts(typeof query === 'string' ? query : '');
 
     // Apply additional API filters
-    if (category) {
+    if (typeof category === 'string') {
       const cat = categories.find(c => c.slug === category);
       if (cat) results = results.filter(p => p.category_id === cat.id);
     }
-    if (manufacturer) {
+    if (typeof manufacturer === 'string') {
       const mfr = manufacturers.find(m => m.slug === manufacturer || m.name.toLowerCase() === manufacturer.toLowerCase());
       if (mfr) results = results.filter(p => p.manufacturer_id === mfr.id);
     }

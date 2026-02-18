@@ -26,9 +26,6 @@ export default function Navbar() {
             <Link href="/" className="px-4 py-2 rounded-lg text-sm font-medium text-cream-300 hover:text-white hover:bg-navy-700 transition-colors">
               Search
             </Link>
-            <Link href="/find-alternative" className="px-4 py-2 rounded-lg text-sm font-medium text-accent hover:text-white hover:bg-accent/20 transition-colors">
-              Find an Alternative
-            </Link>
             <Link href="/manufacturers" className="px-4 py-2 rounded-lg text-sm font-medium text-cream-300 hover:text-white hover:bg-navy-700 transition-colors">
               For Manufacturers
             </Link>
@@ -75,9 +72,6 @@ export default function Navbar() {
           <div className="md:hidden pb-4 border-t border-navy-700 mt-2 pt-4 space-y-1">
             <Link href="/" className="block px-4 py-2 rounded-lg text-sm text-cream-300 hover:text-white hover:bg-navy-700" onClick={() => setMobileOpen(false)}>
               Search
-            </Link>
-            <Link href="/find-alternative" className="block px-4 py-2 rounded-lg text-sm text-accent hover:text-white hover:bg-accent/20" onClick={() => setMobileOpen(false)}>
-              Find an Alternative
             </Link>
             <Link href="/manufacturers" className="block px-4 py-2 rounded-lg text-sm text-cream-300 hover:text-white hover:bg-navy-700" onClick={() => setMobileOpen(false)}>
               For Manufacturers

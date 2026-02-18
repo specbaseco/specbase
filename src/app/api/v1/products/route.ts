@@ -1,14 +1,13 @@
 import { NextRequest } from 'next/server';
 import { products, manufacturers, categories } from '@/lib/data';
-import { formatApiResponse, formatApiError, corsHeaders } from '@/lib/api-helpers';
+import { formatApiResponse, formatApiError, sanitizePagination, corsHeaders } from '@/lib/api-helpers';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const category = searchParams.get('category');
   const manufacturer = searchParams.get('manufacturer');
   const q = searchParams.get('q');
-  const page = parseInt(searchParams.get('page') || '1');
-  const limit = parseInt(searchParams.get('limit') || '20');
+  const { page, limit } = sanitizePagination(searchParams.get('page'), searchParams.get('limit'));
   const sort = searchParams.get('sort') || 'relevance';
 
   let results = products.map(p => ({

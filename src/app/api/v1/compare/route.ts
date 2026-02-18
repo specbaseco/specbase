@@ -17,6 +17,11 @@ export async function POST(request: NextRequest) {
       return formatApiError('Maximum 5 products can be compared at once', 400);
     }
 
+    // Validate all IDs are strings
+    if (!product_ids.every((id: unknown) => typeof id === 'string')) {
+      return formatApiError('All product_ids must be strings', 400);
+    }
+
     const foundProducts = product_ids
       .map((id: string) => getProductWithRelations(id))
       .filter(Boolean);
