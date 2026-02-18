@@ -1,0 +1,549 @@
+{
+  "metadata": {
+    "document": "PTRegistry API Schema for AI Agents",
+    "version": "1.0.0",
+    "lastUpdated": "2026-02-15",
+    "description": "Defines the ideal JSON schema that AI agents (ChatGPT, Claude, Gemini, Copilot, custom agents) would consume when querying PTRegistry for product selection and recommendation. Designed for machine-readable comparison, structured filtering, and intelligent recommendation workflows."
+  },
+  "designPrinciples": [
+    "Every specification field has a consistent unit and data type for machine comparison",
+    "Hierarchical category > subcategory > product structure for efficient navigation",
+    "Rich metadata enables AI to explain WHY a product is recommended, not just WHAT to recommend",
+    "Cross-reference fields (replaces, compatibleWith) support replacement and upgrade queries",
+    "Application suitability scores let AI match products to use cases without deep domain knowledge",
+    "Availability and lead time data enables AI to factor in urgency",
+    "All numeric specs use SI units internally with display formatting hints"
+  ],
+
+  "apiEndpoints": {
+    "search": {
+      "path": "/api/v1/products/search",
+      "method": "POST",
+      "description": "Primary search endpoint for AI agents. Accepts structured specification requirements and returns ranked results.",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "enum": ["motors", "gearboxes", "roller-chain", "timing-belts", "bearings"],
+            "description": "Top-level product category"
+          },
+          "subcategory": {
+            "type": "string",
+            "description": "Product subcategory (e.g., 'ac-induction', 'planetary', 'deep-groove-ball')"
+          },
+          "requirements": {
+            "type": "object",
+            "description": "Key-value pairs of specification requirements. Each key maps to a spec field name. Values can be exact, range, or minimum/maximum.",
+            "example": {
+              "power_kw": { "min": 5.5, "max": 7.5 },
+              "voltage": { "exact": 460 },
+              "enclosure": { "oneOf": ["TEFC", "TENV"] },
+              "efficiency_class": { "minLevel": "IE3" },
+              "frame_size_nema": { "exact": "213T" }
+            }
+          },
+          "application": {
+            "type": "string",
+            "description": "Free-text application description. AI can use this for semantic matching.",
+            "example": "centrifugal pump in outdoor wastewater treatment plant"
+          },
+          "preferences": {
+            "type": "object",
+            "properties": {
+              "sortBy": {
+                "type": "string",
+                "enum": ["relevance", "price_asc", "price_desc", "efficiency", "delivery_time", "popularity"],
+                "default": "relevance"
+              },
+              "maxResults": {
+                "type": "integer",
+                "default": 10,
+                "maximum": 50
+              },
+              "includeAlternatives": {
+                "type": "boolean",
+                "default": true,
+                "description": "If true, include close matches that don't exactly meet all requirements but may be viable alternatives"
+              },
+              "preferredManufacturers": {
+                "type": "array",
+                "items": { "type": "string" },
+                "description": "Optional list of preferred manufacturer IDs to prioritize"
+              },
+              "excludeManufacturers": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "regionAvailability": {
+                "type": "string",
+                "enum": ["north_america", "europe", "asia_pacific", "latin_america", "middle_east_africa", "global"],
+                "description": "Filter by regional product availability and certification"
+              }
+            }
+          }
+        },
+        "required": ["category"]
+      }
+    },
+    "getProduct": {
+      "path": "/api/v1/products/{productId}",
+      "method": "GET",
+      "description": "Retrieve complete product details by ID."
+    },
+    "compare": {
+      "path": "/api/v1/products/compare",
+      "method": "POST",
+      "description": "Side-by-side comparison of 2-5 products. Returns a structured comparison matrix.",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "productIds": {
+            "type": "array",
+            "items": { "type": "string" },
+            "minItems": 2,
+            "maxItems": 5
+          },
+          "focusSpecs": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Optional list of specification keys to highlight in comparison"
+          }
+        },
+        "required": ["productIds"]
+      }
+    },
+    "recommend": {
+      "path": "/api/v1/products/recommend",
+      "method": "POST",
+      "description": "AI-optimized recommendation endpoint. Accepts a natural language or structured application description and returns best-fit products with explanation.",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Natural language query from an engineer or AI agent",
+            "example": "I need a 10HP motor for an outdoor conveyor application, 460V, premium efficiency, C-face mount"
+          },
+          "constraints": {
+            "type": "object",
+            "description": "Hard constraints that MUST be met (deal-breakers)",
+            "example": {
+              "voltage": 460,
+              "enclosure": "TEFC",
+              "efficiency_class_min": "IE3"
+            }
+          },
+          "desirements": {
+            "type": "object",
+            "description": "Soft preferences that improve ranking but are not mandatory",
+            "example": {
+              "mounting": "C-Face",
+              "manufacturer_preference": ["ABB", "WEG"]
+            }
+          },
+          "context": {
+            "type": "object",
+            "description": "Additional context to improve recommendation quality",
+            "properties": {
+              "existingEquipment": {
+                "type": "string",
+                "description": "Model of motor being replaced (enables cross-reference lookup)"
+              },
+              "industry": {
+                "type": "string",
+                "enum": ["general_manufacturing", "food_beverage", "oil_gas", "mining", "water_wastewater", "hvac", "pulp_paper", "automotive", "pharmaceutical", "chemical"]
+              },
+              "environment": {
+                "type": "object",
+                "properties": {
+                  "indoor": { "type": "boolean" },
+                  "temperature_range_c": { "type": "object", "properties": { "min": { "type": "number" }, "max": { "type": "number" } } },
+                  "humidity": { "type": "string", "enum": ["normal", "high", "condensing"] },
+                  "corrosive": { "type": "boolean" },
+                  "washdown": { "type": "boolean" },
+                  "hazardous_area": { "type": "string", "description": "e.g., 'Class I Div 2 Group D' or 'Zone 1 IIB T4'" }
+                }
+              },
+              "operatingProfile": {
+                "type": "string",
+                "enum": ["continuous", "intermittent", "frequent_start_stop", "variable_speed", "high_inertia_start"],
+                "description": "How the equipment is operated affects product selection"
+              },
+              "budget": {
+                "type": "string",
+                "enum": ["economy", "standard", "premium", "no_constraint"],
+                "description": "Budget guidance for recommendation weighting"
+              }
+            }
+          }
+        },
+        "required": ["query"]
+      }
+    },
+    "crossReference": {
+      "path": "/api/v1/products/cross-reference",
+      "method": "POST",
+      "description": "Find equivalent products across manufacturers. Critical for replacement and multi-sourcing scenarios.",
+      "requestSchema": {
+        "type": "object",
+        "properties": {
+          "sourcePartNumber": {
+            "type": "string",
+            "description": "The known part number to cross-reference"
+          },
+          "sourceManufacturer": {
+            "type": "string",
+            "description": "Manufacturer of the known part (helps disambiguate)"
+          },
+          "targetManufacturers": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Optional filter to limit cross-references to specific manufacturers"
+          }
+        },
+        "required": ["sourcePartNumber"]
+      }
+    },
+    "categories": {
+      "path": "/api/v1/categories",
+      "method": "GET",
+      "description": "Returns the full category tree with available filter facets for each category."
+    }
+  },
+
+  "productResponseSchema": {
+    "description": "The canonical product object returned by all API endpoints. This is what AI agents consume to make recommendations.",
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Unique PTRegistry product identifier"
+      },
+      "manufacturer": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "logo_url": { "type": "string", "format": "uri" },
+          "country": { "type": "string" },
+          "tier": {
+            "type": "string",
+            "enum": ["basic", "featured", "premium"],
+            "description": "Manufacturer's subscription tier on PTRegistry (affects data richness and placement)"
+          }
+        }
+      },
+      "partNumber": {
+        "type": "string",
+        "description": "Manufacturer's part number / catalog number"
+      },
+      "name": {
+        "type": "string",
+        "description": "Human-readable product name"
+      },
+      "series": {
+        "type": "string",
+        "description": "Product family or series name (e.g., 'W22', 'SIMOTICS GP', 'Explorer')"
+      },
+      "category": { "type": "string" },
+      "subcategory": { "type": "string" },
+      "status": {
+        "type": "string",
+        "enum": ["active", "discontinued", "limited_availability", "new_release"],
+        "description": "Current product lifecycle status"
+      },
+      "description": {
+        "type": "string",
+        "description": "Brief product description suitable for display (1-3 sentences)"
+      },
+      "specifications": {
+        "type": "object",
+        "description": "All technical specifications as key-value pairs. Keys are standardized across manufacturers for the same category. Values include the numeric value, unit, and display string.",
+        "additionalProperties": {
+          "type": "object",
+          "properties": {
+            "value": {
+              "description": "The raw numeric or string value for machine comparison"
+            },
+            "unit": {
+              "type": "string",
+              "description": "SI unit or standard unit"
+            },
+            "display": {
+              "type": "string",
+              "description": "Human-readable formatted value (e.g., '10 HP (7.5 kW)')"
+            }
+          }
+        },
+        "example_motor": {
+          "power_hp": { "value": 10, "unit": "HP", "display": "10 HP" },
+          "power_kw": { "value": 7.5, "unit": "kW", "display": "7.5 kW" },
+          "speed_rpm": { "value": 1770, "unit": "RPM", "display": "1770 RPM" },
+          "poles": { "value": 4, "unit": null, "display": "4-Pole" },
+          "voltage": { "value": 460, "unit": "V", "display": "230/460V" },
+          "frequency": { "value": 60, "unit": "Hz", "display": "60 Hz" },
+          "frame_nema": { "value": "215T", "unit": null, "display": "NEMA 215T" },
+          "enclosure": { "value": "TEFC", "unit": null, "display": "TEFC" },
+          "efficiency_percent": { "value": 91.7, "unit": "%", "display": "91.7%" },
+          "efficiency_class": { "value": "IE3", "unit": null, "display": "NEMA Premium / IE3" },
+          "full_load_amps": { "value": 12.8, "unit": "A", "display": "12.8 A" },
+          "service_factor": { "value": 1.15, "unit": null, "display": "1.15" },
+          "insulation_class": { "value": "F", "unit": null, "display": "Class F" },
+          "mounting": { "value": "foot", "unit": null, "display": "Foot Mount" },
+          "weight_kg": { "value": 68, "unit": "kg", "display": "68 kg (150 lbs)" },
+          "inverter_duty": { "value": true, "unit": null, "display": "Yes - rated for VFD operation" }
+        }
+      },
+      "applicationSuitability": {
+        "type": "object",
+        "description": "Scored suitability ratings (0-100) for common application scenarios. Enables AI to quickly match products to use cases without deep engineering knowledge.",
+        "properties": {
+          "pump": { "type": "integer", "minimum": 0, "maximum": 100 },
+          "fan_blower": { "type": "integer" },
+          "conveyor": { "type": "integer" },
+          "compressor": { "type": "integer" },
+          "crusher_mill": { "type": "integer" },
+          "crane_hoist": { "type": "integer" },
+          "mixer_agitator": { "type": "integer" },
+          "general_purpose": { "type": "integer" },
+          "servo_positioning": { "type": "integer" },
+          "hazardous_area": { "type": "integer" },
+          "washdown": { "type": "integer" },
+          "high_temperature": { "type": "integer" },
+          "outdoor": { "type": "integer" },
+          "variable_speed": { "type": "integer" }
+        }
+      },
+      "certifications": {
+        "type": "array",
+        "items": { "type": "string" },
+        "description": "Applicable certifications and approvals",
+        "example": ["UL", "CSA", "CE", "ATEX", "IECEx", "CCC", "EAC", "IEEE 841", "API 541"]
+      },
+      "documents": {
+        "type": "array",
+        "description": "Available technical documents",
+        "items": {
+          "type": "object",
+          "properties": {
+            "type": { "type": "string", "enum": ["datasheet", "cad_2d", "cad_3d", "installation_manual", "wiring_diagram", "performance_curve", "dimension_drawing"] },
+            "url": { "type": "string", "format": "uri" },
+            "format": { "type": "string", "enum": ["PDF", "DWG", "STEP", "IGES", "DXF"] }
+          }
+        }
+      },
+      "pricing": {
+        "type": "object",
+        "description": "Pricing information (when available from manufacturer or distributor)",
+        "properties": {
+          "listPrice": {
+            "type": "object",
+            "properties": {
+              "amount": { "type": "number" },
+              "currency": { "type": "string" }
+            }
+          },
+          "priceRange": {
+            "type": "string",
+            "enum": ["$", "$$", "$$$", "$$$$", "$$$$$"],
+            "description": "Relative price indicator when exact pricing is not available"
+          },
+          "pricingAvailable": {
+            "type": "boolean",
+            "description": "Whether exact pricing is exposed through the API"
+          }
+        }
+      },
+      "availability": {
+        "type": "object",
+        "properties": {
+          "inStock": { "type": "boolean" },
+          "leadTime": {
+            "type": "object",
+            "properties": {
+              "value": { "type": "integer" },
+              "unit": { "type": "string", "enum": ["days", "weeks"] }
+            }
+          },
+          "stocking_distributors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "url": { "type": "string", "format": "uri" },
+                "region": { "type": "string" }
+              }
+            }
+          }
+        }
+      },
+      "crossReferences": {
+        "type": "array",
+        "description": "Known equivalent or replacement products from other manufacturers",
+        "items": {
+          "type": "object",
+          "properties": {
+            "manufacturer": { "type": "string" },
+            "partNumber": { "type": "string" },
+            "matchType": { "type": "string", "enum": ["exact_replacement", "functional_equivalent", "upgrade", "close_match"] },
+            "notes": { "type": "string" }
+          }
+        }
+      },
+      "replacesModels": {
+        "type": "array",
+        "items": { "type": "string" },
+        "description": "Previous/discontinued model numbers this product replaces"
+      },
+      "relatedProducts": {
+        "type": "array",
+        "description": "Complementary products (e.g., VFD for a motor, sprockets for a chain)",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "relationship": { "type": "string", "enum": ["accessory", "mounting_hardware", "drive_controller", "mating_component", "larger_size", "smaller_size", "higher_efficiency_upgrade"] },
+            "partNumber": { "type": "string" },
+            "name": { "type": "string" }
+          }
+        }
+      },
+      "aiMetadata": {
+        "type": "object",
+        "description": "Metadata specifically designed to help AI agents make better recommendations",
+        "properties": {
+          "selectionTips": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Engineering tips an AI should communicate when recommending this product",
+            "example": [
+              "This motor has a 1.15 service factor, suitable for occasional overload conditions",
+              "TEFC enclosure is suitable for outdoor/dusty environments without additional protection",
+              "Inverter-duty rated - can be used with variable frequency drives without derating"
+            ]
+          },
+          "commonMistakes": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Common selection errors to warn about",
+            "example": [
+              "Do not use ODP enclosure in outdoor or dusty environments",
+              "Frame size 215T requires different mounting bolt pattern than 213T",
+              "460V motor requires 460V or dual-voltage starter/VFD"
+            ]
+          },
+          "tags": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Searchable tags for semantic matching",
+            "example": ["premium_efficiency", "inverter_duty", "general_purpose", "TEFC", "foot_mount", "C_face_available", "washdown_capable"]
+          },
+          "popularityScore": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "How frequently this product is specified/ordered (helps AI recommend proven products)"
+          },
+          "engineerRating": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 5,
+            "description": "Average rating from engineers who have used this product"
+          }
+        }
+      }
+    }
+  },
+
+  "searchResponseSchema": {
+    "type": "object",
+    "properties": {
+      "query": {
+        "type": "object",
+        "description": "Echo of the parsed search query for AI to verify interpretation"
+      },
+      "totalResults": { "type": "integer" },
+      "results": {
+        "type": "array",
+        "items": { "$ref": "#/productResponseSchema" }
+      },
+      "facets": {
+        "type": "object",
+        "description": "Available filter facets with counts for refining results",
+        "example": {
+          "manufacturer": [
+            { "value": "ABB", "count": 12 },
+            { "value": "WEG", "count": 8 },
+            { "value": "Siemens", "count": 6 }
+          ],
+          "power_hp": [
+            { "range": "1-5", "count": 15 },
+            { "range": "5-25", "count": 22 },
+            { "range": "25-100", "count": 18 }
+          ],
+          "enclosure": [
+            { "value": "TEFC", "count": 30 },
+            { "value": "ODP", "count": 8 }
+          ]
+        }
+      },
+      "alternatives": {
+        "type": "array",
+        "description": "Products that nearly match but miss one or more requirements, with explanation of the deviation",
+        "items": {
+          "type": "object",
+          "properties": {
+            "product": { "$ref": "#/productResponseSchema" },
+            "deviations": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "spec": { "type": "string" },
+                  "required": { "type": "string" },
+                  "actual": { "type": "string" },
+                  "severity": { "type": "string", "enum": ["minor", "moderate", "significant"] }
+                }
+              }
+            }
+          }
+        }
+      },
+      "recommendationExplanation": {
+        "type": "string",
+        "description": "Human-readable explanation of why the top results were ranked as they were. AI agents can pass this through to users."
+      }
+    }
+  },
+
+  "authenticationAndRateLimits": {
+    "authentication": {
+      "method": "API Key in header",
+      "header": "X-PTRegistry-API-Key",
+      "description": "All API requests require an API key. Different keys have different tier access."
+    },
+    "tiers": {
+      "free": {
+        "rateLimit": "100 requests/day",
+        "features": ["search", "getProduct", "categories"],
+        "dataAccess": "Basic specifications only. No pricing, no availability, no documents.",
+        "responseFields": "Limited to: id, manufacturer.name, partNumber, name, category, subcategory, specifications (top 5 specs only)"
+      },
+      "professional": {
+        "rateLimit": "10,000 requests/day",
+        "features": ["search", "getProduct", "compare", "crossReference", "categories"],
+        "dataAccess": "Full specifications, certifications, documents, cross-references. No pricing.",
+        "responseFields": "All fields except pricing.listPrice"
+      },
+      "enterprise": {
+        "rateLimit": "100,000 requests/day",
+        "features": ["All endpoints including recommend"],
+        "dataAccess": "Full data including pricing where available, availability, and AI metadata.",
+        "responseFields": "All fields"
+      }
+    }
+  }
+}

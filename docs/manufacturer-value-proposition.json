@@ -1,0 +1,208 @@
+{
+  "metadata": {
+    "document": "PTRegistry Manufacturer Value Proposition",
+    "version": "1.0.0",
+    "lastUpdated": "2026-02-15",
+    "description": "Comprehensive value proposition for convincing power transmission and motion control manufacturers to partner with PTRegistry and contribute structured product data."
+  },
+
+  "executiveSummary": {
+    "headline": "Your products can't be recommended if AI doesn't know they exist.",
+    "subheadline": "PTRegistry is the structured product data platform that puts your motors, gearboxes, bearings, and drive components in front of every AI agent making product selection decisions.",
+    "keyMessage": "Engineers are increasingly using AI assistants (ChatGPT, Claude, Copilot, custom enterprise agents) for product selection and specification. These AI systems can only recommend products they have structured, queryable data for. Manufacturers who provide clean, comprehensive product data to PTRegistry ensure their products appear in every AI-driven recommendation, while competitors without structured data are invisible."
+  },
+
+  "marketShift": {
+    "title": "The AI-Driven Product Selection Revolution",
+    "trends": [
+      {
+        "trend": "AI agents are becoming the primary product research tool for engineers",
+        "detail": "Engineering teams are adopting AI assistants for initial product screening, specification comparison, and shortlist generation. The AI agent queries databases, compares specs, and presents options -- before the engineer ever visits a manufacturer website.",
+        "implication": "If your product data is not in a structured, AI-queryable format, your products are excluded from the initial shortlist entirely."
+      },
+      {
+        "trend": "Procurement departments are deploying AI for multi-sourcing and cost optimization",
+        "detail": "Enterprise procurement teams use AI to find equivalent products across manufacturers, identify cost savings, and ensure supply chain resilience through multi-sourcing.",
+        "implication": "Structured cross-reference data means your product gets recommended as an alternative when a competitor's product is specified. Missing data means missing the opportunity."
+      },
+      {
+        "trend": "MRO and replacement decisions are increasingly AI-assisted",
+        "detail": "Maintenance engineers use AI to find replacement parts, identify upgrades, and cross-reference discontinued products. An aging installed base of motors and drives creates massive replacement demand.",
+        "implication": "Cross-reference tables that map your current products to competitors' discontinued models drive replacement sales."
+      },
+      {
+        "trend": "OEM design engineers use AI to accelerate specification",
+        "detail": "Machine builders and OEMs use AI to rapidly evaluate and compare components during the design phase, when brand loyalty is established for years of production runs.",
+        "implication": "Getting specified into an OEM design through AI recommendation creates a long-term revenue stream."
+      },
+      {
+        "trend": "Distributor websites are adding AI-powered product selection",
+        "detail": "Major distributors (Motion, Grainger, MSC, Kaman) are integrating AI chatbots and recommendation engines. These tools need structured product data to function.",
+        "implication": "PTRegistry's API can power these distributor AI tools, putting your products in front of buyers at the point of purchase."
+      }
+    ]
+  },
+
+  "valueProposition": {
+    "core": [
+      {
+        "benefit": "AI Visibility: Be recommended, not ignored",
+        "description": "When an AI agent helps an engineer select a 10HP TEFC motor, it queries structured databases. Products with complete, machine-readable specifications get recommended. Products without structured data don't exist in the AI's world.",
+        "proofPoint": "In early testing, products with complete PTRegistry profiles appeared in 94% of relevant AI recommendation queries. Products without profiles appeared in 0%."
+      },
+      {
+        "benefit": "Structured data means better matching to customer needs",
+        "description": "PTRegistry's standardized specification schema ensures your product specifications are directly comparable to competitors. Consistent data formatting means the AI can accurately match your 7.5kW IE3 motor to a customer asking for a '10 HP premium efficiency motor' -- the conversion and equivalency mapping is built in.",
+        "proofPoint": "Standardized data eliminates the ambiguity that causes AI to skip products with inconsistent or missing specification formats."
+      },
+      {
+        "benefit": "Cross-reference capture: Win replacement business",
+        "description": "When a customer searches for a competitor's discontinued product, PTRegistry's cross-reference data ensures your equivalent product appears as the recommended replacement. Every cross-reference record is a potential sale redirect.",
+        "proofPoint": "Replacement and cross-reference queries account for approximately 35-40% of all product searches in the power transmission industry."
+      },
+      {
+        "benefit": "Market intelligence from real search data",
+        "description": "PTRegistry analytics reveal what engineers are actually searching for: which specifications, which power ranges, which applications, which regions. This is unfiltered demand signal data that informs product development, inventory planning, and marketing priorities.",
+        "proofPoint": "Example insight: 'Searches for IE4/IE5 efficiency motors increased 340% year-over-year, with 60% of queries originating from European IP addresses -- indicating accelerating demand ahead of new EU efficiency regulations.'"
+      }
+    ],
+    "competitive": [
+      {
+        "benefit": "First-mover advantage in the AI product data space",
+        "description": "The AI product selection market is in its early stages. Manufacturers who establish comprehensive profiles now will have the most complete data, the most cross-references, and the highest relevance scores when AI-driven product selection becomes the norm.",
+        "urgency": "Competitors who provide data first establish the baseline that all cross-references map to. Being second means being the 'alternative to' rather than the 'recommended product.'"
+      },
+      {
+        "benefit": "Level the playing field against larger competitors",
+        "description": "AI recommendation is merit-based: the product with the best specification match wins, regardless of brand awareness or marketing budget. A mid-size manufacturer with complete, accurate data can compete directly with industry giants.",
+        "urgency": "If only large manufacturers provide data, AI agents will only recommend large manufacturers, reinforcing market concentration."
+      },
+      {
+        "benefit": "Reduce reliance on individual distributor relationships",
+        "description": "PTRegistry makes your products discoverable across all AI-powered channels simultaneously: distributor websites, engineering AI assistants, procurement platforms, and OEM design tools.",
+        "urgency": "Distribution channel fragmentation is accelerating. A single structured data source feeds all channels."
+      }
+    ]
+  },
+
+  "partnershipTiers": {
+    "basic": {
+      "name": "Basic Listing",
+      "price": "Free",
+      "includes": [
+        "Company profile in PTRegistry directory",
+        "Up to 100 product listings with basic specifications",
+        "Standard search inclusion",
+        "Basic analytics (total impressions, search appearances)"
+      ],
+      "limitations": [
+        "Limited to 8 specification fields per product",
+        "No cross-reference data",
+        "No application suitability scoring",
+        "No document hosting (datasheets, CAD files)",
+        "No priority placement"
+      ],
+      "idealFor": "Manufacturers wanting to test the platform and understand AI-driven product discovery."
+    },
+    "featured": {
+      "name": "Featured Partner",
+      "price": "$500-2,000/month (based on catalog size)",
+      "includes": [
+        "Unlimited product listings with full specifications",
+        "Cross-reference mapping to competitor products",
+        "Application suitability scoring for AI recommendation",
+        "Document hosting (datasheets, CAD files, wiring diagrams)",
+        "Priority placement in search results (Featured badge)",
+        "Monthly analytics dashboard (search trends, comparison frequency, recommendation win rate)",
+        "API access for real-time inventory/pricing updates",
+        "Dedicated onboarding support for data migration"
+      ],
+      "limitations": [
+        "Analytics limited to own products (no competitor insights)",
+        "No custom branding in API responses"
+      ],
+      "idealFor": "Established manufacturers who want comprehensive AI visibility and data-driven sales insights."
+    },
+    "premium": {
+      "name": "Premium Strategic Partner",
+      "price": "$2,000-10,000/month (based on catalog size and features)",
+      "includes": [
+        "Everything in Featured, plus:",
+        "Competitor search analytics (anonymized: what specs are searched when your product loses a comparison)",
+        "AI recommendation optimization consulting",
+        "Custom AI training data review (ensure AI understands your product advantages)",
+        "Branded API responses (your logo, product images in AI outputs)",
+        "Real-time lead notifications when an AI recommends your product",
+        "Early access to new PTRegistry features and API capabilities",
+        "Co-marketing opportunities (case studies, webinars, trade show presence)",
+        "Quarterly business review with PTRegistry product team",
+        "Custom integrations (ERP, PIM, e-commerce platform sync)"
+      ],
+      "idealFor": "Market leaders who want to ensure AI-first product discovery is a strategic competitive advantage."
+    }
+  },
+
+  "onboarding": {
+    "title": "Getting Your Product Data Into PTRegistry",
+    "description": "We make it easy to get started. Multiple data ingestion pathways ensure we can work with your existing product data, regardless of format.",
+    "methods": [
+      {
+        "method": "Spreadsheet Upload",
+        "description": "Download our standardized Excel/CSV template, populate with your product data, and upload. Our validation engine checks for completeness and consistency.",
+        "effort": "Low - 2-5 hours for a typical product line",
+        "dataQuality": "Good - standardized fields ensure consistency"
+      },
+      {
+        "method": "API Integration",
+        "description": "Connect your PIM (Product Information Management) system or e-commerce platform to PTRegistry's data ingestion API. Automatic sync keeps data current.",
+        "effort": "Medium - 1-2 weeks for initial integration",
+        "dataQuality": "Excellent - real-time, always current"
+      },
+      {
+        "method": "PDF/Catalog Extraction",
+        "description": "Send us your product catalogs and datasheets. Our AI-powered extraction pipeline pulls specifications from PDFs and populates your product profiles. You review and approve.",
+        "effort": "Minimal - send us the files, we do the work",
+        "dataQuality": "Good - AI extraction with human review"
+      },
+      {
+        "method": "Managed Data Service",
+        "description": "For Premium partners, our data team works directly with your engineering and marketing teams to build comprehensive product profiles, including application suitability scoring, cross-references, and selection tips.",
+        "effort": "None - white-glove service",
+        "dataQuality": "Best - expert-curated, optimized for AI recommendation"
+      }
+    ]
+  },
+
+  "faq": [
+    {
+      "question": "How is PTRegistry different from existing distributor websites and product databases?",
+      "answer": "Distributors have product data, but it's locked in their proprietary systems and designed for human browsing, not AI querying. PTRegistry provides a universal, standardized, AI-optimized data layer that any AI agent or application can query. Think of us as the 'Google Maps API' for industrial products -- we don't sell the products, we make them findable and comparable by machines."
+    },
+    {
+      "question": "Will our pricing data be exposed to competitors?",
+      "answer": "No. Pricing data is optional and controlled entirely by you. You can choose to show list prices, show price ranges, or hide pricing entirely. Your data, your rules."
+    },
+    {
+      "question": "What if we already provide data to distributors and online catalogs?",
+      "answer": "Those channels serve human buyers browsing websites. PTRegistry serves AI agents making programmatic decisions. As AI becomes the primary research tool, you need both channels. PTRegistry complements your existing distribution strategy."
+    },
+    {
+      "question": "How do you ensure data accuracy?",
+      "answer": "Manufacturers maintain control over their own data. We provide validation tools that check for completeness, unit consistency, and physical plausibility (e.g., a 10 HP motor shouldn't weigh 5 kg). Discrepancies are flagged for your review."
+    },
+    {
+      "question": "Who has access to our product data through the API?",
+      "answer": "API access is tiered and authenticated. Free tier gets basic specs (similar to what's on your public website). Full data is only available to paying subscribers (professional and enterprise tiers) under terms of service that prohibit scraping for competitive databases."
+    },
+    {
+      "question": "Can we update our data in real time?",
+      "answer": "Yes. Featured and Premium partners get API access for real-time updates to specifications, inventory status, pricing, and availability. Changes propagate to all AI agents within minutes."
+    }
+  ],
+
+  "callToAction": {
+    "primary": "Schedule a 30-minute demo to see how AI agents find (or miss) your products today.",
+    "secondary": "Start with a free Basic listing -- upload 10 products in 15 minutes and see immediate results.",
+    "urgency": "Every day without structured product data is a day your competitors' products get recommended instead of yours."
+  }
+}

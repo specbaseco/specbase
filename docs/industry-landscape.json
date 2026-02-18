@@ -1,0 +1,848 @@
+{
+  "metadata": {
+    "document": "PTRegistry Industry Landscape",
+    "version": "1.0.0",
+    "lastUpdated": "2026-02-15",
+    "description": "Comprehensive mapping of the power transmission and motion control product landscape, covering major categories, specifications, manufacturers, and search patterns used by engineers and AI agents."
+  },
+  "categories": [
+    {
+      "id": "motors",
+      "name": "Electric Motors",
+      "description": "Electromechanical devices that convert electrical energy into mechanical rotational energy. The foundational prime mover in virtually all industrial machinery, HVAC systems, pumps, conveyors, and automation equipment.",
+      "commonUseCases": [
+        "Pumps and compressors",
+        "Conveyor systems",
+        "HVAC fans and blowers",
+        "Machine tool spindles",
+        "Robotic joints and axes",
+        "Material handling and hoists",
+        "Packaging machinery",
+        "Food and beverage processing"
+      ],
+      "subcategories": [
+        {
+          "id": "ac-induction",
+          "name": "AC Induction Motors (Asynchronous)",
+          "description": "The workhorse of industry. Uses electromagnetic induction from stator windings to induce current in the rotor. Available in squirrel-cage and wound-rotor configurations. Rugged, low maintenance, and cost-effective for constant-speed and variable-frequency drive applications.",
+          "typicalApplications": ["Pumps", "Fans", "Conveyors", "Compressors", "General industrial machinery"]
+        },
+        {
+          "id": "servo",
+          "name": "Servo Motors",
+          "description": "High-performance motors designed for precise control of position, velocity, and torque in closed-loop motion control systems. Typically permanent-magnet synchronous (PMSM) or brushless DC construction with integrated feedback devices (encoders/resolvers).",
+          "typicalApplications": ["CNC machine tools", "Robotics", "Packaging machinery", "Semiconductor manufacturing", "Printing presses"]
+        },
+        {
+          "id": "dc",
+          "name": "DC Motors (Brushed)",
+          "description": "Motors powered by direct current, using brushes and a commutator for current switching. Provide excellent speed control characteristics. Being gradually replaced by AC drives in many applications but still widely used in legacy systems, battery-powered equipment, and specialty applications.",
+          "typicalApplications": ["Traction drives", "Crane and hoist", "Paper mills", "Steel mills", "Battery-powered vehicles"]
+        },
+        {
+          "id": "bldc",
+          "name": "Brushless DC Motors (BLDC / EC Motors)",
+          "description": "Electronically commutated motors using permanent magnets on the rotor and electronic switching instead of mechanical brushes. Offer high efficiency, long life, low noise, and compact size. Increasingly used in HVAC, automotive, and appliance applications.",
+          "typicalApplications": ["HVAC blowers", "Electric vehicles", "Drones and UAVs", "Medical devices", "Computer cooling fans", "Home appliances"]
+        }
+      ],
+      "keySpecifications": {
+        "power": {
+          "label": "Power Rating",
+          "units": ["HP", "kW"],
+          "description": "Mechanical output power at rated speed and torque. NEMA standard uses HP; IEC standard uses kW.",
+          "typicalRange": "0.25 HP (0.18 kW) to 500 HP (375 kW) for general purpose; up to 20,000+ HP for large industrial"
+        },
+        "speed": {
+          "label": "Rated Speed / Synchronous Speed",
+          "units": ["RPM"],
+          "description": "Full-load operating speed. Synchronous speeds for 60Hz are 3600, 1800, 1200, 900 RPM (2/4/6/8 pole). Actual speed is slightly less due to slip.",
+          "typicalRange": "900 to 3600 RPM (standard); up to 30,000+ RPM for high-speed"
+        },
+        "voltage": {
+          "label": "Rated Voltage",
+          "units": ["V"],
+          "description": "Supply voltage at which the motor operates at rated performance. Common values depend on regional standards.",
+          "commonValues": ["208V", "230V", "460V", "575V", "230/460V dual", "380V", "400V", "690V"]
+        },
+        "frameSize": {
+          "label": "Frame Size",
+          "description": "Standardized mounting dimensions. NEMA frames (56 through 5013) in North America; IEC frames (56 through 355+) internationally. Determines shaft height, bolt pattern, and shaft diameter.",
+          "standards": ["NEMA MG 1", "IEC 60072"]
+        },
+        "efficiencyClass": {
+          "label": "Efficiency Class",
+          "description": "Motor energy efficiency rating per international standards. Higher classes mean less electrical energy wasted as heat.",
+          "values": {
+            "IE1": "Standard Efficiency",
+            "IE2": "High Efficiency (equivalent to NEMA Energy Efficient)",
+            "IE3": "Premium Efficiency (equivalent to NEMA Premium)",
+            "IE4": "Super Premium Efficiency",
+            "IE5": "Ultra Premium Efficiency (emerging)"
+          }
+        },
+        "enclosure": {
+          "label": "Enclosure Type",
+          "description": "Mechanical protection and cooling method. Determines suitability for different environments.",
+          "values": {
+            "TEFC": "Totally Enclosed Fan Cooled - most common industrial enclosure, suitable for dirty/dusty/outdoor environments",
+            "ODP": "Open Drip Proof - allows air circulation, for clean indoor environments only",
+            "TENV": "Totally Enclosed Non-Ventilated - sealed, no external fan, for small motors or hazardous locations",
+            "TEBC": "Totally Enclosed Blower Cooled - external blower for variable speed applications",
+            "TEAO": "Totally Enclosed Air Over - designed for airstream mounting (fans/blowers)",
+            "XPFC": "Explosion Proof Fan Cooled - for hazardous (classified) locations"
+          }
+        },
+        "mounting": {
+          "label": "Mounting Configuration",
+          "description": "How the motor is physically mounted to the driven equipment or structure.",
+          "commonValues": ["Foot Mount (B3)", "Flange Mount (B5/B14)", "Face Mount (C-Face)", "Foot + C-Face", "Vertical P-Base"]
+        },
+        "insulation": {
+          "label": "Insulation Class",
+          "description": "Maximum allowable winding temperature. Higher class allows operation at higher ambient temperatures or at higher loads.",
+          "values": {
+            "B": "130 deg C max",
+            "F": "155 deg C max (most common)",
+            "H": "180 deg C max"
+          }
+        },
+        "serviceFactory": {
+          "label": "Service Factor",
+          "description": "Multiplier indicating how much above nameplate HP the motor can continuously deliver under certain conditions. Common values are 1.0 (IEC) and 1.15 (NEMA).",
+          "commonValues": [1.0, 1.15, 1.25]
+        },
+        "dutyCycle": {
+          "label": "Duty Cycle",
+          "description": "Operating pattern the motor is rated for.",
+          "values": {
+            "S1": "Continuous duty",
+            "S2": "Short-time duty",
+            "S3": "Intermittent periodic duty",
+            "S6": "Continuous operation with intermittent load"
+          }
+        }
+      },
+      "manufacturers": [
+        {
+          "name": "ABB",
+          "headquarters": "Zurich, Switzerland",
+          "website": "https://new.abb.com/motors-generators",
+          "description": "Global technology leader in electrification and automation. ABB's motors and generators division is one of the world's largest, offering a complete range from fractional HP to 70+ MW. Known for high-efficiency IE4/IE5 motors and strong presence in process industries.",
+          "marketPosition": "Top 3 globally. Market leader in IEC motors, especially in Europe, Middle East, and Asia. Strong in mining, oil & gas, and marine. Pioneer in IE5 SynRM (Synchronous Reluctance Motor) technology.",
+          "keyProductLines": [
+            "M3BP - General purpose IEC process performance motors",
+            "M2BAX - General purpose IEC aluminum frame motors",
+            "ABB Baldor-Reliance - NEMA general purpose and severe duty motors (North America)",
+            "HDP - High dynamic performance servo motors",
+            "SynRM - Synchronous reluctance motors (IE5 class)"
+          ],
+          "modelNumberFormat": "Example: M3BP 160 MLA 4 (Series Frame/Size Variant Poles) or 5AE2 143T-4 (Baldor-Reliance NEMA format)"
+        },
+        {
+          "name": "Siemens",
+          "headquarters": "Munich, Germany",
+          "website": "https://www.siemens.com/global/en/products/drives/electric-motors.html",
+          "description": "Global industrial conglomerate with one of the broadest motor and drive portfolios. The SIMOTICS product family covers everything from small servos to megawatt-class motors. Tightly integrated with SINAMICS drives and TIA Portal automation platform.",
+          "marketPosition": "Top 3 globally. Dominant in European and Asian markets. Particularly strong in automotive manufacturing, process industries, and integrated drive solutions. Market leader in servo motors for factory automation.",
+          "keyProductLines": [
+            "SIMOTICS GP - General Purpose IEC motors",
+            "SIMOTICS SD - Severe Duty NEMA motors",
+            "SIMOTICS XP - Explosion-proof motors",
+            "SIMOTICS S - Servo motors for motion control",
+            "SIMOTICS FD - Frequency converter duty motors"
+          ],
+          "modelNumberFormat": "Example: 1LE1503-2AB53-4AB4 (Product/Frame/Output/Voltage-Variant)"
+        },
+        {
+          "name": "WEG",
+          "headquarters": "Jaragu do Sul, Brazil",
+          "website": "https://www.weg.net",
+          "description": "One of the world's largest electric motor manufacturers, known for excellent price-to-performance ratio and rapid delivery. Brazilian-headquartered with major manufacturing in Brazil, China, Mexico, India, and Europe. Vertically integrated from raw materials to finished product.",
+          "marketPosition": "Top 5 globally and growing rapidly. Extremely competitive pricing. Dominant in Latin American markets, rapidly expanding in North America and Europe. Strong in mining, water/wastewater, and general industrial. Aggressive growth strategy through acquisitions.",
+          "keyProductLines": [
+            "W22 - Premium efficiency three-phase IEC/NEMA motors (flagship line)",
+            "W22 Magnet - IE5 permanent magnet motors",
+            "WQuattro - IE4 permanent magnet motors",
+            "W50 - Large industrial motors",
+            "Shark - Severe duty NEMA motors"
+          ],
+          "modelNumberFormat": "Example: W22 NEMA Premium 01018ET3E215T-W22 (Series Rating HP/Voltage/Frame)"
+        },
+        {
+          "name": "Nidec Motor Corporation",
+          "headquarters": "St. Louis, Missouri, USA (parent: Kyoto, Japan)",
+          "website": "https://www.nidec-motor.com",
+          "description": "Formed through Nidec Corporation's acquisition of Emerson Electric's motors business (including US Motors, Leeson, Lincoln, Marathon brands). One of the largest motor companies in North America with an enormous installed base. Parent company Nidec Corporation is the world's largest manufacturer of small motors.",
+          "marketPosition": "Top 3 in North America (NEMA market). Very strong in HVAC, pool/spa, commercial refrigeration, and general industrial. Legacy brand recognition through US Motors, Marathon, and Leeson. Broad distribution network.",
+          "keyProductLines": [
+            "U.S. MOTORS - NEMA general purpose and HVAC motors",
+            "Marathon - NEMA general purpose, IEEE 841, and severe duty",
+            "Leeson - Fractional HP, DC motors, gearmotors",
+            "Lincoln - Large AC motors",
+            "MOTOR?"
+          ],
+          "modelNumberFormat": "Example: EE706 (U.S. Motors catalog number) or 5K49TN4539 (Marathon model format)"
+        }
+      ],
+      "commonSearchPatterns": [
+        "{power} HP {enclosure} motor {voltage}V",
+        "{manufacturer} {frame_size} frame motor",
+        "NEMA premium efficiency motor {HP} HP {RPM} RPM",
+        "{application} motor {power_range}",
+        "replacement motor for {existing_model}",
+        "IEC {frame} {kW} kW {poles} pole motor",
+        "explosion proof motor {HP} Class {division}",
+        "inverter duty motor {HP} HP {voltage}",
+        "C-face motor {HP} {RPM} TEFC",
+        "washdown duty motor {HP}"
+      ]
+    },
+    {
+      "id": "gearboxes",
+      "name": "Gearboxes / Speed Reducers",
+      "description": "Mechanical power transmission devices that reduce speed and multiply torque from a prime mover (typically an electric motor) to a driven load. Essential for matching motor output characteristics to application requirements.",
+      "commonUseCases": [
+        "Conveyor drives",
+        "Mixer and agitator drives",
+        "Crane and hoist mechanisms",
+        "Extruder drives",
+        "Winch and capstan drives",
+        "Packaging machinery",
+        "Rotary feeders",
+        "Kiln and mill drives"
+      ],
+      "subcategories": [
+        {
+          "id": "helical",
+          "name": "Helical Gear Reducers",
+          "description": "Use helical (angled) gear teeth for smooth, quiet operation and high efficiency (96-98% per stage). Available as inline (parallel shaft) or right-angle (helical-bevel) configurations. The most common industrial gear reducer type.",
+          "typicalApplications": ["Conveyors", "Pumps", "Fans", "General industrial machinery"]
+        },
+        {
+          "id": "worm",
+          "name": "Worm Gear Reducers",
+          "description": "Use a worm (screw) meshing with a worm wheel. Compact, high ratio in single stage (5:1 to 100:1), and inherently non-backdrivable at high ratios. Lower efficiency than helical (50-90% depending on ratio). Cost-effective for moderate duty.",
+          "typicalApplications": ["Conveyors", "Gates and valves", "Small mixers", "Light material handling"]
+        },
+        {
+          "id": "planetary",
+          "name": "Planetary (Epicyclic) Gear Reducers",
+          "description": "Multiple planet gears orbit a central sun gear inside a ring gear. Extremely compact, high torque density, high efficiency, coaxial input/output. Preferred for servo applications and where space is limited.",
+          "typicalApplications": ["Servo-driven axes", "Robotic joints", "Winches", "Slewing drives", "Tracked vehicles"]
+        },
+        {
+          "id": "bevel",
+          "name": "Bevel / Helical-Bevel Gear Reducers",
+          "description": "Use bevel gear sets to provide right-angle shaft orientation. Often combined with helical stages for higher ratios. Spiral bevel teeth provide smooth, efficient operation.",
+          "typicalApplications": ["Right-angle conveyor drives", "Agitators", "Kiln drives", "Heavy industrial machinery"]
+        }
+      ],
+      "keySpecifications": {
+        "gearRatio": {
+          "label": "Gear Ratio",
+          "description": "Input speed divided by output speed. Determines speed reduction and torque multiplication.",
+          "typicalRange": "1.5:1 to 300:1 (single or multi-stage)"
+        },
+        "outputTorque": {
+          "label": "Output Torque",
+          "units": ["Nm", "lb-ft", "lb-in"],
+          "description": "Maximum continuous torque available at the output shaft under rated conditions.",
+          "typicalRange": "10 Nm to 500,000+ Nm"
+        },
+        "inputSpeed": {
+          "label": "Input Speed",
+          "units": ["RPM"],
+          "description": "Maximum rated input speed, typically matched to motor speed.",
+          "commonValues": ["1800 RPM", "1500 RPM", "3600 RPM", "3000 RPM"]
+        },
+        "outputSpeed": {
+          "label": "Output Speed",
+          "units": ["RPM"],
+          "description": "Resulting speed at the output shaft (input speed / gear ratio)."
+        },
+        "serviceFactor": {
+          "label": "Service Factor (SF)",
+          "description": "Safety factor applied based on application shock loading and operating hours. Typically 1.0 to 2.5+. Higher values for heavy shock loads (crushers, mills).",
+          "typicalRange": "1.0 to 2.5"
+        },
+        "mountingPosition": {
+          "label": "Mounting Position",
+          "description": "Orientation of the gearbox in the installation. Affects lubrication, sealing, and thermal performance.",
+          "commonValues": ["Horizontal (M1)", "Vertical output up (M3)", "Vertical output down (M4)", "Wall mount (M5/M6)"]
+        },
+        "thermalRating": {
+          "label": "Thermal Power Rating",
+          "units": ["HP", "kW"],
+          "description": "Maximum input power the gearbox can continuously dissipate as heat without exceeding oil temperature limits. May be lower than mechanical rating in high-ambient or enclosed installations."
+        },
+        "efficiency": {
+          "label": "Efficiency",
+          "units": ["%"],
+          "description": "Percentage of input power transmitted to the output. Varies by gear type and ratio."
+        },
+        "backlash": {
+          "label": "Backlash",
+          "units": ["arcmin", "degrees"],
+          "description": "Lost motion between input and output due to gear tooth clearances. Critical for precision positioning applications.",
+          "typicalRange": "< 1 arcmin (precision planetary) to several degrees (worm)"
+        }
+      },
+      "manufacturers": [
+        {
+          "name": "SEW-Eurodrive",
+          "headquarters": "Bruchsal, Germany",
+          "website": "https://www.sew-eurodrive.com",
+          "description": "World's leading manufacturer of gearmotors and drive systems. Family-owned, privately held company known for fast delivery, modular product architecture, and exceptional global service network. The benchmark for industrial gearmotors.",
+          "marketPosition": "Global market leader in gearmotors. Dominant across all regions, especially Europe and North America. Industry standard for conveyor and material handling drives. Known for the red gearbox.",
+          "keyProductLines": [
+            "R series - Helical inline gear reducers",
+            "K series - Helical-bevel right-angle gear reducers",
+            "F series - Parallel shaft helical gear reducers",
+            "S series - Helical-worm gear reducers",
+            "P series - Planetary servo gear reducers",
+            "MOVIGEAR - Mechatronic drive unit"
+          ],
+          "modelNumberFormat": "Example: R67 DRE100LC4 (Gear series + size / Motor type + frame)"
+        },
+        {
+          "name": "Nord Drivesystems",
+          "headquarters": "Bargteheide, Germany",
+          "website": "https://www.nord.com",
+          "description": "Major European gear reducer and drive manufacturer. Known for modular, flexible product configuration system, smooth aluminum housings (nsd tupH corrosion protection), and strong presence in food & beverage, logistics, and intralogistics.",
+          "marketPosition": "Top 5 globally. Very strong in Northern Europe, growing rapidly in North America. Excellent reputation in food processing and logistics/warehousing. Known for the blue gearbox.",
+          "keyProductLines": [
+            "NORDBLOC.1 - Helical inline gear reducers (SK series)",
+            "UNIVERSAL SI - Worm gear reducers (SK series)",
+            "NORDBLOC.1 Bevel - Helical-bevel reducers",
+            "NORDBLOC.1 Planetary - Precision planetary reducers"
+          ],
+          "modelNumberFormat": "Example: SK 9072.1 AGSH-100L/40 (Gear type + size / Motor)"
+        },
+        {
+          "name": "Flender (Siemens)",
+          "headquarters": "Bocholt, Germany",
+          "website": "https://www.flender.com",
+          "description": "A Siemens company and one of the world's oldest and most respected gear unit manufacturers. Specializes in large, heavy-duty industrial gear units for process industries including cement, mining, power generation, and marine. Also offers standard industrial gear units.",
+          "marketPosition": "Market leader in large industrial gear units (1,000+ kW). Dominant in cement, mining, and power generation. Premium brand known for engineering quality and long service life.",
+          "keyProductLines": [
+            "FLENDER SIG - Standard industrial helical gear units",
+            "FLENDER FZG - Parallel shaft and right-angle gear units",
+            "PLANUREX - Large planetary gear units for mills and kilns",
+            "SIMOTICS + FLENDER - Integrated drive packages"
+          ],
+          "modelNumberFormat": "Example: B3SH 09 A (Series Size Variant)"
+        },
+        {
+          "name": "Sumitomo Drive Technologies",
+          "headquarters": "Chesapeake, Virginia, USA (parent: Osaka, Japan)",
+          "website": "https://www.sumitomodrive.com",
+          "description": "Japanese precision engineering company known for their Cyclo drive (cycloidal speed reducers) and Paramax gear units. Offers one of the broadest ranges of speed reduction technologies, from precision cycloidal to large parallel shaft units.",
+          "marketPosition": "Top 10 globally. Known for innovation (cycloidal drives). Strong in North America and Japan. Excellent reputation in precision applications, mining, and heavy industry.",
+          "keyProductLines": [
+            "Cyclo BBB - Cycloidal speed reducers (unique technology)",
+            "Paramax - Parallel shaft and right-angle helical gear units",
+            "Hyponic - Right-angle helical-hypoid gear reducers",
+            "Hansen P4 - Large industrial gear units",
+            "Fine Cyclo - Precision servo reducers"
+          ],
+          "modelNumberFormat": "Example: CHHM-6190DA-649 (Series-Size-Ratio)"
+        }
+      ],
+      "commonSearchPatterns": [
+        "{type} gear reducer {ratio}:1 ratio",
+        "{output_torque} Nm output torque gearbox",
+        "inline helical gear reducer {HP} HP input",
+        "right angle gearbox {ratio}:1",
+        "servo planetary gearbox {frame_size} input flange",
+        "C-face mount gear reducer {ratio}:1 {HP} HP",
+        "{manufacturer} gear reducer size {size}",
+        "worm gear speed reducer 60:1 {HP}",
+        "hollow shaft gear reducer {bore_diameter}",
+        "washdown gear reducer food grade"
+      ]
+    },
+    {
+      "id": "roller-chain",
+      "name": "Roller Chain",
+      "description": "Mechanical power transmission chain consisting of alternating roller links and pin links. One of the most common and cost-effective methods of transmitting power between parallel shafts. Defined by ANSI B29.1 (US) and ISO 606 (international) standards.",
+      "commonUseCases": [
+        "Conveyor drives",
+        "Agricultural equipment",
+        "Motorcycle and bicycle drives",
+        "Packaging machinery",
+        "Printing presses",
+        "Forestry equipment",
+        "Oil field equipment",
+        "Food processing conveyor chains"
+      ],
+      "subcategories": [
+        {
+          "id": "standard",
+          "name": "Standard Roller Chain",
+          "description": "General purpose ANSI standard chain available in single, double, triple, and quadruple strand. The most common type used in industrial power transmission. Chain numbers indicate pitch in eighths of an inch (e.g., #40 = 4/8 inch = 0.500 inch pitch).",
+          "typicalApplications": ["General industrial drives", "Conveyors", "Agricultural equipment"]
+        },
+        {
+          "id": "heavy",
+          "name": "Heavy Series Roller Chain",
+          "description": "Same pitch as standard but with thicker side plates, larger diameter pins, and wider rollers for increased fatigue resistance and shock load capacity. Designated by 'H' suffix (e.g., 60H, 80H).",
+          "typicalApplications": ["Oil field", "Construction", "Mining", "Forestry", "High shock load applications"]
+        },
+        {
+          "id": "double-pitch",
+          "name": "Double Pitch Roller Chain",
+          "description": "Same roller diameter and pin configuration as standard chain but with twice the pitch (link plate length). Lighter weight and lower cost for applications that can accommodate larger sprockets. Uses 2000-series numbering (e.g., C2040, C2050).",
+          "typicalApplications": ["Low-speed conveyors", "Agricultural equipment", "Long-span drives"]
+        },
+        {
+          "id": "conveyor",
+          "name": "Conveyor / Attachment Chain",
+          "description": "Modified roller chain with extended pins, tabs, or attachments for moving product along a conveyor path. Available with K, SA, SK, A, and other attachment styles per ANSI standards.",
+          "typicalApplications": ["Conveyor systems", "Bottle handling", "Parts transfer", "Assembly lines"]
+        }
+      ],
+      "keySpecifications": {
+        "pitch": {
+          "label": "Pitch",
+          "units": ["inches", "mm"],
+          "description": "Distance between pin centers on adjacent links. The fundamental dimensional characteristic.",
+          "commonValues": ["0.375 in (3/8\")", "0.500 in (1/2\")", "0.625 in (5/8\")", "0.750 in (3/4\")", "1.000 in (1\")", "1.250 in (1-1/4\")", "1.500 in (1-1/2\")", "2.000 in (2\")"]
+        },
+        "chainNumber": {
+          "label": "ANSI Chain Number",
+          "description": "Standard chain designation per ANSI B29.1. First digit(s) indicate pitch in 1/8 inch increments. Last digit: 0=standard roller, 5=rollerless (bushing chain).",
+          "commonValues": ["25", "35", "40", "41", "50", "60", "80", "100", "120", "140", "160", "200", "240"]
+        },
+        "tensileStrength": {
+          "label": "Minimum Ultimate Tensile Strength",
+          "units": ["lbs", "kN"],
+          "description": "The minimum force at which the chain will break in a static pull test. Design load should be well below this value."
+        },
+        "workingLoad": {
+          "label": "Working Load / Design Capacity",
+          "units": ["lbs", "kN"],
+          "description": "Maximum recommended continuous load, typically 1/6 to 1/10 of tensile strength depending on speed and conditions."
+        },
+        "numberOfStrands": {
+          "label": "Number of Strands",
+          "description": "Single, double, triple, or quadruple strand. Multiple strands increase load capacity roughly proportional to the number of strands.",
+          "commonValues": [1, 2, 3, 4]
+        },
+        "rollerDiameter": {
+          "label": "Roller Diameter",
+          "units": ["inches", "mm"],
+          "description": "Outside diameter of the rollers. Affects sprocket tooth profile and contact stress."
+        },
+        "chainWidth": {
+          "label": "Width Between Inner Plates",
+          "units": ["inches", "mm"],
+          "description": "Internal width of the chain. Must match sprocket tooth width."
+        }
+      },
+      "manufacturers": [
+        {
+          "name": "Tsubakimoto Chain (Tsubaki)",
+          "headquarters": "Osaka, Japan",
+          "website": "https://www.ustsubaki.com",
+          "description": "World's largest and most recognized roller chain manufacturer. Invented the sintered bushing (self-lubricating) technology. Known for premium quality, tight dimensional tolerances, and long wear life. RS series is the global benchmark.",
+          "marketPosition": "Global market leader in roller chain. Premium price point justified by industry-leading wear life and dimensional accuracy. Dominant in North America and Japan. Strong in automotive, food processing, and heavy industry.",
+          "keyProductLines": [
+            "RS Roller Chain - Standard ANSI chains",
+            "Super Series - Heavy-duty chains with superior fatigue strength",
+            "Neptune - Corrosion-resistant chain for washdown environments",
+            "Lambda - Lube-free chain for clean environments",
+            "G8 Series - Premium performance ANSI chain"
+          ],
+          "modelNumberFormat": "Example: RS60-2 (Standard, #60 chain, 2-strand) or RS80-1-RP (with ring pin)"
+        },
+        {
+          "name": "Regal Rexnord",
+          "headquarters": "Milwaukee, Wisconsin, USA",
+          "website": "https://www.regalrexnord.com",
+          "description": "Major US-based power transmission conglomerate formed through the merger of Regal Beloit and Rexnord. Chain products marketed under the Rex brand. Known for strength, heavy-duty applications, and extensive distribution network in North America.",
+          "marketPosition": "Top 3 in North America. Very strong in heavy industrial, mining, aggregate, and oil & gas. Excellent distribution coverage. Broad product portfolio beyond chain includes couplings, bearings, and gear drives.",
+          "keyProductLines": [
+            "Rex Pro Pin - Premium performance ANSI chains",
+            "Rex Lube Free - Self-lubricating chains",
+            "Conveyor chains and attachment chains"
+          ],
+          "modelNumberFormat": "Example: 60-1R PRO (Chain number-strand PRO series)"
+        },
+        {
+          "name": "Renold",
+          "headquarters": "Manchester, United Kingdom",
+          "website": "https://www.renold.com",
+          "description": "Inventor of the modern roller chain (Hans Renold, 1880). One of the world's oldest chain manufacturers. British-engineered, known for high-quality ISO/BS standard chains and specialty chains for extreme environments.",
+          "marketPosition": "Strong global presence, especially in Europe, UK, and Commonwealth countries. Premium quality. Known for innovation including Synergy chain (pre-loaded for longer life) and specialty chains for mining and offshore.",
+          "keyProductLines": [
+            "Synergy - Premium performance chain with pre-loaded design",
+            "Renold Jeffrey - Mining and conveyor chains",
+            "Hydro-Service - Stainless steel and corrosion resistant",
+            "Standard BS/ISO and ANSI roller chains"
+          ],
+          "modelNumberFormat": "Example: 12B-1 (ISO/BS) or 60-1 (ANSI) + Synergy suffix"
+        },
+        {
+          "name": "Diamond Chain (Timken)",
+          "headquarters": "Indianapolis, Indiana, USA (parent: North Canton, Ohio)",
+          "website": "https://www.diamondchain.com",
+          "description": "One of the oldest chain manufacturers in the United States, now a Timken company. Known for American-made quality and excellent performance in agricultural and industrial applications. Strong OEM relationships.",
+          "marketPosition": "Strong in North America, particularly in agricultural equipment OEM market. Known for Made-in-USA manufacturing. Timken acquisition provides broader distribution and complementary bearing products.",
+          "keyProductLines": [
+            "X-Ring Chain - Premium sealed chain for extended life",
+            "OPTIMiZER - Extended life standard chain",
+            "Standard ANSI roller chain and attachment chain"
+          ],
+          "modelNumberFormat": "Example: 60-1RIVX (Chain#-Strand + Series suffix)"
+        }
+      ],
+      "commonSearchPatterns": [
+        "#60 roller chain",
+        "ANSI {chain_number} chain {strands}-strand",
+        "{pitch} pitch roller chain",
+        "stainless steel roller chain {chain_number}",
+        "double pitch conveyor chain {number}",
+        "{manufacturer} {chain_number} heavy series",
+        "roller chain {chain_number}H heavy duty",
+        "lube free roller chain {size}",
+        "attachment chain {type} {chain_number}",
+        "roller chain {length} ft cut length"
+      ]
+    },
+    {
+      "id": "timing-belts",
+      "name": "Timing Belts (Synchronous Belts)",
+      "description": "Toothed belts that mesh positively with grooved pulleys to provide zero-slip power transmission with precise speed synchronization. Combine the flexibility and quiet operation of belts with the positive engagement of chains and gears. Used extensively in packaging, printing, robotics, and linear motion.",
+      "commonUseCases": [
+        "Packaging machinery",
+        "Printing and converting equipment",
+        "CNC machine tool axes",
+        "3D printers",
+        "Linear motion systems",
+        "Automotive camshaft drives",
+        "Textile machinery",
+        "Indexing and positioning systems"
+      ],
+      "subcategories": [
+        {
+          "id": "htd",
+          "name": "HTD (High Torque Drive)",
+          "description": "Curvilinear tooth profile developed by Gates Rubber Company. Provides higher load-carrying capacity than classical trapezoidal profiles. Available in 3M, 5M, 8M, 14M, and 20M pitches (metric, in mm). Widely used in general industrial power transmission.",
+          "typicalApplications": ["Industrial drives", "Power transmission", "Conveyor timing", "Compressors"]
+        },
+        {
+          "id": "gt",
+          "name": "GT / GT3 / GT5 (Gates PowerGrip GT)",
+          "description": "Improved curvilinear tooth profile by Gates. Offers 30%+ higher load capacity than HTD in the same belt size. Modified ogival tooth shape improves load distribution. Available in 2M, 3M, 5M, 8M, and 14M pitches. Current industry standard for new designs.",
+          "typicalApplications": ["High-performance industrial drives", "Servo-driven systems", "Precision positioning"]
+        },
+        {
+          "id": "at",
+          "name": "AT (Advanced Technology) / Polyurethane Timing Belts",
+          "description": "Polyurethane belts with steel or Kevlar tension members. AT profiles include AT3, AT5, AT10, AT20 pitches. Superior wear resistance, chemical resistance, and precision compared to rubber belts. Often used in linear motion and positioning. Manufactured by extrusion for seamless (endless) or by welding for custom lengths.",
+          "typicalApplications": ["Linear motion", "Precision positioning", "Packaging", "Cleanroom environments", "Food processing"]
+        },
+        {
+          "id": "classical",
+          "name": "Classical Trapezoidal (MXL, XL, L, H, XH, XXH)",
+          "description": "Original timing belt profiles with trapezoidal (straight-sided) teeth. Legacy standard still widely used. Imperial pitch designations. Lower load capacity than curvilinear profiles but massive installed base and wide availability.",
+          "typicalApplications": ["Legacy equipment", "Light-duty drives", "Office equipment", "Small appliances"]
+        }
+      ],
+      "keySpecifications": {
+        "pitch": {
+          "label": "Tooth Pitch",
+          "units": ["mm", "inches"],
+          "description": "Distance between adjacent tooth centers. Fundamental specification that determines belt/pulley compatibility.",
+          "commonValues": {
+            "metric_curvilinear": ["2M (2mm)", "3M (3mm)", "5M (5mm)", "8M (8mm)", "14M (14mm)", "20M (20mm)"],
+            "classical_imperial": ["MXL (0.080\")", "XL (1/5\" = 0.200\")", "L (3/8\" = 0.375\")", "H (1/2\" = 0.500\")", "XH (7/8\" = 0.875\")", "XXH (1-1/4\" = 1.250\")"]
+          }
+        },
+        "width": {
+          "label": "Belt Width",
+          "units": ["mm", "inches"],
+          "description": "Width of the belt. Wider belts carry more load. Must match pulley width.",
+          "commonValues": ["9mm", "15mm", "25mm", "50mm", "75mm", "100mm"]
+        },
+        "numberOfTeeth": {
+          "label": "Number of Teeth",
+          "description": "Total number of teeth on the belt. Determines the belt length (pitch x teeth = pitch length)."
+        },
+        "beltLength": {
+          "label": "Pitch Length",
+          "units": ["mm", "inches"],
+          "description": "Total length of the belt measured at the pitch line (the neutral axis where the tension members sit)."
+        },
+        "material": {
+          "label": "Belt Material",
+          "description": "Body and tooth material. Determines operating environment suitability.",
+          "commonValues": {
+            "body": ["Neoprene (Chloroprene rubber)", "HNBR (Hydrogenated Nitrile)", "Polyurethane (PU)"],
+            "tensionMember": ["Fiberglass", "Kevlar/Aramid", "Steel cord", "Carbon fiber"],
+            "toothFacing": ["Nylon fabric", "PTFE fabric", "Polyamide"]
+          }
+        },
+        "temperatureRange": {
+          "label": "Operating Temperature Range",
+          "units": ["degC", "degF"],
+          "description": "Acceptable ambient and belt surface temperature range for continuous operation.",
+          "typicalRange": "-30C to +85C (rubber), -30C to +80C (standard PU), up to +130C (special compounds)"
+        },
+        "maxLinearSpeed": {
+          "label": "Maximum Belt Speed",
+          "units": ["m/s", "ft/min"],
+          "description": "Maximum recommended belt velocity. Limited by centrifugal effects and tooth engagement dynamics.",
+          "typicalRange": "Up to 60 m/s for rubber HTD/GT, up to 80 m/s for special designs"
+        }
+      },
+      "manufacturers": [
+        {
+          "name": "Gates Corporation",
+          "headquarters": "Denver, Colorado, USA",
+          "website": "https://www.gates.com",
+          "description": "Inventor of the synchronous belt and the dominant force in belt drive technology. Gates created the HTD and PowerGrip GT profiles that became industry standards. Broad product range from light-duty to heavy industrial, plus V-belts, hose, and hydraulic products.",
+          "marketPosition": "Global market leader in synchronous belts. Their profiles (HTD, GT2, GT3, GT5) are the de facto standards. Dominant in both OEM and aftermarket. Strongest brand recognition in the category.",
+          "keyProductLines": [
+            "PowerGrip GT3 / GT5 - Premium curvilinear timing belts",
+            "PowerGrip HTD - Standard curvilinear timing belts",
+            "Poly Chain GT Carbon - Carbon fiber reinforced belts for high power",
+            "PowerGrip Truflex - Classical profile timing belts"
+          ],
+          "modelNumberFormat": "Example: 1120-8MGT-30 (Pitch Length mm - Pitch/Profile - Width mm)"
+        },
+        {
+          "name": "Continental (ContiTech)",
+          "headquarters": "Hanover, Germany",
+          "website": "https://www.continental-industry.com",
+          "description": "Major German industrial conglomerate with ContiTech as the power transmission belt division. One of the world's largest belt manufacturers with strong presence in both automotive and industrial markets. Known for CONTI SYNCHROFORCE and SYNCHROCHAIN product lines.",
+          "marketPosition": "Top 3 globally. Especially strong in European markets and automotive OEM. Broad industrial belt portfolio. Known for German engineering quality and comprehensive technical support.",
+          "keyProductLines": [
+            "CONTI SYNCHROFORCE - High-performance HTD/GT belts with CXP/CXA variants",
+            "CONTI SYNCHROCHAIN Carbon - Ultra-high-power carbon cord belts",
+            "CONTI SYNCHROBELT - Classical profile timing belts",
+            "Polyurethane timing belts (Continental Roulunds)"
+          ],
+          "modelNumberFormat": "Example: HTD 960-8M-30 CXP (Profile PitchLength-Pitch-Width Variant)"
+        },
+        {
+          "name": "Optibelt",
+          "headquarters": "Hoxter, Germany",
+          "website": "https://www.optibelt.com",
+          "description": "German belt manufacturer known for premium quality power transmission belts. Strong reputation in the European market for both synchronous and V-belt products. Known for ZR (Zahnriemen = timing belt) product line.",
+          "marketPosition": "Strong in European market, growing internationally. Known for high-quality German manufacturing. Premium price point with excellent technical support. Competitive with Gates and Continental in European and Asian markets.",
+          "keyProductLines": [
+            "OMEGA - Curvilinear synchronous belts (HTD compatible)",
+            "OMEGA HP / OMEGA HL - High Power / High Load variants",
+            "ZR - Classical timing belts",
+            "ALPHA TORQUE - Polyurethane timing belts"
+          ],
+          "modelNumberFormat": "Example: OMEGA 8M-1120-30 (Profile Pitch-PitchLength-Width)"
+        },
+        {
+          "name": "Megadyne",
+          "headquarters": "Turin, Italy",
+          "website": "https://www.megadynegroup.com",
+          "description": "Italian belt manufacturer, one of the largest in Europe. Known for polyurethane timing belts, open-end belts, and specialty profiles. Acquired Breco and SIT brands. Strong in food processing, packaging, and linear motion applications.",
+          "marketPosition": "Market leader in polyurethane timing belts. Strong in European and Asian markets. Known for custom and specialty belts. Growing presence in North America. Major player in food-safe and cleanroom belt applications.",
+          "keyProductLines": [
+            "MEGALINEAR - Polyurethane open-end timing belts (AT/T profiles)",
+            "MEGAPOWER - Rubber HTD/GT type timing belts",
+            "MEGAFLEX - Flexible PU belts for curved conveyors",
+            "RPP / RPP+ - High-performance curvilinear profiles"
+          ],
+          "modelNumberFormat": "Example: AT10-1210-25 (Profile-PitchLength-Width) or RPP8-1120-30"
+        }
+      ],
+      "commonSearchPatterns": [
+        "{pitch} timing belt {length}mm x {width}mm",
+        "HTD {pitch}M timing belt {teeth} teeth",
+        "GT2 timing belt {width}mm {length}mm",
+        "8M timing belt {length} pitch length",
+        "polyurethane timing belt AT{pitch} {width}mm",
+        "{manufacturer} {profile} belt {dimensions}",
+        "replacement timing belt {existing_part_number}",
+        "XL timing belt {teeth} teeth {width}",
+        "carbon cord timing belt 14M {width}",
+        "food grade timing belt {pitch} {width}"
+      ]
+    },
+    {
+      "id": "bearings",
+      "name": "Bearings",
+      "description": "Precision mechanical components that constrain relative motion between two parts to only the desired motion, while reducing friction. Bearings support rotating shafts, allow linear motion, or provide pivoting capability. The most widely used precision component in all machinery.",
+      "commonUseCases": [
+        "Electric motor shaft support",
+        "Gearbox internal bearings",
+        "Conveyor idler rolls",
+        "Pump and compressor shafts",
+        "Machine tool spindles",
+        "Wheel hubs (automotive/industrial)",
+        "Wind turbine main shafts and gearboxes",
+        "Rolling mill work rolls and backup rolls"
+      ],
+      "subcategories": [
+        {
+          "id": "deep-groove-ball",
+          "name": "Deep Groove Ball Bearings",
+          "description": "The most common bearing type worldwide. Supports radial loads and moderate axial loads in both directions. Low friction, high speed capability. Available from miniature (1mm bore) to large (300mm+ bore). The default choice when loads are moderate and primarily radial.",
+          "typicalApplications": ["Electric motors", "Pumps", "Gearboxes", "Conveyors", "Fans", "Household appliances"]
+        },
+        {
+          "id": "cylindrical-roller",
+          "name": "Cylindrical Roller Bearings",
+          "description": "Use cylindrical rollers for high radial load capacity in a compact design. Higher radial capacity than same-size ball bearings. Various internal configurations (NU, NJ, NUP, N) provide different combinations of axial constraint. High-speed capability.",
+          "typicalApplications": ["Large electric motors", "Gearboxes", "Pumps", "Rolling mills", "Machine tool spindles"]
+        },
+        {
+          "id": "tapered-roller",
+          "name": "Tapered Roller Bearings",
+          "description": "Use tapered (conical) rollers to support combined radial and axial loads. Always used in pairs (opposing arrangement) to handle axial loads in both directions. Require preload adjustment during installation. Separable inner/outer races for easy mounting.",
+          "typicalApplications": ["Automotive wheel hubs", "Gearbox shafts", "Rolling mills", "Heavy machinery", "Crane sheaves"]
+        },
+        {
+          "id": "spherical-roller",
+          "name": "Spherical Roller Bearings",
+          "description": "Self-aligning bearing with barrel-shaped rollers on a spherical outer ring raceway. Accommodates shaft misalignment and deflection (up to 2-3 degrees). Very high radial load capacity and moderate axial capacity. Used in heavy, dirty, misalignment-prone applications.",
+          "typicalApplications": ["Vibratory screens", "Crushers", "Conveyor pulleys", "Paper machine rolls", "Mining equipment", "Wind turbines"]
+        }
+      ],
+      "keySpecifications": {
+        "boreDiameter": {
+          "label": "Bore Diameter (d)",
+          "units": ["mm", "inches"],
+          "description": "Inner ring bore diameter that fits on the shaft. The primary sizing dimension.",
+          "typicalRange": "3mm to 1500mm+"
+        },
+        "outerDiameter": {
+          "label": "Outer Diameter (D)",
+          "units": ["mm", "inches"],
+          "description": "Outside diameter of the outer ring. Determines housing bore size."
+        },
+        "width": {
+          "label": "Width (B)",
+          "units": ["mm", "inches"],
+          "description": "Axial width of the bearing."
+        },
+        "dynamicLoadRating": {
+          "label": "Basic Dynamic Load Rating (C)",
+          "units": ["kN", "lbs"],
+          "description": "The constant radial load under which a group of identical bearings will achieve a basic rating life of 1 million revolutions. Used for fatigue life calculations (L10 life)."
+        },
+        "staticLoadRating": {
+          "label": "Basic Static Load Rating (C0)",
+          "units": ["kN", "lbs"],
+          "description": "The static radial load that produces a combined permanent deformation of 0.0001 times the roller diameter at the most heavily loaded contact. Used for stationary or slow-speed applications."
+        },
+        "speedRating": {
+          "label": "Limiting Speed / Reference Speed",
+          "units": ["RPM"],
+          "description": "Maximum recommended operating speed with grease or oil lubrication. Depends on bearing type, size, precision, and lubrication."
+        },
+        "sealing": {
+          "label": "Seal / Shield Configuration",
+          "description": "Type of integral sealing to retain lubricant and exclude contaminants.",
+          "commonValues": {
+            "Open": "No seals or shields - requires external sealing and lubrication system",
+            "2Z / ZZ": "Metal shields on both sides - non-contact, allow higher speed",
+            "2RS / 2RS1": "Rubber contact seals on both sides - good sealing, slight friction",
+            "2RZ": "Non-contact rubber seals - compromise between Z and RS"
+          }
+        },
+        "precision": {
+          "label": "Tolerance Class / Precision Grade",
+          "description": "Manufacturing precision of dimensional and running accuracy.",
+          "values": {
+            "P0 / ABEC 1": "Normal tolerance (default for most applications)",
+            "P6 / ABEC 3": "Better than normal (pumps, gearboxes)",
+            "P5 / ABEC 5": "Precision (machine tool spindles)",
+            "P4 / ABEC 7": "High precision (grinding spindles)",
+            "P2 / ABEC 9": "Ultra precision (instrument bearings)"
+          }
+        },
+        "internalClearance": {
+          "label": "Internal Clearance",
+          "description": "Total radial or axial play between inner ring, rolling elements, and outer ring before mounting. Affects running clearance after press fit and thermal expansion.",
+          "values": {
+            "C2": "Less than Normal - for precision applications",
+            "CN (Normal)": "Standard clearance (default)",
+            "C3": "Greater than Normal - for press fits and temperature",
+            "C4": "Even greater - for large temperature differentials"
+          }
+        }
+      },
+      "manufacturers": [
+        {
+          "name": "SKF",
+          "headquarters": "Gothenburg, Sweden",
+          "website": "https://www.skf.com",
+          "description": "World's largest bearing manufacturer and the dominant brand in the global bearing industry. Swedish company founded in 1907 with a complete portfolio spanning from miniature instrument bearings to multi-ton wind turbine main bearings. Also a leader in seals, lubrication systems, and condition monitoring.",
+          "marketPosition": "Global #1 in bearings. Dominant across all segments and regions. The benchmark brand for quality and reliability. Comprehensive product portfolio, technical support, and condition monitoring services. Premium pricing justified by consistent quality.",
+          "keyProductLines": [
+            "Explorer - Premium performance deep groove ball bearings",
+            "Energy Efficient (E2) - Low-friction bearings",
+            "SKF Cooper - Split bearings for difficult mounting",
+            "Super-precision bearings - Machine tool spindle bearings"
+          ],
+          "modelNumberFormat": "Example: 6210-2RS1/C3 (Type+Size - Seal - Clearance) or 22220 E/C3 (Spherical roller)"
+        },
+        {
+          "name": "NSK Ltd.",
+          "headquarters": "Tokyo, Japan",
+          "website": "https://www.nsk.com",
+          "description": "Japan's largest bearing manufacturer and a global top-3 player. Known for high-precision bearings, automotive bearings, and ball screws. Strong in both industrial and automotive segments. Pioneer in bearing material science and lubrication technology.",
+          "marketPosition": "Global #3. Dominant in Japanese market and very strong in Asia. Market leader in machine tool spindle bearings and automotive bearings. Known for superior precision manufacturing and advanced materials (SHX steel, DLC coatings).",
+          "keyProductLines": [
+            "NSKHPS - High Performance Standard bearings (superior load ratings)",
+            "Molded-Oil bearings - Solid lubricant for maintenance-free operation",
+            "ROBUST - Bearings for harsh environments",
+            "Super precision bearings - ROBUSTDYNA series for machine tools"
+          ],
+          "modelNumberFormat": "Example: 6208DDU CM (Size-Seal-Clearance) or HR30210J (Tapered roller)"
+        },
+        {
+          "name": "Timken Company",
+          "headquarters": "North Canton, Ohio, USA",
+          "website": "https://www.timken.com",
+          "description": "Iconic American bearing manufacturer founded in 1899, known as the inventor of the modern tapered roller bearing. Dominant in heavy-duty and engineered bearing applications. Also manufactures power transmission products (chain, belts, couplings, gearboxes) through acquisitions.",
+          "marketPosition": "Global top 5. #1 in tapered roller bearings worldwide. Dominant in North American heavy industrial, mining, rail, and aerospace markets. Premium brand known for engineered solutions and metallurgical expertise. Strong in large-bore and custom bearings.",
+          "keyProductLines": [
+            "SET - Tapered roller bearing sets (cone + cup)",
+            "Spherical and cylindrical roller bearings",
+            "Type E - Mounted spherical roller bearing units",
+            "Super Precision - Machine tool bearings"
+          ],
+          "modelNumberFormat": "Example: SET401 (cone 580 / cup 572) for tapered roller sets or 22316YMW33 (spherical roller)"
+        },
+        {
+          "name": "Schaeffler Group (FAG / INA)",
+          "headquarters": "Herzogenaurach, Germany",
+          "website": "https://www.schaeffler.com",
+          "description": "German precision engineering company operating two world-renowned bearing brands: FAG (large bearings, spherical rollers) and INA (needle rollers, linear guidance). Together they form the world's second-largest bearing manufacturer. Also a major automotive supplier.",
+          "marketPosition": "Global #2. FAG brand is dominant in large industrial bearings (mining, steel, cement, wind). INA brand leads in needle roller bearings and linear guidance. Extremely strong in European automotive and industrial markets.",
+          "keyProductLines": [
+            "FAG X-life - Enhanced performance bearings with improved load ratings and life",
+            "FAG split spherical roller bearings - Easy mounting without shaft disassembly",
+            "INA needle roller bearings - Compact design for oscillating and linear motion",
+            "Schaeffler OPTIME - Condition monitoring ecosystem"
+          ],
+          "modelNumberFormat": "Example: FAG 6210-2RSR-C3 or FAG 22220-E1-XL-K (Spherical roller, X-life, tapered bore) or INA NK 20/20-XL (Needle roller)"
+        }
+      ],
+      "commonSearchPatterns": [
+        "6205 bearing",
+        "{bore_diameter}mm bore ball bearing",
+        "bearing {bore}x{OD}x{width}",
+        "{manufacturer} {part_number}",
+        "tapered roller bearing {bore}mm bore",
+        "spherical roller bearing {designation}",
+        "sealed bearing 6{size} 2RS",
+        "replacement bearing for {equipment_type}",
+        "stainless steel bearing {size}",
+        "high temperature bearing {bore}mm",
+        "pillow block bearing {shaft_diameter}"
+      ]
+    }
+  ]
+}

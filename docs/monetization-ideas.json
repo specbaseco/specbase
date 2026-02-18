@@ -1,0 +1,359 @@
+{
+  "metadata": {
+    "document": "PTRegistry Monetization Strategy",
+    "version": "1.0.0",
+    "lastUpdated": "2026-02-15",
+    "description": "Structured list of monetization strategies for PTRegistry, covering API revenue, manufacturer partnerships, market intelligence, and value-added services."
+  },
+
+  "revenueStreams": [
+    {
+      "id": "api-tiered-access",
+      "name": "Freemium API Access Tiers",
+      "category": "Recurring SaaS Revenue",
+      "priority": "P0 - Core Revenue",
+      "description": "Tiered API access model where free users get basic product search and limited results, while paying tiers unlock full specifications, cross-references, AI recommendation endpoints, and higher rate limits.",
+      "tiers": [
+        {
+          "name": "Free / Developer",
+          "price": "$0/month",
+          "targetCustomer": "Individual developers, students, hobbyists, evaluation",
+          "features": [
+            "100 API calls/day",
+            "Basic search endpoint only",
+            "Top 5 specifications per product",
+            "No cross-references or documents",
+            "Community support only",
+            "PTRegistry attribution required in applications"
+          ],
+          "purpose": "Drive adoption, build ecosystem, create upgrade pipeline"
+        },
+        {
+          "name": "Professional",
+          "price": "$99-299/month",
+          "targetCustomer": "Engineering firms, small distributors, system integrators, independent consultants",
+          "features": [
+            "10,000 API calls/day",
+            "Full search + compare + cross-reference endpoints",
+            "Complete specifications for all products",
+            "Document links (datasheets, CAD files)",
+            "Certification and compliance data",
+            "Email support with 24-hour response"
+          ],
+          "estimatedMarketSize": "5,000-15,000 potential subscribers",
+          "estimatedARPU": "$150/month",
+          "projectedRevenue": "$750K-$2.25M/year at scale"
+        },
+        {
+          "name": "Enterprise",
+          "price": "$999-4,999/month",
+          "targetCustomer": "Large OEMs, major distributors, AI platform companies, procurement platforms",
+          "features": [
+            "100,000+ API calls/day (negotiable)",
+            "All endpoints including AI recommendation engine",
+            "Real-time pricing and availability data (where manufacturer provides)",
+            "Full AI metadata (application suitability, selection tips, common mistakes)",
+            "Bulk data export for offline analysis",
+            "Dedicated account manager",
+            "SLA with 99.9% uptime guarantee",
+            "Custom integrations and webhooks",
+            "Priority support with 4-hour response"
+          ],
+          "estimatedMarketSize": "200-1,000 potential subscribers",
+          "estimatedARPU": "$2,500/month",
+          "projectedRevenue": "$500K-$2.5M/year at scale"
+        }
+      ],
+      "revenueModel": "Monthly/annual subscription with usage-based overages",
+      "timeToRevenue": "3-6 months from launch",
+      "scalability": "High - marginal cost per additional API call is near zero"
+    },
+    {
+      "id": "manufacturer-sponsorship",
+      "name": "Manufacturer Sponsorship Tiers",
+      "category": "B2B Partnership Revenue",
+      "priority": "P0 - Core Revenue",
+      "description": "Manufacturers pay for enhanced visibility, data richness, analytics, and priority placement in AI recommendations. This is the primary B2B revenue stream.",
+      "tiers": [
+        {
+          "name": "Basic Listing",
+          "price": "Free",
+          "features": [
+            "Company profile",
+            "Up to 100 products with basic specs (8 fields)",
+            "Standard search inclusion",
+            "Basic impressions counter"
+          ],
+          "purpose": "Get manufacturers on the platform, build comprehensive database, create upsell pipeline"
+        },
+        {
+          "name": "Featured Partner",
+          "price": "$500-2,000/month (scaled by catalog size: <500 products = $500, 500-2000 = $1,000, 2000+ = $2,000)",
+          "features": [
+            "Unlimited products with full specifications",
+            "Cross-reference mapping",
+            "Application suitability scoring",
+            "Document hosting (datasheets, CAD, wiring diagrams)",
+            "Featured badge in search results",
+            "Monthly analytics dashboard",
+            "API for real-time data updates"
+          ],
+          "estimatedMarketSize": "100-300 manufacturer partners",
+          "estimatedARPU": "$1,000/month",
+          "projectedRevenue": "$1.2M-$3.6M/year at scale"
+        },
+        {
+          "name": "Premium Strategic Partner",
+          "price": "$2,000-10,000/month",
+          "features": [
+            "Everything in Featured",
+            "Competitor search analytics (anonymized)",
+            "AI recommendation optimization",
+            "Branded API responses",
+            "Real-time lead notifications",
+            "Co-marketing opportunities",
+            "Quarterly business reviews",
+            "Custom ERP/PIM integration"
+          ],
+          "estimatedMarketSize": "20-50 premium partners",
+          "estimatedARPU": "$5,000/month",
+          "projectedRevenue": "$1.2M-$3M/year at scale"
+        }
+      ],
+      "revenueModel": "Annual contracts with monthly billing",
+      "timeToRevenue": "6-12 months (requires significant catalog data first)",
+      "scalability": "Medium - requires dedicated account management for large partners"
+    },
+    {
+      "id": "market-intelligence",
+      "name": "Market Intelligence & Search Analytics",
+      "category": "Data Product Revenue",
+      "priority": "P1 - Growth Revenue",
+      "description": "Anonymized, aggregated search and query data sold as market intelligence reports. Reveals what engineers are searching for, trending specifications, regional demand patterns, and competitive comparison frequency.",
+      "products": [
+        {
+          "name": "Quarterly Industry Trends Report",
+          "price": "$5,000-15,000/report",
+          "description": "Comprehensive analysis of search trends, specification demand shifts, emerging application patterns, and regional demand signals. Published quarterly.",
+          "examples": [
+            "Demand for IE4+ efficiency motors grew 45% QoQ, driven primarily by European searches",
+            "Servo motor searches with 'food-grade' or 'washdown' keywords increased 120% year-over-year",
+            "Cross-reference queries for Baldor legacy models represent 22% of all motor searches (replacement opportunity)",
+            "Average requested bearing bore diameter trending upward, suggesting equipment upsizing trend"
+          ]
+        },
+        {
+          "name": "Competitive Intelligence Dashboard",
+          "price": "$2,000-5,000/month (per manufacturer subscriber)",
+          "description": "Real-time dashboard showing how often your products are compared to competitors, which specs cause you to win or lose comparisons, and what gaps exist in your product line relative to search demand.",
+          "features": [
+            "Head-to-head comparison frequency against specific competitors",
+            "Win/loss analysis by specification dimension",
+            "Demand gap analysis: specs being searched that no product in your catalog matches",
+            "Geographic demand heatmaps",
+            "Trending search terms relevant to your product categories"
+          ]
+        },
+        {
+          "name": "Custom Market Research",
+          "price": "$10,000-50,000 per engagement",
+          "description": "Bespoke research reports using PTRegistry search data combined with industry analysis. Examples: 'Is there demand for a 200kW IE5 motor in the North American market?' or 'What is the most searched-for but least available gear ratio range for planetary reducers?'",
+          "targetCustomer": "Product development teams at major manufacturers"
+        }
+      ],
+      "revenueModel": "Subscription + one-time engagements",
+      "timeToRevenue": "12-18 months (requires sufficient search volume for statistically significant data)",
+      "scalability": "Very high - data is a byproduct of normal operations",
+      "privacyNote": "All data is anonymized and aggregated. Individual user queries are never exposed. Minimum aggregation threshold of 50 queries before any trend is reported."
+    },
+    {
+      "id": "white-label-api",
+      "name": "White-Label API for Distributor Websites",
+      "category": "Platform Licensing Revenue",
+      "priority": "P1 - Growth Revenue",
+      "description": "License PTRegistry's product selection AI and structured data as a white-label service for industrial distributors to embed in their e-commerce websites. Distributors get an AI-powered product selector; PTRegistry gets licensing revenue and broader data distribution.",
+      "offerings": [
+        {
+          "name": "Product Selector Widget",
+          "price": "$500-2,000/month",
+          "description": "Embeddable JavaScript widget that provides AI-powered product search and recommendation on the distributor's website. Styled to match the distributor's branding.",
+          "features": [
+            "Natural language product search ('I need a 5HP motor for a pump')",
+            "Guided specification filter with smart defaults",
+            "Cross-reference lookup ('find equivalent to ABB M3BP 132 SMB 4')",
+            "Side-by-side comparison (up to 4 products)",
+            "Responsive design for desktop and mobile"
+          ]
+        },
+        {
+          "name": "Full API License",
+          "price": "$2,000-10,000/month",
+          "description": "Full API access branded for the distributor, powering their custom product selection workflow, chatbot, or mobile app.",
+          "features": [
+            "All PTRegistry API endpoints",
+            "Distributor-specific product catalog filtering (only show products they stock)",
+            "Custom pricing integration (distributor's prices, not list)",
+            "Inventory status integration",
+            "No PTRegistry branding"
+          ]
+        }
+      ],
+      "targetCustomers": [
+        "Motion Industries",
+        "Applied Industrial Technologies",
+        "Kaman Distribution",
+        "MSC Industrial",
+        "Grainger",
+        "RS Components",
+        "Bossard",
+        "Regional industrial distributors"
+      ],
+      "revenueModel": "Monthly licensing + setup fee",
+      "timeToRevenue": "6-12 months",
+      "scalability": "High - one-time integration, recurring revenue"
+    },
+    {
+      "id": "lead-generation",
+      "name": "Lead Generation & Purchase Routing",
+      "category": "Transaction-Adjacent Revenue",
+      "priority": "P2 - Expansion Revenue",
+      "description": "When a user (human or AI) selects a product through PTRegistry, route the purchase intent to distributors or manufacturers who pay for qualified leads. Similar to how Google Shopping works for industrial products.",
+      "models": [
+        {
+          "name": "Cost Per Lead (CPL)",
+          "price": "$5-50 per qualified lead (varies by product category and deal size potential)",
+          "description": "When a PTRegistry user clicks 'Get Quote' or 'Find Distributor' for a product, the lead (contact information + product requirement) is routed to participating distributors or manufacturer reps.",
+          "qualification": "Lead must include: product identified, quantity/specs confirmed, contact info provided, and buying intent confirmed"
+        },
+        {
+          "name": "Affiliate/Referral Revenue",
+          "price": "1-3% of purchase value",
+          "description": "For products available for online purchase at distributors, PTRegistry earns a referral commission on purchases that originated from a PTRegistry recommendation.",
+          "implementation": "Tracked via affiliate links, UTM parameters, or API-based attribution"
+        },
+        {
+          "name": "RFQ Aggregation",
+          "price": "$50-200 per RFQ distributed",
+          "description": "Aggregate Request for Quote (RFQ) submissions from users and distribute to multiple competing distributors. Distributors pay for access to qualified RFQs in their territory and product specialty.",
+          "targetCustomer": "Regional distributors who want qualified leads without large marketing budgets"
+        }
+      ],
+      "revenueModel": "Performance-based (CPL or CPA)",
+      "timeToRevenue": "12-18 months (requires significant user traffic)",
+      "scalability": "Very high - scales with platform traffic"
+    },
+    {
+      "id": "oem-premium-features",
+      "name": "Premium OEM & Engineering Tools",
+      "category": "Vertical SaaS Revenue",
+      "priority": "P2 - Expansion Revenue",
+      "description": "Advanced tools for machine builders (OEMs) and engineering firms who do repeated product selection as part of their design workflow. Subscription-based access to project management, saved configurations, and design automation features.",
+      "features": [
+        {
+          "name": "Project-Based Selection",
+          "description": "Save product selections into named projects. Track which components were selected for each machine design. Revisit and modify selections as designs evolve.",
+          "price": "Included in Professional API tier and above"
+        },
+        {
+          "name": "Bill of Materials (BOM) Export",
+          "description": "Export complete power transmission BOMs with part numbers, quantities, specifications, and pricing (where available) in standard formats (CSV, Excel, JSON, XML).",
+          "price": "$49/month add-on or included in Enterprise tier"
+        },
+        {
+          "name": "Design Configuration Templates",
+          "description": "Pre-built selection templates for common drive train configurations (motor + gearbox + coupling, motor + belt drive + tensioner, etc.). Templates enforce compatibility rules.",
+          "price": "$99/month add-on"
+        },
+        {
+          "name": "Multi-User Team Workspace",
+          "description": "Shared workspace for engineering teams to collaborate on product selections. Comment threads, approval workflows, and version history.",
+          "price": "$199/month for up to 10 users, $20/additional user"
+        },
+        {
+          "name": "CAD Integration Plugin",
+          "description": "Plugins for SolidWorks, AutoCAD, Inventor, and Creo that allow engineers to search PTRegistry and insert 3D models directly into their designs without leaving the CAD environment.",
+          "price": "$99/month per seat"
+        },
+        {
+          "name": "Parametric Selection API",
+          "description": "API endpoint that accepts a complete drive system specification (required output torque, speed, duty cycle, environment) and returns a fully configured motor + gearbox + accessories package.",
+          "price": "Enterprise tier only"
+        }
+      ],
+      "revenueModel": "Monthly subscription per user/seat",
+      "timeToRevenue": "12-24 months (requires mature platform)",
+      "scalability": "Medium - requires ongoing feature development"
+    },
+    {
+      "id": "advertising",
+      "name": "Contextual Advertising & Sponsored Placement",
+      "category": "Advertising Revenue",
+      "priority": "P3 - Supplementary Revenue",
+      "description": "Non-intrusive advertising opportunities for manufacturers who want additional visibility beyond their partnership tier. Carefully implemented to maintain platform trust and data objectivity.",
+      "products": [
+        {
+          "name": "Sponsored Search Results",
+          "price": "CPC model: $2-10 per click depending on category",
+          "description": "Manufacturer products appear at the top of relevant search results with a 'Sponsored' label. Similar to Google Ads but for industrial products. The product must still meet the search criteria -- sponsorship only affects ranking, not relevance filtering.",
+          "guardrails": "Maximum 2 sponsored results per search. Sponsored products must match at least 80% of search criteria. Clearly labeled as 'Sponsored'."
+        },
+        {
+          "name": "Category Sponsorship",
+          "price": "$1,000-5,000/month per category",
+          "description": "A single manufacturer sponsors an entire product category (e.g., 'Bearings'). Their branding appears on the category landing page, and their products receive a boost in default sorting.",
+          "guardrails": "One sponsor per category. Does not affect filtered/sorted results, only default view."
+        },
+        {
+          "name": "New Product Spotlight",
+          "price": "$500-2,000 per spotlight",
+          "description": "Highlighted placement for newly released products. Appears in 'New Products' feed and in relevant search results for 30 days.",
+          "guardrails": "Product must be genuinely new (released within last 6 months)."
+        }
+      ],
+      "revenueModel": "CPC, CPM, or flat monthly rate",
+      "timeToRevenue": "18-24 months (requires meaningful traffic)",
+      "scalability": "High but must be carefully managed to maintain platform credibility",
+      "risks": "Over-monetizing advertising will erode trust with engineers. Must maintain strict separation between editorial/recommendation integrity and advertising."
+    }
+  ],
+
+  "revenueProjection": {
+    "year1": {
+      "focus": "Build catalog, onboard manufacturers, launch free API",
+      "primaryRevenue": ["Manufacturer Featured/Premium partnerships (seed deals)"],
+      "estimatedARR": "$100K-500K",
+      "keyMetrics": ["Products in database", "Manufacturer partners", "API registrations"]
+    },
+    "year2": {
+      "focus": "Scale API adoption, launch paid tiers, begin market intelligence",
+      "primaryRevenue": ["API subscriptions", "Manufacturer partnerships", "White-label licensing (early deals)"],
+      "estimatedARR": "$1M-5M",
+      "keyMetrics": ["Paid API subscribers", "Monthly API calls", "Search query volume"]
+    },
+    "year3": {
+      "focus": "Full platform maturity, all revenue streams active",
+      "primaryRevenue": ["API subscriptions", "Manufacturer partnerships", "Market intelligence", "White-label", "Lead generation"],
+      "estimatedARR": "$5M-20M",
+      "keyMetrics": ["Revenue per product in database", "Revenue per API call", "Customer acquisition cost vs LTV"]
+    }
+  },
+
+  "competitiveAdvantages": [
+    {
+      "advantage": "Network effects",
+      "description": "More products in database attracts more API users. More API users generates more search data. More search data attracts more manufacturers. Flywheel accelerates over time."
+    },
+    {
+      "advantage": "Data moat",
+      "description": "Structured, AI-optimized product data with cross-references, application suitability scores, and selection tips is extraordinarily difficult and expensive to recreate. Each manufacturer relationship adds unique data that competitors cannot replicate."
+    },
+    {
+      "advantage": "AI-native architecture",
+      "description": "Built from the ground up for AI consumption, not retrofitted from a human-facing catalog. Schema design, search algorithms, and response formats are optimized for machine reasoning."
+    },
+    {
+      "advantage": "Switching costs",
+      "description": "Once AI agents, distributor websites, and OEM tools are integrated with PTRegistry's API, switching costs are significant. Every integration creates stickiness."
+    }
+  ]
+}
