@@ -54,7 +54,7 @@ export default function SearchContent() {
 
     // Apply category filter
     if (selectedCategory) {
-      const cat = categories.find(c => c.slug === selectedCategory);
+      const cat = categories.find(c => c.slug === selectedCategory || c.id === selectedCategory);
       if (cat) results = results.filter(p => p.category_id === cat.id);
     }
 

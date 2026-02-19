@@ -29,6 +29,9 @@ export default function Navbar() {
             <Link href="/" className="px-4 py-2 rounded-lg text-sm font-medium text-cream-300 hover:text-white hover:bg-navy-700 transition-colors">
               Search
             </Link>
+            <Link href="/configure" className="px-4 py-2 rounded-lg text-sm font-medium text-cream-300 hover:text-white hover:bg-navy-700 transition-colors">
+              Configure
+            </Link>
             <Link href="/crossover" className="px-4 py-2 rounded-lg text-sm font-medium text-cream-300 hover:text-white hover:bg-navy-700 transition-colors">
               Crossover
             </Link>
@@ -81,6 +84,9 @@ export default function Navbar() {
             </Link>
             <Link href="/" className="block px-4 py-2 rounded-lg text-sm text-cream-300 hover:text-white hover:bg-navy-700" onClick={() => setMobileOpen(false)}>
               Search
+            </Link>
+            <Link href="/configure" className="block px-4 py-2 rounded-lg text-sm text-cream-300 hover:text-white hover:bg-navy-700" onClick={() => setMobileOpen(false)}>
+              Configure
             </Link>
             <Link href="/crossover" className="block px-4 py-2 rounded-lg text-sm text-cream-300 hover:text-white hover:bg-navy-700" onClick={() => setMobileOpen(false)}>
               Crossover

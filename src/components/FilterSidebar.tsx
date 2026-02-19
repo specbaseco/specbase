@@ -309,7 +309,9 @@ export default function FilterSidebar({
 }: FilterSidebarProps) {
   const relevantManufacturers = selectedCategory
     ? manufacturers.filter(m => {
-        const catMfrs = categoryManufacturers[selectedCategory] || [];
+        // selectedCategory could be an id (cat-bearings) or slug (bearings), handle both
+        const cat = categories.find(c => c.id === selectedCategory || c.slug === selectedCategory);
+        const catMfrs = cat ? (categoryManufacturers[cat.id] || []) : [];
         return catMfrs.includes(m.id);
       })
     : manufacturers;
@@ -465,7 +467,7 @@ export default function FilterSidebar({
 
         <div className="px-3">
           {/* Category */}
-          <FilterSection title="Category" defaultOpen={!!selectedCategory}>
+          <FilterSection title="Category" defaultOpen={false}>
             <FilterList
               items={categories.map(c => ({ value: c.id, label: c.name }))}
               selected={selectedCategory}

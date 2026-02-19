@@ -24,6 +24,7 @@ export default function Footer() {
             <ul className="space-y-2.5">
               <li><Link href="/why" className="text-sm hover:text-white transition-colors">Why SpecBase</Link></li>
               <li><Link href="/" className="text-sm hover:text-white transition-colors">Search Products</Link></li>
+              <li><Link href="/configure" className="text-sm hover:text-white transition-colors">Configure</Link></li>
               <li><Link href="/crossover" className="text-sm hover:text-white transition-colors">Crossover Lookup</Link></li>
               <li><Link href="/api-docs" className="text-sm hover:text-white transition-colors">API Documentation</Link></li>
             </ul>
