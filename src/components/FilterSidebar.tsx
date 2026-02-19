@@ -40,6 +40,49 @@ export interface SpecFilters {
   preLoaded: string;
   connectingLinkType: string;
   countryOfOrigin: string;
+  // Bearings
+  housingStyle: string;
+  internals: string;
+  shaftSize: string;
+  lockingType: string;
+  lubrication: string;
+  // V-Belts
+  beltSection: string;
+  beltStrands: string;
+  beltLength: string;
+  lengthType: string;
+  construction: string;
+  // Sheaves
+  sheaveSection: string;
+  grooves: string;
+  bushingType: string;
+  sheaveMaterial: string;
+  // Timing Belts
+  profile: string;
+  timingConstruction: string;
+  sided: string;
+  // Sprockets
+  sprocketAnsi: string;
+  teeth: string;
+  hubStyle: string;
+  boreType: string;
+  sprocketMaterial: string;
+  hardenedTeeth: string;
+  // Bushings
+  bushingTypeFilter: string;
+  bushingSeries: string;
+  bushingBoreType: string;
+  // Couplings
+  couplingType: string;
+  couplingMaterial: string;
+  // Engineering Chain
+  engSeries: string;
+  engChainType: string;
+  pinStyle: string;
+  // Gearboxes
+  gearingStyle: string;
+  orientation: string;
+  environment: string;
 }
 
 interface FilterSidebarProps {
@@ -77,6 +120,24 @@ const defaultSpecFilters: SpecFilters = {
   // Roller Chain
   chainType: '', ansiChainNumber: '', pitchInches: '', numberOfStrands: '', material: '',
   lubeFree: '', corrosionResistant: '', preLoaded: '', connectingLinkType: '', countryOfOrigin: '',
+  // Bearings
+  housingStyle: '', internals: '', shaftSize: '', lockingType: '', lubrication: '',
+  // V-Belts
+  beltSection: '', beltStrands: '', beltLength: '', lengthType: '', construction: '',
+  // Sheaves
+  sheaveSection: '', grooves: '', bushingType: '', sheaveMaterial: '',
+  // Timing Belts
+  profile: '', timingConstruction: '', sided: '',
+  // Sprockets
+  sprocketAnsi: '', teeth: '', hubStyle: '', boreType: '', sprocketMaterial: '', hardenedTeeth: '',
+  // Bushings
+  bushingTypeFilter: '', bushingSeries: '', bushingBoreType: '',
+  // Couplings
+  couplingType: '', couplingMaterial: '',
+  // Engineering Chain
+  engSeries: '', engChainType: '', pinStyle: '',
+  // Gearboxes
+  gearingStyle: '', orientation: '', environment: '',
 };
 
 // Collapsible filter section
@@ -291,6 +352,58 @@ export default function FilterSidebar({
   const connectingLinkValues = getDistinctValues(results, 'connecting_link_type');
   const countryValues = getDistinctValues(results, 'country_of_origin');
 
+  // Compute facets from results — Bearings
+  const housingStyleValues = getDistinctValues(results, 'housing_style');
+  const internalsValues = getDistinctValues(results, 'internals');
+  const shaftSizeValues = getDistinctValues(results, 'shaft_size');
+  const lockingTypeValues = getDistinctValues(results, 'locking_type');
+  const lubricationValues = getDistinctValues(results, 'lubrication');
+
+  // Compute facets from results — V-Belts
+  const beltSectionValues = getDistinctValues(results, 'section');
+  const beltStrandsValues = getDistinctValues(results, 'strands');
+  const beltLengthValues = getDistinctValues(results, 'length');
+  const lengthTypeValues = getDistinctValues(results, 'length_type');
+  const constructionValues = getDistinctValues(results, 'construction');
+
+  // Compute facets from results — Sheaves
+  const sheaveSectionValues = getDistinctValues(results, 'belt_section');
+  const groovesValues = getDistinctValues(results, 'grooves');
+  const bushingTypeValues = getDistinctValues(results, 'bushing_type');
+  const sheaveMaterialValues = getDistinctValues(results, 'material');
+
+  // Compute facets from results — Timing Belts
+  const profileValues = getDistinctValues(results, 'profile');
+  const timingConstructionValues = getDistinctValues(results, 'construction');
+  const sidedValues = getDistinctValues(results, 'sided');
+
+  // Compute facets from results — Sprockets
+  const sprocketAnsiValues = getDistinctValues(results, 'ansi_number');
+  const teethValues = getDistinctValues(results, 'teeth');
+  const hubStyleValues = getDistinctValues(results, 'hub_style');
+  const boreTypeValues = getDistinctValues(results, 'bore_type');
+  const sprocketMaterialValues = getDistinctValues(results, 'material');
+  const hardenedTeethValues = getDistinctValues(results, 'hardened_teeth');
+
+  // Compute facets from results — Bushings
+  const bushingTypeFilterValues = getDistinctValues(results, 'bushing_type');
+  const bushingSeriesValues = getDistinctValues(results, 'series');
+  const bushingBoreTypeValues = getDistinctValues(results, 'bore_type');
+
+  // Compute facets from results — Couplings
+  const couplingTypeValues = getDistinctValues(results, 'coupling_type');
+  const couplingMaterialValues = getDistinctValues(results, 'material');
+
+  // Compute facets from results — Engineering Chain
+  const engSeriesValues = getDistinctValues(results, 'series');
+  const engChainTypeValues = getDistinctValues(results, 'chain_type');
+  const pinStyleValues = getDistinctValues(results, 'pin_style');
+
+  // Compute facets from results — Gearboxes
+  const gearingStyleValues = getDistinctValues(results, 'gearing_style');
+  const orientationValues = getDistinctValues(results, 'orientation');
+  const environmentValues = getDistinctValues(results, 'environment');
+
   const handleSpecFilter = (key: keyof SpecFilters, value: string) => {
     if (onSpecFilterChange) {
       onSpecFilterChange(key, value);
@@ -302,6 +415,24 @@ export default function FilterSidebar({
     'hp', 'kw', 'phase', 'voltage', 'rpm', 'frame',
     'enclosure', 'ipCode', 'mounting', 'frequency', 'rotation', 'electricalType',
     'chainType', 'ansiChainNumber', 'pitchInches', 'numberOfStrands', 'material',
+    // Bearings
+    'housingStyle', 'internals', 'shaftSize', 'lockingType', 'lubrication',
+    // V-Belts
+    'beltSection', 'beltStrands', 'beltLength', 'lengthType', 'construction',
+    // Sheaves
+    'sheaveSection', 'grooves', 'bushingType', 'sheaveMaterial',
+    // Timing Belts
+    'profile', 'timingConstruction', 'sided',
+    // Sprockets
+    'sprocketAnsi', 'teeth', 'hubStyle', 'boreType', 'sprocketMaterial', 'hardenedTeeth',
+    // Bushings
+    'bushingTypeFilter', 'bushingSeries', 'bushingBoreType',
+    // Couplings
+    'couplingType', 'couplingMaterial',
+    // Engineering Chain
+    'engSeries', 'engChainType', 'pinStyle',
+    // Gearboxes
+    'gearingStyle', 'orientation', 'environment',
   ];
   const moreKeys: (keyof SpecFilters)[] = [
     'efficiencyClass', 'efficiencyPercent', 'powerFactor', 'fullLoadAmps',
@@ -547,6 +678,399 @@ export default function FilterSidebar({
                 values={materialValues}
                 selected={specFilters.material}
                 onSelect={(v) => handleSpecFilter('material', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* ─── Bearings Filters ─── */}
+
+          {/* Housing Style */}
+          {housingStyleValues.length >= 2 && (
+            <FilterSection title="Housing Style" defaultOpen={true} count={specFilters.housingStyle ? 1 : 0}>
+              <FilterChips
+                values={housingStyleValues}
+                selected={specFilters.housingStyle}
+                onSelect={(v) => handleSpecFilter('housingStyle', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* Internals */}
+          {internalsValues.length >= 2 && (
+            <FilterSection title="Internals" defaultOpen={true} count={specFilters.internals ? 1 : 0}>
+              <FilterChips
+                values={internalsValues}
+                selected={specFilters.internals}
+                onSelect={(v) => handleSpecFilter('internals', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* Shaft Size */}
+          {shaftSizeValues.length >= 2 && (
+            <FilterSection title="Shaft Size" defaultOpen={true} count={specFilters.shaftSize ? 1 : 0}>
+              <FilterChips
+                values={shaftSizeValues}
+                selected={specFilters.shaftSize}
+                onSelect={(v) => handleSpecFilter('shaftSize', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* Locking Type */}
+          {lockingTypeValues.length >= 2 && (
+            <FilterSection title="Locking Type" defaultOpen={false} count={specFilters.lockingType ? 1 : 0}>
+              <FilterChips
+                values={lockingTypeValues}
+                selected={specFilters.lockingType}
+                onSelect={(v) => handleSpecFilter('lockingType', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* Lubrication */}
+          {lubricationValues.length >= 2 && (
+            <FilterSection title="Lubrication" defaultOpen={false} count={specFilters.lubrication ? 1 : 0}>
+              <FilterChips
+                values={lubricationValues}
+                selected={specFilters.lubrication}
+                onSelect={(v) => handleSpecFilter('lubrication', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* ─── V-Belts Filters ─── */}
+
+          {/* Belt Section */}
+          {beltSectionValues.length >= 2 && (
+            <FilterSection title="Belt Section" defaultOpen={true} count={specFilters.beltSection ? 1 : 0}>
+              <FilterChips
+                values={beltSectionValues}
+                selected={specFilters.beltSection}
+                onSelect={(v) => handleSpecFilter('beltSection', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* Belt Strands */}
+          {beltStrandsValues.length >= 2 && (
+            <FilterSection title="Belt Strands" defaultOpen={true} count={specFilters.beltStrands ? 1 : 0}>
+              <FilterChips
+                values={beltStrandsValues}
+                selected={specFilters.beltStrands}
+                onSelect={(v) => handleSpecFilter('beltStrands', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* Belt Length */}
+          {beltLengthValues.length >= 2 && (
+            <FilterSection title="Belt Length" defaultOpen={true} count={specFilters.beltLength ? 1 : 0}>
+              <FilterChips
+                values={beltLengthValues}
+                selected={specFilters.beltLength}
+                onSelect={(v) => handleSpecFilter('beltLength', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* Length Type */}
+          {lengthTypeValues.length >= 2 && (
+            <FilterSection title="Length Type" defaultOpen={false} count={specFilters.lengthType ? 1 : 0}>
+              <FilterChips
+                values={lengthTypeValues}
+                selected={specFilters.lengthType}
+                onSelect={(v) => handleSpecFilter('lengthType', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* Construction */}
+          {constructionValues.length >= 2 && (
+            <FilterSection title="Construction" defaultOpen={false} count={specFilters.construction ? 1 : 0}>
+              <FilterChips
+                values={constructionValues}
+                selected={specFilters.construction}
+                onSelect={(v) => handleSpecFilter('construction', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* ─── Sheaves Filters ─── */}
+
+          {/* Sheave Section */}
+          {sheaveSectionValues.length >= 2 && (
+            <FilterSection title="Sheave Section" defaultOpen={true} count={specFilters.sheaveSection ? 1 : 0}>
+              <FilterChips
+                values={sheaveSectionValues}
+                selected={specFilters.sheaveSection}
+                onSelect={(v) => handleSpecFilter('sheaveSection', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* Grooves */}
+          {groovesValues.length >= 2 && (
+            <FilterSection title="Grooves" defaultOpen={true} count={specFilters.grooves ? 1 : 0}>
+              <FilterChips
+                values={groovesValues}
+                selected={specFilters.grooves}
+                onSelect={(v) => handleSpecFilter('grooves', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* Bushing Type */}
+          {bushingTypeValues.length >= 2 && (
+            <FilterSection title="Bushing Type" defaultOpen={false} count={specFilters.bushingType ? 1 : 0}>
+              <FilterChips
+                values={bushingTypeValues}
+                selected={specFilters.bushingType}
+                onSelect={(v) => handleSpecFilter('bushingType', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* Sheave Material */}
+          {sheaveMaterialValues.length >= 2 && (
+            <FilterSection title="Sheave Material" defaultOpen={false} count={specFilters.sheaveMaterial ? 1 : 0}>
+              <FilterChips
+                values={sheaveMaterialValues}
+                selected={specFilters.sheaveMaterial}
+                onSelect={(v) => handleSpecFilter('sheaveMaterial', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* ─── Timing Belts Filters ─── */}
+
+          {/* Profile */}
+          {profileValues.length >= 2 && (
+            <FilterSection title="Profile" defaultOpen={true} count={specFilters.profile ? 1 : 0}>
+              <FilterChips
+                values={profileValues}
+                selected={specFilters.profile}
+                onSelect={(v) => handleSpecFilter('profile', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* Timing Construction */}
+          {timingConstructionValues.length >= 2 && (
+            <FilterSection title="Timing Construction" defaultOpen={true} count={specFilters.timingConstruction ? 1 : 0}>
+              <FilterChips
+                values={timingConstructionValues}
+                selected={specFilters.timingConstruction}
+                onSelect={(v) => handleSpecFilter('timingConstruction', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* Sided */}
+          {sidedValues.length >= 2 && (
+            <FilterSection title="Sided" defaultOpen={false} count={specFilters.sided ? 1 : 0}>
+              <FilterChips
+                values={sidedValues}
+                selected={specFilters.sided}
+                onSelect={(v) => handleSpecFilter('sided', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* ─── Sprockets Filters ─── */}
+
+          {/* Sprocket ANSI # */}
+          {sprocketAnsiValues.length >= 2 && (
+            <FilterSection title="ANSI #" defaultOpen={true} count={specFilters.sprocketAnsi ? 1 : 0}>
+              <FilterChips
+                values={sprocketAnsiValues}
+                selected={specFilters.sprocketAnsi}
+                onSelect={(v) => handleSpecFilter('sprocketAnsi', v)}
+                formatFn={(v) => '#' + v}
+              />
+            </FilterSection>
+          )}
+
+          {/* Teeth */}
+          {teethValues.length >= 2 && (
+            <FilterSection title="Teeth" defaultOpen={true} count={specFilters.teeth ? 1 : 0}>
+              <FilterChips
+                values={teethValues}
+                selected={specFilters.teeth}
+                onSelect={(v) => handleSpecFilter('teeth', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* Hub Style */}
+          {hubStyleValues.length >= 2 && (
+            <FilterSection title="Hub Style" defaultOpen={true} count={specFilters.hubStyle ? 1 : 0}>
+              <FilterChips
+                values={hubStyleValues}
+                selected={specFilters.hubStyle}
+                onSelect={(v) => handleSpecFilter('hubStyle', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* Bore Type */}
+          {boreTypeValues.length >= 2 && (
+            <FilterSection title="Bore Type" defaultOpen={false} count={specFilters.boreType ? 1 : 0}>
+              <FilterChips
+                values={boreTypeValues}
+                selected={specFilters.boreType}
+                onSelect={(v) => handleSpecFilter('boreType', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* Sprocket Material */}
+          {sprocketMaterialValues.length >= 2 && (
+            <FilterSection title="Sprocket Material" defaultOpen={false} count={specFilters.sprocketMaterial ? 1 : 0}>
+              <FilterChips
+                values={sprocketMaterialValues}
+                selected={specFilters.sprocketMaterial}
+                onSelect={(v) => handleSpecFilter('sprocketMaterial', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* Hardened Teeth */}
+          {hardenedTeethValues.length >= 2 && (
+            <FilterSection title="Hardened Teeth" defaultOpen={false} count={specFilters.hardenedTeeth ? 1 : 0}>
+              <FilterChips
+                values={hardenedTeethValues}
+                selected={specFilters.hardenedTeeth}
+                onSelect={(v) => handleSpecFilter('hardenedTeeth', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* ─── Bushings Filters ─── */}
+
+          {/* Bushing Type */}
+          {bushingTypeFilterValues.length >= 2 && (
+            <FilterSection title="Bushing Type" defaultOpen={true} count={specFilters.bushingTypeFilter ? 1 : 0}>
+              <FilterChips
+                values={bushingTypeFilterValues}
+                selected={specFilters.bushingTypeFilter}
+                onSelect={(v) => handleSpecFilter('bushingTypeFilter', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* Bushing Series */}
+          {bushingSeriesValues.length >= 2 && (
+            <FilterSection title="Bushing Series" defaultOpen={true} count={specFilters.bushingSeries ? 1 : 0}>
+              <FilterChips
+                values={bushingSeriesValues}
+                selected={specFilters.bushingSeries}
+                onSelect={(v) => handleSpecFilter('bushingSeries', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* Bushing Bore Type */}
+          {bushingBoreTypeValues.length >= 2 && (
+            <FilterSection title="Bushing Bore Type" defaultOpen={false} count={specFilters.bushingBoreType ? 1 : 0}>
+              <FilterChips
+                values={bushingBoreTypeValues}
+                selected={specFilters.bushingBoreType}
+                onSelect={(v) => handleSpecFilter('bushingBoreType', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* ─── Couplings Filters ─── */}
+
+          {/* Coupling Type */}
+          {couplingTypeValues.length >= 2 && (
+            <FilterSection title="Coupling Type" defaultOpen={true} count={specFilters.couplingType ? 1 : 0}>
+              <FilterChips
+                values={couplingTypeValues}
+                selected={specFilters.couplingType}
+                onSelect={(v) => handleSpecFilter('couplingType', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* Coupling Material */}
+          {couplingMaterialValues.length >= 2 && (
+            <FilterSection title="Coupling Material" defaultOpen={false} count={specFilters.couplingMaterial ? 1 : 0}>
+              <FilterChips
+                values={couplingMaterialValues}
+                selected={specFilters.couplingMaterial}
+                onSelect={(v) => handleSpecFilter('couplingMaterial', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* ─── Engineering Chain Filters ─── */}
+
+          {/* Eng. Series */}
+          {engSeriesValues.length >= 2 && (
+            <FilterSection title="Eng. Series" defaultOpen={true} count={specFilters.engSeries ? 1 : 0}>
+              <FilterChips
+                values={engSeriesValues}
+                selected={specFilters.engSeries}
+                onSelect={(v) => handleSpecFilter('engSeries', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* Eng. Chain Type */}
+          {engChainTypeValues.length >= 2 && (
+            <FilterSection title="Eng. Chain Type" defaultOpen={true} count={specFilters.engChainType ? 1 : 0}>
+              <FilterChips
+                values={engChainTypeValues}
+                selected={specFilters.engChainType}
+                onSelect={(v) => handleSpecFilter('engChainType', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* Pin Style */}
+          {pinStyleValues.length >= 2 && (
+            <FilterSection title="Pin Style" defaultOpen={false} count={specFilters.pinStyle ? 1 : 0}>
+              <FilterChips
+                values={pinStyleValues}
+                selected={specFilters.pinStyle}
+                onSelect={(v) => handleSpecFilter('pinStyle', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* ─── Gearboxes Filters ─── */}
+
+          {/* Gearing Style */}
+          {gearingStyleValues.length >= 2 && (
+            <FilterSection title="Gearing Style" defaultOpen={true} count={specFilters.gearingStyle ? 1 : 0}>
+              <FilterChips
+                values={gearingStyleValues}
+                selected={specFilters.gearingStyle}
+                onSelect={(v) => handleSpecFilter('gearingStyle', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* Orientation */}
+          {orientationValues.length >= 2 && (
+            <FilterSection title="Orientation" defaultOpen={true} count={specFilters.orientation ? 1 : 0}>
+              <FilterChips
+                values={orientationValues}
+                selected={specFilters.orientation}
+                onSelect={(v) => handleSpecFilter('orientation', v)}
+              />
+            </FilterSection>
+          )}
+
+          {/* Environment */}
+          {environmentValues.length >= 2 && (
+            <FilterSection title="Environment" defaultOpen={false} count={specFilters.environment ? 1 : 0}>
+              <FilterChips
+                values={environmentValues}
+                selected={specFilters.environment}
+                onSelect={(v) => handleSpecFilter('environment', v)}
               />
             </FilterSection>
           )}

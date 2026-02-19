@@ -3,6 +3,117 @@ import { Product } from '@/types';
 import ManufacturerLogo from '@/components/ManufacturerLogo';
 import { manufacturers } from '@/lib/data';
 
+function getCategorySpecs(categoryId: string, specs: Record<string, any>): { label: string; value: any }[] {
+  switch (categoryId) {
+    case 'cat-motors':
+      return [
+        specs.horsepower && { label: 'HP', value: specs.horsepower },
+        specs.voltage && { label: 'Voltage', value: specs.voltage },
+        specs.rpm_full_load && { label: 'RPM', value: specs.rpm_full_load },
+        specs.frame_size && { label: 'Frame', value: specs.frame_size },
+        specs.enclosure_type && { label: 'Encl', value: specs.enclosure_type },
+        specs.efficiency_class && { label: 'Eff', value: specs.efficiency_class },
+      ].filter(Boolean) as { label: string; value: any }[];
+
+    case 'cat-bearings':
+      return [
+        specs.shaft_size && { label: 'Shaft', value: specs.shaft_size + '"' },
+        specs.housing_style && { label: 'Housing', value: specs.housing_style },
+        specs.internals && { label: 'Internals', value: specs.internals },
+        specs.dynamic_load_lbf && { label: 'Load', value: specs.dynamic_load_lbf + ' lbf' },
+        specs.locking_type && { label: 'Lock', value: specs.locking_type },
+      ].filter(Boolean) as { label: string; value: any }[];
+
+    case 'cat-chain':
+      return [
+        (specs.ansi_chain_number || specs.ansi_number) && { label: 'ANSI', value: specs.ansi_chain_number || specs.ansi_number },
+        (specs.pitch_inches || specs.pitch) && { label: 'Pitch', value: (specs.pitch_inches || specs.pitch) + '"' },
+        (specs.number_of_strands || specs.strand_count) && { label: 'Strands', value: specs.number_of_strands || specs.strand_count },
+        specs.tensile_strength && { label: 'Tensile', value: specs.tensile_strength + ' lbf' },
+        specs.material && { label: 'Material', value: specs.material },
+      ].filter(Boolean) as { label: string; value: any }[];
+
+    case 'cat-vbelts':
+      return [
+        specs.section && { label: 'Section', value: specs.section },
+        specs.length && { label: 'Length', value: specs.length },
+        specs.length_type && { label: 'Type', value: specs.length_type },
+        specs.strands && { label: 'Strands', value: specs.strands },
+        specs.construction && { label: 'Constr', value: specs.construction },
+      ].filter(Boolean) as { label: string; value: any }[];
+
+    case 'cat-sheaves':
+      return [
+        specs.belt_section && { label: 'Section', value: specs.belt_section },
+        specs.grooves && { label: 'Grooves', value: specs.grooves },
+        specs.pitch_diameter && { label: 'PD', value: specs.pitch_diameter + '"' },
+        specs.bushing_type && { label: 'Bushing', value: specs.bushing_type },
+        specs.material && { label: 'Material', value: specs.material },
+      ].filter(Boolean) as { label: string; value: any }[];
+
+    case 'cat-belts':
+      return [
+        specs.profile && { label: 'Profile', value: specs.profile },
+        specs.pitch_mm && { label: 'Pitch', value: specs.pitch_mm + 'mm' },
+        specs.width_mm && { label: 'Width', value: specs.width_mm + 'mm' },
+        specs.length_mm && { label: 'Length', value: specs.length_mm + 'mm' },
+        specs.teeth && { label: 'Teeth', value: specs.teeth },
+      ].filter(Boolean) as { label: string; value: any }[];
+
+    case 'cat-sprockets':
+      return [
+        specs.ansi_number && { label: 'ANSI', value: specs.ansi_number },
+        specs.teeth && { label: 'Teeth', value: specs.teeth },
+        specs.hub_style && { label: 'Hub', value: specs.hub_style },
+        specs.bore_type && { label: 'Bore', value: specs.bore_type },
+        specs.material && { label: 'Material', value: specs.material },
+      ].filter(Boolean) as { label: string; value: any }[];
+
+    case 'cat-bushings':
+      return [
+        specs.bushing_type && { label: 'Type', value: specs.bushing_type },
+        specs.series && { label: 'Series', value: specs.series },
+        specs.max_bore && { label: 'Max Bore', value: specs.max_bore + '"' },
+        specs.outer_diameter && { label: 'OD', value: specs.outer_diameter + '"' },
+        specs.bore_type && { label: 'Bore', value: specs.bore_type },
+      ].filter(Boolean) as { label: string; value: any }[];
+
+    case 'cat-couplings':
+      return [
+        specs.coupling_type && { label: 'Type', value: specs.coupling_type },
+        specs.series_size && { label: 'Size', value: specs.series_size },
+        specs.max_bore && { label: 'Max Bore', value: specs.max_bore + '"' },
+        specs.nominal_torque && { label: 'Torque', value: specs.nominal_torque + ' in-lbs' },
+        specs.material && { label: 'Material', value: specs.material },
+      ].filter(Boolean) as { label: string; value: any }[];
+
+    case 'cat-engchain':
+      return [
+        specs.series && { label: 'Series', value: specs.series },
+        specs.chain_type && { label: 'Type', value: specs.chain_type },
+        specs.pitch && { label: 'Pitch', value: specs.pitch + '"' },
+        specs.avg_tensile && { label: 'Tensile', value: specs.avg_tensile + ' lbs' },
+        specs.pin_style && { label: 'Pin', value: specs.pin_style },
+      ].filter(Boolean) as { label: string; value: any }[];
+
+    case 'cat-gearboxes':
+      return [
+        specs.gearing_style && { label: 'Style', value: specs.gearing_style },
+        specs.orientation && { label: 'Orient', value: specs.orientation },
+        specs.max_input_hp && { label: 'Max HP', value: specs.max_input_hp },
+        specs.output_torque && { label: 'Torque', value: specs.output_torque + ' lb-in' },
+        specs.ratio_range && { label: 'Ratio', value: specs.ratio_range },
+      ].filter(Boolean) as { label: string; value: any }[];
+
+    default:
+      // Generic: show first 5 non-empty specs
+      return Object.entries(specs)
+        .filter(([, v]) => v != null && v !== '')
+        .slice(0, 5)
+        .map(([k, v]) => ({ label: k.replace(/_/g, ' '), value: v }));
+  }
+}
+
 interface ProductCardProps {
   product: Product;
 }
@@ -51,36 +162,11 @@ export default function ProductCard({ product }: ProductCardProps) {
 
           {/* Key specs */}
           <div className="flex flex-wrap gap-x-4 gap-y-1 mt-3">
-            {specs.horsepower && (
-              <span className="text-xs text-navy-600 dark:text-cream-400">
-                <span className="text-cream-400">HP:</span> {specs.horsepower}
+            {getCategorySpecs(product.category_id, specs).map(({ label, value }) => (
+              <span key={label} className="text-xs text-navy-600 dark:text-cream-400">
+                <span className="text-cream-400">{label}:</span> {value}
               </span>
-            )}
-            {specs.voltage && (
-              <span className="text-xs text-navy-600 dark:text-cream-400">
-                <span className="text-cream-400">Voltage:</span> {specs.voltage}
-              </span>
-            )}
-            {specs.rpm_full_load && (
-              <span className="text-xs text-navy-600 dark:text-cream-400">
-                <span className="text-cream-400">RPM:</span> {specs.rpm_full_load}
-              </span>
-            )}
-            {specs.frame_size && (
-              <span className="text-xs text-navy-600 dark:text-cream-400">
-                <span className="text-cream-400">Frame:</span> {specs.frame_size}
-              </span>
-            )}
-            {specs.enclosure_type && (
-              <span className="text-xs text-navy-600 dark:text-cream-400">
-                <span className="text-cream-400">Encl:</span> {specs.enclosure_type}
-              </span>
-            )}
-            {specs.efficiency_class && (
-              <span className="text-xs text-navy-600 dark:text-cream-400">
-                <span className="text-cream-400">Eff:</span> {specs.efficiency_class}
-              </span>
-            )}
+            ))}
           </div>
         </div>
       </div>

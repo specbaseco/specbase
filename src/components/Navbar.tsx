@@ -23,8 +23,14 @@ export default function Navbar() {
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-1">
+            <Link href="/why" className="px-4 py-2 rounded-lg text-sm font-medium text-cream-300 hover:text-white hover:bg-navy-700 transition-colors">
+              Why SpecBase
+            </Link>
             <Link href="/" className="px-4 py-2 rounded-lg text-sm font-medium text-cream-300 hover:text-white hover:bg-navy-700 transition-colors">
               Search
+            </Link>
+            <Link href="/crossover" className="px-4 py-2 rounded-lg text-sm font-medium text-cream-300 hover:text-white hover:bg-navy-700 transition-colors">
+              Crossover
             </Link>
             <Link href="/manufacturers" className="px-4 py-2 rounded-lg text-sm font-medium text-cream-300 hover:text-white hover:bg-navy-700 transition-colors">
               For Manufacturers
@@ -70,8 +76,14 @@ export default function Navbar() {
         {/* Mobile menu */}
         {mobileOpen && (
           <div className="md:hidden pb-4 border-t border-navy-700 mt-2 pt-4 space-y-1">
+            <Link href="/why" className="block px-4 py-2 rounded-lg text-sm text-cream-300 hover:text-white hover:bg-navy-700" onClick={() => setMobileOpen(false)}>
+              Why SpecBase
+            </Link>
             <Link href="/" className="block px-4 py-2 rounded-lg text-sm text-cream-300 hover:text-white hover:bg-navy-700" onClick={() => setMobileOpen(false)}>
               Search
+            </Link>
+            <Link href="/crossover" className="block px-4 py-2 rounded-lg text-sm text-cream-300 hover:text-white hover:bg-navy-700" onClick={() => setMobileOpen(false)}>
+              Crossover
             </Link>
             <Link href="/manufacturers" className="block px-4 py-2 rounded-lg text-sm text-cream-300 hover:text-white hover:bg-navy-700" onClick={() => setMobileOpen(false)}>
               For Manufacturers

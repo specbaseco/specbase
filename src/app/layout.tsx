@@ -5,9 +5,9 @@ import Footer from '@/components/Footer';
 import ThemeProvider from '@/components/ThemeProvider';
 
 export const metadata: Metadata = {
-  title: 'SpecBase - Power Transmission & Motion Control Product Registry',
-  description: 'The intelligence layer for power transmission and motion control products. Search motors, gearboxes, bearings, chain, and belts from leading manufacturers. SpecBase.co',
-  keywords: 'power transmission, motion control, motors, gearboxes, bearings, roller chain, timing belts, industrial components, AI product search',
+  title: 'SpecBase - Industrial Component Intelligence',
+  description: 'The intelligence layer for industrial components. Search motors, gearboxes, bearings, roller chain, timing belts, V-belts, sheaves, sprockets, bushings, couplings, and engineering chain from leading manufacturers. SpecBase.co',
+  keywords: 'industrial components, power transmission, motion control, motors, gearboxes, bearings, roller chain, timing belts, V-belts, sheaves, sprockets, bushings, couplings, engineering chain, AI product search',
 };
 
 export default function RootLayout({

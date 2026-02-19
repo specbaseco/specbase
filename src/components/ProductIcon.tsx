@@ -22,6 +22,12 @@ function getIconVariant(categoryId: string, specs?: Record<string, any>): string
     'cat-chain': 'roller-chain',
     'cat-belts': 'timing-belt',
     'cat-bearings': 'bearing',
+    'cat-vbelts': 'v-belt',
+    'cat-sheaves': 'sheave',
+    'cat-sprockets': 'sprocket',
+    'cat-bushings': 'bushing',
+    'cat-couplings': 'coupling',
+    'cat-engchain': 'eng-chain',
   };
   return map[categoryId] || 'generic';
 }
@@ -221,6 +227,114 @@ function BearingIcon() {
   );
 }
 
+function VBeltIcon() {
+  return (
+    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.5">
+      {/* V-belt side profile - trapezoidal shape */}
+      <path d="M8 14 L40 14 L36 34 L12 34 Z" strokeLinejoin="round" />
+      {/* Internal lines showing belt construction */}
+      <path d="M10 18 L38 18" opacity="0.4" />
+      <path d="M11 22 L37 22" opacity="0.4" />
+      {/* Pulley groove guides */}
+      <path d="M14 34 L10 42" strokeDasharray="2 2" opacity="0.3" />
+      <path d="M34 34 L38 42" strokeDasharray="2 2" opacity="0.3" />
+    </svg>
+  );
+}
+
+function SheaveIcon() {
+  return (
+    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.5">
+      {/* Outer circle - sheave body */}
+      <circle cx="24" cy="24" r="18" />
+      {/* Inner hub */}
+      <circle cx="24" cy="24" r="6" />
+      {/* Groove lines */}
+      <circle cx="24" cy="24" r="14" opacity="0.4" strokeDasharray="3 2" />
+      <circle cx="24" cy="24" r="11" opacity="0.3" strokeDasharray="3 2" />
+      {/* Keyway */}
+      <line x1="24" y1="18" x2="24" y2="6" strokeWidth="2" />
+    </svg>
+  );
+}
+
+function SprocketIcon() {
+  return (
+    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.5">
+      {/* Center bore */}
+      <circle cx="24" cy="24" r="5" />
+      {/* Hub */}
+      <circle cx="24" cy="24" r="10" opacity="0.4" />
+      {/* Sprocket teeth around the perimeter */}
+      {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map(angle => {
+        const rad = (angle * Math.PI) / 180;
+        const x1 = 24 + 14 * Math.cos(rad);
+        const y1 = 24 + 14 * Math.sin(rad);
+        const x2 = 24 + 19 * Math.cos(rad);
+        const y2 = 24 + 19 * Math.sin(rad);
+        return <line key={angle} x1={x1} y1={y1} x2={x2} y2={y2} strokeWidth="2.5" strokeLinecap="round" />;
+      })}
+      {/* Keyway */}
+      <line x1="24" y1="19" x2="24" y2="14" strokeWidth="2" />
+    </svg>
+  );
+}
+
+function BushingIcon() {
+  return (
+    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.5">
+      {/* Outer cylinder */}
+      <ellipse cx="24" cy="12" rx="14" ry="4" />
+      <line x1="10" y1="12" x2="10" y2="36" />
+      <line x1="38" y1="12" x2="38" y2="36" />
+      <ellipse cx="24" cy="36" rx="14" ry="4" />
+      {/* Inner bore */}
+      <ellipse cx="24" cy="12" rx="6" ry="2" opacity="0.5" />
+      <line x1="18" y1="12" x2="18" y2="36" opacity="0.5" />
+      <line x1="30" y1="12" x2="30" y2="36" opacity="0.5" />
+      {/* Keyway slot */}
+      <line x1="24" y1="10" x2="24" y2="6" strokeWidth="2.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function CouplingIcon() {
+  return (
+    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.5">
+      {/* Left half coupling */}
+      <rect x="4" y="14" width="16" height="20" rx="2" />
+      {/* Right half coupling */}
+      <rect x="28" y="14" width="16" height="20" rx="2" />
+      {/* Spider/insert element in middle */}
+      <rect x="20" y="17" width="8" height="14" rx="1" fill="none" strokeDasharray="2 1.5" />
+      {/* Shaft bores */}
+      <circle cx="9" cy="24" r="3" opacity="0.4" />
+      <circle cx="39" cy="24" r="3" opacity="0.4" />
+      {/* Connection lines */}
+      <line x1="20" y1="21" x2="28" y2="21" opacity="0.3" />
+      <line x1="20" y1="27" x2="28" y2="27" opacity="0.3" />
+    </svg>
+  );
+}
+
+function EngineeringChainIcon() {
+  return (
+    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.5">
+      {/* Chain links - heavier than roller chain */}
+      <rect x="2" y="16" width="14" height="16" rx="3" />
+      <rect x="17" y="16" width="14" height="16" rx="3" />
+      <rect x="32" y="16" width="14" height="16" rx="3" />
+      {/* Pins */}
+      <circle cx="16" cy="21" r="2" fill="currentColor" opacity="0.4" />
+      <circle cx="16" cy="31" r="2" fill="currentColor" opacity="0.4" />
+      <circle cx="31" cy="21" r="2" fill="currentColor" opacity="0.4" />
+      <circle cx="31" cy="31" r="2" fill="currentColor" opacity="0.4" />
+      {/* Sidebar attachment */}
+      <path d="M9 16 L9 10 L14 10" opacity="0.4" />
+    </svg>
+  );
+}
+
 function GenericIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
@@ -237,6 +351,12 @@ const iconComponents: Record<string, () => JSX.Element> = {
   'roller-chain': RollerChainIcon,
   'timing-belt': TimingBeltIcon,
   'bearing': BearingIcon,
+  'v-belt': VBeltIcon,
+  'sheave': SheaveIcon,
+  'sprocket': SprocketIcon,
+  'bushing': BushingIcon,
+  'coupling': CouplingIcon,
+  'eng-chain': EngineeringChainIcon,
   'generic': GenericIcon,
 };
 

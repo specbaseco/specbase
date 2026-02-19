@@ -14,7 +14,7 @@ export default function Footer() {
               <span className="text-lg font-semibold text-white">SpecBase</span>
             </div>
             <p className="text-sm text-cream-400 leading-relaxed">
-              The intelligence layer for power transmission and motion control products. Connecting AI agents and engineers with the right components.
+              The intelligence layer for industrial components — starting with power transmission and motion control.
             </p>
           </div>
 
@@ -22,9 +22,10 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-medium mb-4 text-sm uppercase tracking-wider">Product</h4>
             <ul className="space-y-2.5">
+              <li><Link href="/why" className="text-sm hover:text-white transition-colors">Why SpecBase</Link></li>
               <li><Link href="/" className="text-sm hover:text-white transition-colors">Search Products</Link></li>
+              <li><Link href="/crossover" className="text-sm hover:text-white transition-colors">Crossover Lookup</Link></li>
               <li><Link href="/api-docs" className="text-sm hover:text-white transition-colors">API Documentation</Link></li>
-              <li><Link href="/api-docs" className="text-sm hover:text-white transition-colors">Get API Key</Link></li>
             </ul>
           </div>
 

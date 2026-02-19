@@ -17,6 +17,24 @@ const emptyFilters: SpecFilters = {
   // Roller Chain
   chainType: '', ansiChainNumber: '', pitchInches: '', numberOfStrands: '', material: '',
   lubeFree: '', corrosionResistant: '', preLoaded: '', connectingLinkType: '', countryOfOrigin: '',
+  // Bearings
+  housingStyle: '', internals: '', shaftSize: '', lockingType: '', lubrication: '',
+  // V-Belts
+  beltSection: '', beltStrands: '', beltLength: '', lengthType: '', construction: '',
+  // Sheaves
+  sheaveSection: '', grooves: '', bushingType: '', sheaveMaterial: '',
+  // Timing Belts
+  profile: '', timingConstruction: '', sided: '',
+  // Sprockets
+  sprocketAnsi: '', teeth: '', hubStyle: '', boreType: '', sprocketMaterial: '', hardenedTeeth: '',
+  // Bushings
+  bushingTypeFilter: '', bushingSeries: '', bushingBoreType: '',
+  // Couplings
+  couplingType: '', couplingMaterial: '',
+  // Engineering Chain
+  engSeries: '', engChainType: '', pinStyle: '',
+  // Gearboxes
+  gearingStyle: '', orientation: '', environment: '',
 };
 
 export default function SearchContent() {
@@ -149,6 +167,126 @@ export default function SearchContent() {
     }
     if (specFilters.countryOfOrigin) {
       filtered = filtered.filter(p => p.specifications?.country_of_origin === specFilters.countryOfOrigin);
+    }
+
+    // ─── Bearings Filters ───
+    if (specFilters.housingStyle) {
+      filtered = filtered.filter(p => p.specifications?.housing_style === specFilters.housingStyle);
+    }
+    if (specFilters.internals) {
+      filtered = filtered.filter(p => p.specifications?.internals === specFilters.internals);
+    }
+    if (specFilters.shaftSize) {
+      filtered = filtered.filter(p => String(p.specifications?.shaft_size) === specFilters.shaftSize);
+    }
+    if (specFilters.lockingType) {
+      filtered = filtered.filter(p => p.specifications?.locking_type === specFilters.lockingType);
+    }
+    if (specFilters.lubrication) {
+      filtered = filtered.filter(p => p.specifications?.lubrication === specFilters.lubrication);
+    }
+
+    // ─── V-Belt Filters ───
+    if (specFilters.beltSection) {
+      filtered = filtered.filter(p => p.specifications?.section === specFilters.beltSection);
+    }
+    if (specFilters.beltStrands) {
+      filtered = filtered.filter(p => String(p.specifications?.strands) === specFilters.beltStrands);
+    }
+    if (specFilters.beltLength) {
+      filtered = filtered.filter(p => String(p.specifications?.length) === specFilters.beltLength);
+    }
+    if (specFilters.lengthType) {
+      filtered = filtered.filter(p => p.specifications?.length_type === specFilters.lengthType);
+    }
+    if (specFilters.construction) {
+      filtered = filtered.filter(p => p.specifications?.construction === specFilters.construction);
+    }
+
+    // ─── Sheave Filters ───
+    if (specFilters.sheaveSection) {
+      filtered = filtered.filter(p => p.specifications?.belt_section === specFilters.sheaveSection);
+    }
+    if (specFilters.grooves) {
+      filtered = filtered.filter(p => String(p.specifications?.grooves) === specFilters.grooves);
+    }
+    if (specFilters.bushingType) {
+      filtered = filtered.filter(p => p.specifications?.bushing_type === specFilters.bushingType);
+    }
+    if (specFilters.sheaveMaterial) {
+      filtered = filtered.filter(p => p.specifications?.material === specFilters.sheaveMaterial);
+    }
+
+    // ─── Timing Belt Filters ───
+    if (specFilters.profile) {
+      filtered = filtered.filter(p => p.specifications?.profile === specFilters.profile);
+    }
+    if (specFilters.timingConstruction) {
+      filtered = filtered.filter(p => p.specifications?.construction === specFilters.timingConstruction);
+    }
+    if (specFilters.sided) {
+      filtered = filtered.filter(p => p.specifications?.sided === specFilters.sided);
+    }
+
+    // ─── Sprocket Filters ───
+    if (specFilters.sprocketAnsi) {
+      filtered = filtered.filter(p => String(p.specifications?.ansi_number) === specFilters.sprocketAnsi);
+    }
+    if (specFilters.teeth) {
+      filtered = filtered.filter(p => String(p.specifications?.teeth) === specFilters.teeth);
+    }
+    if (specFilters.hubStyle) {
+      filtered = filtered.filter(p => p.specifications?.hub_style === specFilters.hubStyle);
+    }
+    if (specFilters.boreType) {
+      filtered = filtered.filter(p => p.specifications?.bore_type === specFilters.boreType);
+    }
+    if (specFilters.sprocketMaterial) {
+      filtered = filtered.filter(p => p.specifications?.material === specFilters.sprocketMaterial);
+    }
+    if (specFilters.hardenedTeeth) {
+      filtered = filtered.filter(p => p.specifications?.hardened_teeth === specFilters.hardenedTeeth);
+    }
+
+    // ─── Bushing Filters ───
+    if (specFilters.bushingTypeFilter) {
+      filtered = filtered.filter(p => p.specifications?.bushing_type === specFilters.bushingTypeFilter);
+    }
+    if (specFilters.bushingSeries) {
+      filtered = filtered.filter(p => p.specifications?.series === specFilters.bushingSeries);
+    }
+    if (specFilters.bushingBoreType) {
+      filtered = filtered.filter(p => p.specifications?.bore_type === specFilters.bushingBoreType);
+    }
+
+    // ─── Coupling Filters ───
+    if (specFilters.couplingType) {
+      filtered = filtered.filter(p => p.specifications?.coupling_type === specFilters.couplingType);
+    }
+    if (specFilters.couplingMaterial) {
+      filtered = filtered.filter(p => p.specifications?.material === specFilters.couplingMaterial);
+    }
+
+    // ─── Engineering Chain Filters ───
+    if (specFilters.engSeries) {
+      filtered = filtered.filter(p => p.specifications?.series === specFilters.engSeries);
+    }
+    if (specFilters.engChainType) {
+      filtered = filtered.filter(p => p.specifications?.chain_type === specFilters.engChainType);
+    }
+    if (specFilters.pinStyle) {
+      filtered = filtered.filter(p => p.specifications?.pin_style === specFilters.pinStyle);
+    }
+
+    // ─── Gearbox Filters ───
+    if (specFilters.gearingStyle) {
+      filtered = filtered.filter(p => p.specifications?.gearing_style === specFilters.gearingStyle);
+    }
+    if (specFilters.orientation) {
+      filtered = filtered.filter(p => p.specifications?.orientation === specFilters.orientation);
+    }
+    if (specFilters.environment) {
+      filtered = filtered.filter(p => p.specifications?.environment === specFilters.environment);
     }
 
     // Sort

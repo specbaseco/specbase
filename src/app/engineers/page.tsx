@@ -17,8 +17,8 @@ export default function EngineersPage() {
             <span className="text-accent-light">Faster</span>
           </h1>
           <p className="text-lg text-cream-400 mt-5 max-w-2xl mx-auto leading-relaxed">
-            Search across manufacturers, compare specifications, and find the perfect power transmission
-            and motion control components for your application.
+            Search across manufacturers, compare specifications, and find the right industrial
+            components for your application.
           </p>
           <div className="mt-10 max-w-2xl mx-auto">
             <SearchBar variant="hero" placeholder="What are you looking for?" />
