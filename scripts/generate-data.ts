@@ -68,6 +68,10 @@ const MOTOR_MAP: Record<string, string> = {
   'Full Load Amps (FLA)': 'full_load_amps',
   'Service Factor': 'service_factor',
   'Weight': 'weight_lbs',
+  'Output KW': 'output_kw',
+  'IP Rating': 'ip_rating',
+  'Frequency': 'frequency',
+  'Shaft Diameter': 'shaft_diameter',
 };
 
 const BEARING_MAP: Record<string, string> = {

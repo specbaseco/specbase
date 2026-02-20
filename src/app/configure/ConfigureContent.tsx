@@ -326,7 +326,7 @@ export default function ConfigureContent() {
     if (specFilters.rpm) filtered = filtered.filter(p => String(p.specifications?.rpm_full_load) === specFilters.rpm);
     if (specFilters.frame) filtered = filtered.filter(p => p.specifications?.frame_size === specFilters.frame);
     if (specFilters.enclosure) filtered = filtered.filter(p => p.specifications?.enclosure_type === specFilters.enclosure);
-    if (specFilters.ipCode) filtered = filtered.filter(p => p.specifications?.ip_code === specFilters.ipCode);
+    if (specFilters.ipCode) filtered = filtered.filter(p => p.specifications?.ip_rating === specFilters.ipCode);
     if (specFilters.mounting) filtered = filtered.filter(p => p.specifications?.mounting === specFilters.mounting);
     if (specFilters.frequency) filtered = filtered.filter(p => String(p.specifications?.frequency) === specFilters.frequency);
     if (specFilters.rotation) filtered = filtered.filter(p => p.specifications?.rotation === specFilters.rotation);

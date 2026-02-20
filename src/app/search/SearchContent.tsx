@@ -97,7 +97,7 @@ export default function SearchContent() {
       filtered = filtered.filter(p => p.specifications?.enclosure_type === specFilters.enclosure);
     }
     if (specFilters.ipCode) {
-      filtered = filtered.filter(p => p.specifications?.ip_code === specFilters.ipCode);
+      filtered = filtered.filter(p => p.specifications?.ip_rating === specFilters.ipCode);
     }
     if (specFilters.mounting) {
       filtered = filtered.filter(p => p.specifications?.mounting === specFilters.mounting);

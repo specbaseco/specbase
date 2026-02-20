@@ -1,4 +1,1 @@
-Manufacturer,Part Number,Series,Type,Pitch (in),Avg Tensile (lbs),Sidebar Height (in),Sidebar Thickness (in),Pin Style,Attachment
-Webster,WR78,WR78,Welded Steel,2.609,6100,1.02,0.188,Cotterless,Standard
-Rexnord,1100,1100,Cast Combination,4.0,18000,1.75,0.31,Cottered,K1
-U.S. Tsubaki,RF2060,RF2060,Rivetless,6.0,42000,2.0,0.375,Cotterless,Standard
+Manufacturer,Series,Type,Pitch (in),Avg Tensile (lbs),Sidebar Height (in),Sidebar Thickness (in),Pin Style,Attachment

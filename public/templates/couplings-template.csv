@@ -1,4 +1,1 @@
-Manufacturer,Part Number,Coupling Type,Insert / Element,Series / Size,Max Bore (in),Material,Nominal Torque (in-lbs),Max RPM
-Lovejoy,L-110,Jaw,Spider,L-110,1.375,Sintered Iron,1125,6000
-TB Wood's,WE20H-1,Jaw,EPDM,WE20,1.625,Cast Iron,1800,4500
-KTR,ROTEX 28,Jaw,T-PUR,28,1.25,Aluminum,2210,12000
+Manufacturer,Part Number,Coupling Type,Insert / Element,Series / Size,Max Bore (in),Bore Type,Exact Bore (in),OD (in),Material,Nominal Torque (lb-in),Max RPM

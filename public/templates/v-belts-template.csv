@@ -1,4 +1,1 @@
-Manufacturer,Part Number,Section,Strands,Length,Length Type,Top Width (in),Construction,Match-Free
-Gates,A60,A,1,62,Outside,0.5,Wrapped,No
-MBL,B75,B,1,78,Outside,0.66,Raw Edge,No
-Continental (ContiTech),3VX600,3VX,1,60,Outside,0.375,Notched,Yes
+Manufacturer,Part Number,Section,Strands,Length (in),Length Type,Top Width (per strand),Construction,Match-Free

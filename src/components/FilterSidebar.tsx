@@ -334,7 +334,7 @@ export default function FilterSidebar({
   const enclosureValues = getDistinctValues(results, 'enclosure_type');
   const ipValues = getDistinctValues(results, 'ip_rating');
   const mountingValues = getDistinctValues(results, 'mounting');
-  const freqValues = getDistinctValues(results, 'frequency_hz');
+  const freqValues = getDistinctValues(results, 'frequency');
   const rotationValues = getDistinctValues(results, 'rotation');
   const electricalValues = getDistinctValues(results, 'electrical_type');
 

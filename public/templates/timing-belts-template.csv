@@ -1,3 +1,1 @@
-manufacturer_name,model_number,product_name,belt_profile,pitch_mm,width_mm,number_of_teeth,belt_length_mm,material,reinforcement,temperature_range_min_c,temperature_range_max_c,max_linear_speed_m_s,tensile_strength_n,weight_per_meter_g,color,antistatic,food_grade,certifications,datasheet_url,image_url,product_url,application_notes,country_of_origin,lead_time_weeks,list_price_usd,warranty_years
-Gates,8MGT-1280-36,PowerGrip GT4 Timing Belt,GT3,8,36,160,1280,Rubber,Fiberglass,-30,100,60,12500,380,Black,No,No,,,,,"High torque industrial drives, packaging machinery",USA,2,,1
-Continental,HTD 960-8M-30,ContiSync HTD Timing Belt,HTD,8,30,120,960,Rubber,Fiberglass,-30,100,50,9800,290,Black,No,No,,,,,"General industrial synchronous drives",Germany,3,,1
+Manufacturer,Part Number,Profile / System,Construction Material,Cord Material,Single Vs. Double Sided,Pitch (mm),Width (mm),Length (mm),No. of Teeth
