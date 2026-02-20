@@ -83,9 +83,12 @@ export default function ProductDetailPage({ params }: Props) {
 
               {/* Action buttons */}
               <div className="flex flex-wrap gap-3 mt-6">
-                <button className="btn-primary">
+                <a
+                  href={`mailto:partners@specbase.co?subject=Quote Request: ${product.model_number}&body=I'd like to request a quote for ${product.name} (${product.model_number}) from ${product.manufacturer?.name || 'manufacturer'}.`}
+                  className="btn-primary inline-flex items-center gap-2"
+                >
                   Request Quote
-                </button>
+                </a>
                 {product.datasheet_url ? (
                   <a
                     href={product.datasheet_url}
@@ -142,9 +145,6 @@ export default function ProductDetailPage({ params }: Props) {
                 </div>
                 <div>
                   <p className="font-semibold text-navy-800 dark:text-cream-200">{product.manufacturer?.name}</p>
-                  {product.manufacturer?.partnership_status === 'active' && (
-                    <p className="text-xs text-green-600 dark:text-green-400 font-medium">Verified Partner</p>
-                  )}
                 </div>
               </div>
               <p className="text-sm text-navy-500 dark:text-cream-400 leading-relaxed">

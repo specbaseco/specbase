@@ -1,6 +1,21 @@
 import Link from 'next/link';
 import { categories, products } from '@/lib/data';
 
+const templateMap: Record<string, string> = {
+  motors: 'motors-template.csv',
+  gearboxes: 'gearboxes-template.csv',
+  'roller-chain': 'roller-chain-template.csv',
+  'timing-belts': 'timing-belts-template.csv',
+  bearings: 'bearings-template.csv',
+  'v-belts': 'v-belts-template.csv',
+  sheaves: 'sheaves-template.csv',
+  sprockets: 'sprockets-template.csv',
+  bushings: 'bushings-template.csv',
+  couplings: 'couplings-template.csv',
+  'engineering-chain': 'engineering-chain-template.csv',
+  gearmotors: 'gearmotors-template.csv',
+};
+
 export default function ManufacturersPage() {
   return (
     <div className="bg-cream-100 dark:bg-navy-900 min-h-screen">
@@ -115,12 +130,16 @@ export default function ManufacturersPage() {
                   </p>
 
                   <div className="mt-5 space-y-2">
-                    <button className="w-full btn-primary text-sm !py-2.5">
+                    <a
+                      href={`/templates/${templateMap[cat.slug] || 'motors-template.csv'}`}
+                      download
+                      className="w-full btn-primary text-sm !py-2.5 block text-center"
+                    >
                       Download Template (.csv)
-                    </button>
-                    <button className="w-full btn-secondary text-sm !py-2.5">
-                      Submit via API
-                    </button>
+                    </a>
+                    <Link href="/api-docs" className="w-full btn-secondary text-sm !py-2.5 block text-center">
+                      View API Docs
+                    </Link>
                   </div>
                 </div>
               );

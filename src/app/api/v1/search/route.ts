@@ -78,11 +78,15 @@ export async function GET(request: NextRequest) {
     return formatApiError('Query parameter "q" is required for GET requests. Use POST for structured queries.', 400);
   }
 
+  const { page, limit } = sanitizePagination(searchParams.get('page'), searchParams.get('limit'));
   const results = searchProducts(q);
+  const total = results.length;
+  const start = (page - 1) * limit;
+  const paged = results.slice(start, start + limit);
 
   return formatApiResponse(
-    { products: results, total: results.length },
-    { total: results.length, page: 1, limit: results.length }
+    { products: paged, total },
+    { total, page, limit }
   );
 }
 

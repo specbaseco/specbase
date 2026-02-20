@@ -13,7 +13,8 @@ export async function GET(request: NextRequest) {
     results = results.filter(m => catMfrs.includes(m.id));
   }
 
-  const withCounts = results.map(m => ({
+  // Strip internal business fields from public API
+  const withCounts = results.map(({ partnership_status, featured, ...m }) => ({
     ...m,
     product_count: products.filter(p => p.manufacturer_id === m.id).length,
   }));

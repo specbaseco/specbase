@@ -26,7 +26,7 @@ export default function Navbar() {
             <Link href="/why" className="px-4 py-2 rounded-lg text-sm font-medium text-cream-300 hover:text-white hover:bg-navy-700 transition-colors">
               Why SpecBase
             </Link>
-            <Link href="/" className="px-4 py-2 rounded-lg text-sm font-medium text-cream-300 hover:text-white hover:bg-navy-700 transition-colors">
+            <Link href="/search" className="px-4 py-2 rounded-lg text-sm font-medium text-cream-300 hover:text-white hover:bg-navy-700 transition-colors">
               Search
             </Link>
             <Link href="/configure" className="px-4 py-2 rounded-lg text-sm font-medium text-cream-300 hover:text-white hover:bg-navy-700 transition-colors">
@@ -82,7 +82,7 @@ export default function Navbar() {
             <Link href="/why" className="block px-4 py-2 rounded-lg text-sm text-cream-300 hover:text-white hover:bg-navy-700" onClick={() => setMobileOpen(false)}>
               Why SpecBase
             </Link>
-            <Link href="/" className="block px-4 py-2 rounded-lg text-sm text-cream-300 hover:text-white hover:bg-navy-700" onClick={() => setMobileOpen(false)}>
+            <Link href="/search" className="block px-4 py-2 rounded-lg text-sm text-cream-300 hover:text-white hover:bg-navy-700" onClick={() => setMobileOpen(false)}>
               Search
             </Link>
             <Link href="/configure" className="block px-4 py-2 rounded-lg text-sm text-cream-300 hover:text-white hover:bg-navy-700" onClick={() => setMobileOpen(false)}>

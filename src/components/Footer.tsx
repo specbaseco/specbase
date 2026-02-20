@@ -23,7 +23,7 @@ export default function Footer() {
             <h4 className="text-white font-medium mb-4 text-sm uppercase tracking-wider">Product</h4>
             <ul className="space-y-2.5">
               <li><Link href="/why" className="text-sm hover:text-white transition-colors">Why SpecBase</Link></li>
-              <li><Link href="/" className="text-sm hover:text-white transition-colors">Search Products</Link></li>
+              <li><Link href="/search" className="text-sm hover:text-white transition-colors">Search Products</Link></li>
               <li><Link href="/configure" className="text-sm hover:text-white transition-colors">Configure</Link></li>
               <li><Link href="/crossover" className="text-sm hover:text-white transition-colors">Crossover Lookup</Link></li>
               <li><Link href="/api-docs" className="text-sm hover:text-white transition-colors">API Documentation</Link></li>
@@ -58,9 +58,7 @@ export default function Footer() {
             &copy; {new Date().getFullYear()} SpecBase. All rights reserved.
           </p>
           <div className="flex gap-6">
-            <Link href="#" className="text-xs text-cream-400 hover:text-white transition-colors">Privacy Policy</Link>
-            <Link href="#" className="text-xs text-cream-400 hover:text-white transition-colors">Terms of Service</Link>
-            <Link href="#" className="text-xs text-cream-400 hover:text-white transition-colors">Contact</Link>
+            <a href="mailto:partners@specbase.co" className="text-xs text-cream-400 hover:text-white transition-colors">Contact</a>
           </div>
         </div>
       </div>

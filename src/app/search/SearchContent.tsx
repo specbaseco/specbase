@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import SearchBar from '@/components/SearchBar';
 import ProductCard from '@/components/ProductCard';
@@ -49,6 +49,7 @@ export default function SearchContent() {
   const [selectedManufacturer, setSelectedManufacturer] = useState('');
   const [sortBy, setSortBy] = useState('relevance');
   const [specFilters, setSpecFilters] = useState<SpecFilters>({ ...emptyFilters });
+  const [visibleCount, setVisibleCount] = useState(50);
 
   // Primary search results (from query + category + manufacturer)
   const primaryResults = useMemo(() => {
@@ -319,6 +320,11 @@ export default function SearchContent() {
     return filtered;
   }, [primaryResults, specFilters, sortBy]);
 
+  // Reset visible count when results change
+  useEffect(() => { setVisibleCount(50); }, [results.length, selectedCategory, selectedManufacturer, specFilters]);
+
+  const visibleResults = results.slice(0, visibleCount);
+
   const categoryName = selectedCategory
     ? categories.find(c => c.id === selectedCategory || c.slug === selectedCategory)?.name
     : null;
@@ -488,9 +494,19 @@ export default function SearchContent() {
             {/* Product list */}
             {results.length > 0 ? (
               <div className="space-y-3">
-                {results.map(product => (
+                {visibleResults.map(product => (
                   <ProductCard key={product.id} product={product} />
                 ))}
+                {visibleCount < results.length && (
+                  <div className="text-center pt-4">
+                    <button
+                      onClick={() => setVisibleCount(prev => prev + 50)}
+                      className="btn-secondary text-sm !py-2.5 !px-6"
+                    >
+                      Load more ({results.length - visibleCount} remaining)
+                    </button>
+                  </div>
+                )}
               </div>
             ) : (
               <div className="card p-12 text-center">

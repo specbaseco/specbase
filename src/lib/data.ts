@@ -107,9 +107,13 @@ export function getProductWithRelations(productId: string) {
   const product = products.find(p => p.id === productId);
   if (!product) return null;
 
+  const mfr = manufacturers.find(m => m.id === product.manufacturer_id);
+  // Strip internal business fields from public responses
+  const safeMfr = mfr ? (() => { const { partnership_status, featured, ...rest } = mfr; return rest; })() : undefined;
+
   return {
     ...product,
-    manufacturer: manufacturers.find(m => m.id === product.manufacturer_id),
+    manufacturer: safeMfr,
     category: categories.find(c => c.id === product.category_id),
   };
 }
