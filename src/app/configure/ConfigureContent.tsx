@@ -27,6 +27,7 @@ const emptyFilters: SpecFilters = {
   couplingType: '', couplingMaterial: '',
   engSeries: '', engChainType: '', pinStyle: '',
   gearingStyle: '', orientation: '', environment: '',
+  gearmotorSeries: '', gearmotorEnclosure: '', gearmotorMotorType: '', gearmotorVoltage: '', gearmotorPhase: '',
 };
 
 // ─── Utility: extract distinct values from results ───
@@ -139,6 +140,14 @@ function getFiltersForCategory(categoryId: string): FilterDef[] {
         { key: 'gearingStyle', label: 'Gearing Style', specKey: 'gearing_style', defaultOpen: true },
         { key: 'orientation', label: 'Orientation', specKey: 'orientation', defaultOpen: true },
         { key: 'environment', label: 'Environment', specKey: 'environment' },
+      ];
+    case 'cat-gearmotors':
+      return [
+        { key: 'gearmotorSeries', label: 'Series', specKey: 'series', defaultOpen: true },
+        { key: 'gearmotorEnclosure', label: 'Enclosure', specKey: 'enclosure_type', defaultOpen: true },
+        { key: 'gearmotorMotorType', label: 'Motor Type', specKey: 'motor_type', defaultOpen: true },
+        { key: 'gearmotorVoltage', label: 'Voltage', specKey: 'voltage' },
+        { key: 'gearmotorPhase', label: 'Phase', specKey: 'phase' },
       ];
     default:
       return [];

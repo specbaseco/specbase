@@ -194,6 +194,19 @@ function CrossoverCard({ match, source }: { match: CrossoverMatch; source: Produ
         { label: 'Ratio', src: sv('ratio_range'), cand: cv('ratio_range'), key: 'Ratio' },
       ];
     }
+    if (catId === 'cat-gearmotors') {
+      return [
+        { label: 'Horsepower', src: sv('horsepower'), cand: cv('horsepower'), key: 'Horsepower' },
+        { label: 'Output RPM', src: sv('output_rpm'), cand: cv('output_rpm'), key: 'Output RPM' },
+        { label: 'Ratio', src: sv('ratio'), cand: cv('ratio'), key: 'Ratio' },
+        { label: 'Torque (lb-in)', src: sv('torque'), cand: cv('torque'), key: 'Torque (lb-in)' },
+        { label: 'Series', src: sv('series'), cand: cv('series'), key: 'Series' },
+        { label: 'Enclosure', src: sv('enclosure_type'), cand: cv('enclosure_type'), key: 'Enclosure' },
+        { label: 'Voltage', src: sv('voltage'), cand: cv('voltage'), key: 'Voltage' },
+        { label: 'Phase', src: sv('phase'), cand: cv('phase'), key: 'Phase' },
+        { label: 'Motor Type', src: sv('motor_type'), cand: cv('motor_type'), key: 'Motor Type' },
+      ];
+    }
     // Generic fallback: pick up to 6 non-empty spec keys
     return Object.keys(sourceSpecs || {})
       .filter(k => sourceSpecs[k] !== undefined && sourceSpecs[k] !== null && sourceSpecs[k] !== '')
@@ -534,6 +547,19 @@ export default function CrossoverContent() {
                           { label: 'Max HP', keys: ['max_input_hp'] },
                           { label: 'Torque', keys: ['output_torque'] },
                           { label: 'Ratio', keys: ['ratio_range'] },
+                        ];
+                      }
+                      if (catId === 'cat-gearmotors') {
+                        return [
+                          { label: 'HP', keys: ['horsepower'] },
+                          { label: 'Output RPM', keys: ['output_rpm'] },
+                          { label: 'Ratio', keys: ['ratio'] },
+                          { label: 'Torque (lb-in)', keys: ['torque'] },
+                          { label: 'Series', keys: ['series'] },
+                          { label: 'Enclosure', keys: ['enclosure_type'] },
+                          { label: 'Voltage', keys: ['voltage'] },
+                          { label: 'Phase', keys: ['phase'] },
+                          { label: 'Motor Type', keys: ['motor_type'] },
                         ];
                       }
                       // Generic fallback

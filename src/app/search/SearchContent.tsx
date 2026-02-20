@@ -35,6 +35,8 @@ const emptyFilters: SpecFilters = {
   engSeries: '', engChainType: '', pinStyle: '',
   // Gearboxes
   gearingStyle: '', orientation: '', environment: '',
+  // Gearmotors
+  gearmotorSeries: '', gearmotorEnclosure: '', gearmotorMotorType: '', gearmotorVoltage: '', gearmotorPhase: '',
 };
 
 export default function SearchContent() {
@@ -287,6 +289,23 @@ export default function SearchContent() {
     }
     if (specFilters.environment) {
       filtered = filtered.filter(p => p.specifications?.environment === specFilters.environment);
+    }
+
+    // ─── Gearmotor Filters ───
+    if (specFilters.gearmotorSeries) {
+      filtered = filtered.filter(p => p.specifications?.series === specFilters.gearmotorSeries);
+    }
+    if (specFilters.gearmotorEnclosure) {
+      filtered = filtered.filter(p => p.specifications?.enclosure_type === specFilters.gearmotorEnclosure);
+    }
+    if (specFilters.gearmotorMotorType) {
+      filtered = filtered.filter(p => p.specifications?.motor_type === specFilters.gearmotorMotorType);
+    }
+    if (specFilters.gearmotorVoltage) {
+      filtered = filtered.filter(p => p.specifications?.voltage === specFilters.gearmotorVoltage);
+    }
+    if (specFilters.gearmotorPhase) {
+      filtered = filtered.filter(p => p.specifications?.phase === specFilters.gearmotorPhase);
     }
 
     // Sort

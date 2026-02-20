@@ -83,6 +83,12 @@ export interface SpecFilters {
   gearingStyle: string;
   orientation: string;
   environment: string;
+  // Gearmotors
+  gearmotorSeries: string;
+  gearmotorEnclosure: string;
+  gearmotorMotorType: string;
+  gearmotorVoltage: string;
+  gearmotorPhase: string;
 }
 
 interface FilterSidebarProps {
@@ -138,6 +144,8 @@ const defaultSpecFilters: SpecFilters = {
   engSeries: '', engChainType: '', pinStyle: '',
   // Gearboxes
   gearingStyle: '', orientation: '', environment: '',
+  // Gearmotors
+  gearmotorSeries: '', gearmotorEnclosure: '', gearmotorMotorType: '', gearmotorVoltage: '', gearmotorPhase: '',
 };
 
 // Collapsible filter section
@@ -406,6 +414,13 @@ export default function FilterSidebar({
   const orientationValues = getDistinctValues(results, 'orientation');
   const environmentValues = getDistinctValues(results, 'environment');
 
+  // Compute facets from results — Gearmotors
+  const gearmotorSeriesValues = getDistinctValues(results, 'series');
+  const gearmotorEnclosureValues = getDistinctValues(results, 'enclosure_type');
+  const gearmotorMotorTypeValues = getDistinctValues(results, 'motor_type');
+  const gearmotorVoltageValues = getDistinctValues(results, 'voltage');
+  const gearmotorPhaseValues = getDistinctValues(results, 'phase');
+
   const handleSpecFilter = (key: keyof SpecFilters, value: string) => {
     if (onSpecFilterChange) {
       onSpecFilterChange(key, value);
@@ -435,6 +450,8 @@ export default function FilterSidebar({
     'engSeries', 'engChainType', 'pinStyle',
     // Gearboxes
     'gearingStyle', 'orientation', 'environment',
+    // Gearmotors
+    'gearmotorSeries', 'gearmotorEnclosure', 'gearmotorMotorType', 'gearmotorVoltage', 'gearmotorPhase',
   ];
   const moreKeys: (keyof SpecFilters)[] = [
     'efficiencyClass', 'efficiencyPercent', 'powerFactor', 'fullLoadAmps',
@@ -1075,6 +1092,48 @@ export default function FilterSidebar({
                 onSelect={(v) => handleSpecFilter('environment', v)}
               />
             </FilterSection>
+          )}
+
+          {/* ─── Gearmotors Filters ─── */}
+
+          {(selectedCategory === 'cat-gearmotors' || selectedCategory === 'gearmotors') && (
+            <>
+              <FilterSection title="Series" defaultOpen={false}>
+                <FilterChips
+                  values={gearmotorSeriesValues}
+                  selected={specFilters.gearmotorSeries}
+                  onSelect={(v) => handleSpecFilter('gearmotorSeries', v)}
+                />
+              </FilterSection>
+              <FilterSection title="Enclosure" defaultOpen={false}>
+                <FilterChips
+                  values={gearmotorEnclosureValues}
+                  selected={specFilters.gearmotorEnclosure}
+                  onSelect={(v) => handleSpecFilter('gearmotorEnclosure', v)}
+                />
+              </FilterSection>
+              <FilterSection title="Motor Type" defaultOpen={false}>
+                <FilterChips
+                  values={gearmotorMotorTypeValues}
+                  selected={specFilters.gearmotorMotorType}
+                  onSelect={(v) => handleSpecFilter('gearmotorMotorType', v)}
+                />
+              </FilterSection>
+              <FilterSection title="Voltage" defaultOpen={false}>
+                <FilterChips
+                  values={gearmotorVoltageValues}
+                  selected={specFilters.gearmotorVoltage}
+                  onSelect={(v) => handleSpecFilter('gearmotorVoltage', v)}
+                />
+              </FilterSection>
+              <FilterSection title="Phase" defaultOpen={false}>
+                <FilterChips
+                  values={gearmotorPhaseValues}
+                  selected={specFilters.gearmotorPhase}
+                  onSelect={(v) => handleSpecFilter('gearmotorPhase', v)}
+                />
+              </FilterSection>
+            </>
           )}
 
           {/* ─── More Options ─── */}

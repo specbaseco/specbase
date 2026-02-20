@@ -40,3 +40,8 @@ next-env.d.ts
 # templates (not needed for deployment)
 /templates/
 .claude/
+
+# data files (Excel spreadsheets tracked locally, not in git)
+/data/*.xlsx
+/data/*.xls
+/data/*.csv

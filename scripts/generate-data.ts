@@ -1,43 +1,82 @@
 /**
  * generate-data.ts
- * Reads Master_Template_Complete.xlsx and generates src/lib/spreadsheet-data.ts
+ * Reads a master Excel spreadsheet and generates src/lib/spreadsheet-data.ts
  * with typed product arrays for each category.
  *
- * Usage: npx tsx scripts/generate-data.ts
+ * Usage:
+ *   npm run generate                              # uses data/Master_Template_Complete.xlsx
+ *   npm run generate -- /path/to/spreadsheet.xlsx  # custom path
+ *   EXCEL_PATH=/path/to/file.xlsx npm run generate # via env var
+ *
+ * Resolution order for Excel path:
+ *   1. CLI argument (process.argv[2])
+ *   2. EXCEL_PATH environment variable
+ *   3. data/Master_Template_Complete.xlsx (project default)
  */
 
 import * as XLSX from 'xlsx';
 import * as fs from 'fs';
 import * as path from 'path';
 
-const EXCEL_PATH = path.resolve('/Users/jarvisjah/Downloads/Master_Template_Complete.xlsx');
+function resolveExcelPath(): string {
+  // 1. CLI argument
+  if (process.argv[2]) {
+    const p = path.resolve(process.argv[2]);
+    if (!fs.existsSync(p)) {
+      console.error(`❌ File not found: ${p}`);
+      process.exit(1);
+    }
+    return p;
+  }
+  // 2. Environment variable
+  if (process.env.EXCEL_PATH) {
+    const p = path.resolve(process.env.EXCEL_PATH);
+    if (!fs.existsSync(p)) {
+      console.error(`❌ File not found (EXCEL_PATH): ${p}`);
+      process.exit(1);
+    }
+    return p;
+  }
+  // 3. Default: data/ folder in project root
+  const defaultPath = path.resolve(__dirname, '../data/Master_Template_Complete.xlsx');
+  if (!fs.existsSync(defaultPath)) {
+    console.error(`❌ No spreadsheet found. Place your Excel file at:`);
+    console.error(`   ${defaultPath}`);
+    console.error(`\n   Or specify a path:`);
+    console.error(`   npm run generate -- /path/to/spreadsheet.xlsx`);
+    process.exit(1);
+  }
+  return defaultPath;
+}
+
+const EXCEL_PATH = resolveExcelPath();
 const OUTPUT_PATH = path.resolve(__dirname, '../src/lib/spreadsheet-data.ts');
 
 // ── Column → Spec Key Mappings ──
 
 const MOTOR_MAP: Record<string, string> = {
-  'HP': 'horsepower',
+  'Horsepower': 'horsepower',
   'Frame Size': 'frame_size',
   'Enclosure': 'enclosure_type',
-  'Speed (RPM)': 'rpm_full_load',
+  'Speed': 'rpm_full_load',
   'Voltage': 'voltage',
   'Phase': 'phase',
   'Mounting': 'mounting_type',
   'Rotation': 'rotation',
   'Electrical Type': 'electrical_type',
   'Efficiency %': 'efficiency_percentage',
-  'FLA': 'full_load_amps',
+  'Full Load Amps (FLA)': 'full_load_amps',
   'Service Factor': 'service_factor',
-  'Weight (lbs)': 'weight_lbs',
+  'Weight': 'weight_lbs',
 };
 
 const BEARING_MAP: Record<string, string> = {
   'Housing Style': 'housing_style',
   'Internals': 'internals',
-  'Shaft Size': 'shaft_size',
-  'Bolt-to-Bolt': 'bolt_to_bolt',
+  'Shaft Size (in)': 'shaft_size',
+  'Bolt-to-Bolt (in)': 'bolt_to_bolt',
   'Locking Type': 'locking_type',
-  'Dynamic Load (lbf)': 'dynamic_load_lbf',
+  'Dynamic Load (kN)': 'dynamic_load_kn',
   'Lubrication': 'lubrication',
 };
 
@@ -47,7 +86,7 @@ const ROLLER_CHAIN_MAP: Record<string, string> = {
   'Roller Width (in)': 'roller_width',
   'Roller Diameter (in)': 'roller_diameter',
   'Pin Diameter (in)': 'pin_diameter',
-  'Tensile Strength (lbf)': 'tensile_strength',
+  'Tensile Strength (lbs)': 'tensile_strength',
   'Strand Count': 'strand_count',
   'Material': 'material',
 };
@@ -55,9 +94,9 @@ const ROLLER_CHAIN_MAP: Record<string, string> = {
 const VBELT_MAP: Record<string, string> = {
   'Section': 'section',
   'Strands': 'strands',
-  'Length': 'length',
+  'Length (in)': 'length',
   'Length Type': 'length_type',
-  'Top Width (in)': 'top_width',
+  'Top Width (per strand)': 'top_width',
   'Construction': 'construction',
   'Match-Free': 'match_free',
 };
@@ -67,21 +106,22 @@ const SHEAVE_MAP: Record<string, string> = {
   'Grooves': 'grooves',
   'Bushing Type': 'bushing_type',
   'Bushing Series': 'bushing_series',
-  'Pitch Dia (in)': 'pitch_diameter',
-  'OD (in)': 'outer_diameter',
+  'Pitch Diameter (in)': 'pitch_diameter',
+  'Outside Diameter (in)': 'outer_diameter',
   'Face Width (in)': 'face_width',
   'Material': 'material',
-  'Weight (lbs)': 'weight_lbs',
+  'Approx Weight (lbs)': 'weight_lbs',
 };
 
 const TIMING_BELT_MAP: Record<string, string> = {
   'Profile / System': 'profile',
-  'Construction / Cord Material': 'construction',
-  'Single / Double': 'sided',
+  'Construction Material': 'construction',
+  'Cord Material': 'cord_material',
+  'Single Vs. Double Sided': 'sided',
   'Pitch (mm)': 'pitch_mm',
   'Width (mm)': 'width_mm',
   'Length (mm)': 'length_mm',
-  'Teeth': 'teeth',
+  'No. of Teeth': 'teeth',
 };
 
 const SPROCKET_MAP: Record<string, string> = {
@@ -89,9 +129,9 @@ const SPROCKET_MAP: Record<string, string> = {
   'Teeth': 'teeth',
   'Hub Style': 'hub_style',
   'Bore Type': 'bore_type',
-  'Bushing / Bore Size': 'bore_size',
+  'Bushing/Bore Size': 'bore_size',
   'Hardened Teeth': 'hardened_teeth',
-  'Pitch Dia (in)': 'pitch_diameter',
+  'Pitch Diameter (in)': 'pitch_diameter',
   'OD (in)': 'outer_diameter',
   'Material': 'material',
   'LTB': 'ltb',
@@ -103,11 +143,11 @@ const BUSHING_MAP: Record<string, string> = {
   'Max Bore (in)': 'max_bore',
   'Bore Type': 'bore_type',
   'Exact Bore (in)': 'exact_bore',
-  'Keyway': 'keyway',
-  'OD (in)': 'outer_diameter',
+  'Keyway Size (in)': 'keyway',
+  'OD / Flange Dia (in)': 'outer_diameter',
   'Length (in)': 'length',
   'Bolt Circle (in)': 'bolt_circle',
-  'Hardware Included': 'hardware_included',
+  'Hardware Required': 'hardware_included',
 };
 
 const COUPLING_MAP: Record<string, string> = {
@@ -115,8 +155,12 @@ const COUPLING_MAP: Record<string, string> = {
   'Insert / Element': 'insert_element',
   'Series / Size': 'series_size',
   'Max Bore (in)': 'max_bore',
+  'Bore Type': 'bore_type',
+  'Exact Bore (in)': 'exact_bore',
+  'Keyway Size (in)': 'keyway',
+  'OD (in)': 'outer_diameter',
   'Material': 'material',
-  'Nominal Torque (in-lbs)': 'nominal_torque',
+  'Nominal Torque (lb-in)': 'nominal_torque',
   'Max RPM': 'max_rpm',
 };
 
@@ -145,6 +189,18 @@ const GEARBOX_MAP: Record<string, string> = {
   'Efficiency %': 'efficiency_percentage',
 };
 
+const GEARMOTOR_MAP: Record<string, string> = {
+  'Horsepower': 'horsepower',
+  'Output RPM': 'output_rpm',
+  'Ratio': 'ratio',
+  'Torque (lb-in)': 'torque',
+  'Series': 'series',
+  'Enclosure': 'enclosure_type',
+  'Voltage': 'voltage',
+  'Phase': 'phase',
+  'Motor Type': 'motor_type',
+};
+
 // ── Sheet name → config ──
 interface SheetConfig {
   sheetName: string;
@@ -167,6 +223,7 @@ const SHEET_CONFIGS: SheetConfig[] = [
   { sheetName: 'Couplings', categoryId: 'cat-couplings', specMap: COUPLING_MAP, idPrefix: 'xl-coupling' },
   { sheetName: 'Engineering Chain', categoryId: 'cat-engchain', specMap: ENG_CHAIN_MAP, idPrefix: 'xl-engchain', partNumberFallback: ['Series', 'Type', 'Pitch (in)'] },
   { sheetName: 'Gearboxes', categoryId: 'cat-gearboxes', specMap: GEARBOX_MAP, idPrefix: 'xl-gearbox', partNumberFallback: ['Series', 'Orientation', 'Gearing Style'] },
+  { sheetName: 'Gearmotors', categoryId: 'cat-gearmotors', specMap: GEARMOTOR_MAP, idPrefix: 'xl-gearmotor' },
 ];
 
 // ── Manufacturer Name Normalization ──
@@ -247,28 +304,105 @@ function normalizeManufacturer(raw: string): { id: string; name: string } {
   return { id: `mfr-${slug}`, name: trimmed };
 }
 
+// ── Validation ──
+interface ValidationWarning {
+  sheet: string;
+  row: number;
+  message: string;
+}
+
+function validateRow(
+  config: SheetConfig,
+  row: Record<string, any>,
+  rowIndex: number,
+  warnings: ValidationWarning[]
+) {
+  // Check for missing spec columns (column name in specMap doesn't match any header)
+  const rowKeys = Object.keys(row);
+  for (const excelCol of Object.keys(config.specMap)) {
+    if (!rowKeys.includes(excelCol)) {
+      // Only warn once per sheet per missing column (tracked outside this fn)
+      warnings.push({
+        sheet: config.sheetName,
+        row: rowIndex,
+        message: `Column "${excelCol}" not found in sheet headers`,
+      });
+    }
+  }
+
+  // Check for empty manufacturer
+  if (!String(row['Manufacturer'] || '').trim()) {
+    warnings.push({
+      sheet: config.sheetName,
+      row: rowIndex,
+      message: 'Missing Manufacturer',
+    });
+  }
+
+  // Check for empty part number
+  const partNumberCol = config.partNumberCol || 'Part Number';
+  const partNumber = String(row[partNumberCol] || '').trim();
+  if (!partNumber && !config.partNumberFallback) {
+    warnings.push({
+      sheet: config.sheetName,
+      row: rowIndex,
+      message: `Missing ${partNumberCol}`,
+    });
+  }
+}
+
 // ── Main ──
 function main() {
-  console.log(`Reading ${EXCEL_PATH}...`);
+  console.log(`\n📊 SpecBase Data Generator`);
+  console.log(`${'─'.repeat(50)}`);
+  console.log(`Source:  ${EXCEL_PATH}`);
+  console.log(`Output:  ${OUTPUT_PATH}`);
+  console.log(`${'─'.repeat(50)}\n`);
+
   const wb = XLSX.readFile(EXCEL_PATH);
+  console.log(`Sheets found: ${wb.SheetNames.join(', ')}\n`);
 
   const allManufacturers = new Map<string, { id: string; name: string }>();
   const categoryArrays: Record<string, string> = {};
+  const warnings: ValidationWarning[] = [];
+  const stats: { sheet: string; rows: number; products: number; skipped: number }[] = [];
+  let totalProducts = 0;
+
+  // Track which missing-column warnings we've already reported (once per sheet)
+  const reportedMissingCols = new Set<string>();
 
   for (const config of SHEET_CONFIGS) {
     const ws = wb.Sheets[config.sheetName];
     if (!ws) {
-      console.warn(`  ⚠ Sheet "${config.sheetName}" not found, skipping.`);
+      console.warn(`  ⚠  Sheet "${config.sheetName}" not found, skipping.`);
+      stats.push({ sheet: config.sheetName, rows: 0, products: 0, skipped: 0 });
       continue;
     }
 
     const rows: Record<string, any>[] = XLSX.utils.sheet_to_json(ws, { defval: '' });
-    console.log(`  ${config.sheetName}: ${rows.length} rows`);
+
+    // Validate first row to check column names (only report missing columns once)
+    if (rows.length > 0) {
+      const rowKeys = Object.keys(rows[0]);
+      for (const excelCol of Object.keys(config.specMap)) {
+        const key = `${config.sheetName}::${excelCol}`;
+        if (!rowKeys.includes(excelCol) && !reportedMissingCols.has(key)) {
+          reportedMissingCols.add(key);
+          warnings.push({
+            sheet: config.sheetName,
+            row: 0,
+            message: `Expected column "${excelCol}" not found in headers: [${rowKeys.slice(0, 5).join(', ')}${rowKeys.length > 5 ? '...' : ''}]`,
+          });
+        }
+      }
+    }
 
     const products: string[] = [];
-    let idx = 0;
+    let skipped = 0;
+    const usedIds = new Set<string>(); // Track IDs to handle duplicates
 
-    for (const row of rows) {
+    for (let r = 0; r < rows.length; r++) {
+      const row = rows[r];
       const mfrRaw = String(row['Manufacturer'] || '').trim();
 
       // Determine part number from column or fallback
@@ -283,13 +417,24 @@ function main() {
           .join(' ');
       }
 
-      if (!mfrRaw || !partNumber) continue;
+      if (!mfrRaw || !partNumber) {
+        skipped++;
+        continue;
+      }
 
       const mfr = normalizeManufacturer(mfrRaw);
       allManufacturers.set(mfr.id, mfr);
 
-      idx++;
-      const productId = `${config.idPrefix}-${idx}`;
+      // Generate stable ID from model number (slug-based, not sequential)
+      const slug = partNumber.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      let productId = `${config.idPrefix}-${slug}`;
+      // Handle duplicate model numbers within same category
+      if (usedIds.has(productId)) {
+        let suffix = 2;
+        while (usedIds.has(`${productId}-${suffix}`)) suffix++;
+        productId = `${productId}-${suffix}`;
+      }
+      usedIds.add(productId);
 
       // Build specifications object
       const specs: Record<string, string> = {};
@@ -323,17 +468,37 @@ function main() {
 
     const varName = config.idPrefix.replace(/-/g, '_') + 'Products';
     categoryArrays[varName] = products.join(',\n');
-    console.log(`    → ${products.length} valid products as ${varName}`);
+    totalProducts += products.length;
+    stats.push({ sheet: config.sheetName, rows: rows.length, products: products.length, skipped });
   }
 
   // Generate output TypeScript file
   let output = `// AUTO-GENERATED by scripts/generate-data.ts — DO NOT EDIT MANUALLY\n`;
-  output += `// Source: Master_Template_Complete.xlsx\n`;
+  output += `// Source: ${path.basename(EXCEL_PATH)}\n`;
   output += `// Generated: ${new Date().toISOString()}\n\n`;
   output += `import { Product } from '@/types';\n\n`;
 
   for (const [varName, productsStr] of Object.entries(categoryArrays)) {
-    output += `export const ${varName}: Product[] = [\n${productsStr}\n];\n\n`;
+    // For large arrays (>500 products), split into chunks to avoid TS
+    // "Expression produces a union type that is too complex" error
+    const productCount = (productsStr.match(/\n  \{/g) || []).length;
+    if (productCount > 500) {
+      const products = productsStr.split(/,\n(?=  \{)/);
+      const chunkSize = 500;
+      const chunks: string[][] = [];
+      for (let i = 0; i < products.length; i += chunkSize) {
+        chunks.push(products.slice(i, i + chunkSize));
+      }
+      // Write each chunk as a separate array
+      for (let i = 0; i < chunks.length; i++) {
+        output += `const ${varName}_${i}: Product[] = [\n${chunks[i].join(',\n')}\n];\n\n`;
+      }
+      // Combine into final export
+      const chunkNames = chunks.map((_, i) => `...${varName}_${i}`).join(', ');
+      output += `export const ${varName}: Product[] = [${chunkNames}];\n\n`;
+    } else {
+      output += `export const ${varName}: Product[] = [\n${productsStr}\n];\n\n`;
+    }
   }
 
   // Generate new manufacturers list
@@ -345,8 +510,33 @@ function main() {
   output += `];\n`;
 
   fs.writeFileSync(OUTPUT_PATH, output, 'utf-8');
-  console.log(`\nWrote ${OUTPUT_PATH}`);
-  console.log(`Total manufacturers: ${allManufacturers.size}`);
+
+  // ── Summary Report ──
+  console.log(`\n📋 Generation Summary`);
+  console.log(`${'─'.repeat(60)}`);
+  console.log(`${'Category'.padEnd(22)} ${'Rows'.padStart(6)} ${'Products'.padStart(10)} ${'Skipped'.padStart(9)}`);
+  console.log(`${'─'.repeat(60)}`);
+  for (const s of stats) {
+    const marker = s.products === 0 ? ' ⚠' : ' ✓';
+    console.log(`${marker} ${s.sheet.padEnd(20)} ${String(s.rows).padStart(6)} ${String(s.products).padStart(10)} ${String(s.skipped).padStart(9)}`);
+  }
+  console.log(`${'─'.repeat(60)}`);
+  console.log(`  TOTAL${' '.repeat(15)} ${String(stats.reduce((a, s) => a + s.rows, 0)).padStart(6)} ${String(totalProducts).padStart(10)} ${String(stats.reduce((a, s) => a + s.skipped, 0)).padStart(9)}`);
+  console.log(`\n  Manufacturers: ${allManufacturers.size}`);
+  console.log(`  Output: ${OUTPUT_PATH}`);
+
+  // Show warnings
+  if (warnings.length > 0) {
+    console.log(`\n⚠  Warnings (${warnings.length}):`);
+    for (const w of warnings.slice(0, 20)) {
+      console.log(`   ${w.sheet} row ${w.row}: ${w.message}`);
+    }
+    if (warnings.length > 20) {
+      console.log(`   ... and ${warnings.length - 20} more`);
+    }
+  }
+
+  console.log(`\n✅ Done! Run \`npm run build\` to compile, then deploy.\n`);
 }
 
 // Build a brief spec summary for product names
@@ -417,6 +607,13 @@ function buildSpecSummary(categoryId: string, specs: Record<string, string>): st
       const parts = [];
       if (specs.gearing_style) parts.push(specs.gearing_style);
       if (specs.orientation) parts.push(specs.orientation);
+      return parts.join(', ');
+    }
+    case 'cat-gearmotors': {
+      const parts = [];
+      if (specs.horsepower) parts.push(`${specs.horsepower} HP`);
+      if (specs.output_rpm) parts.push(`${specs.output_rpm} RPM`);
+      if (specs.ratio) parts.push(`${specs.ratio}:1`);
       return parts.join(', ');
     }
     default: return '';

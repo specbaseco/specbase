@@ -12,6 +12,7 @@ import {
   xl_couplingProducts,
   xl_engchainProducts,
   xl_gearboxProducts,
+  xl_gearmotorProducts,
 } from './spreadsheet-data';
 
 export const categories: ProductCategory[] = [
@@ -26,6 +27,7 @@ export const categories: ProductCategory[] = [
   { id: 'cat-bushings', name: 'Bushings', slug: 'bushings', icon: 'Circle', description: 'QD, taper-lock, and split taper bushings for sheaves, sprockets, and couplings' },
   { id: 'cat-couplings', name: 'Couplings', slug: 'couplings', icon: 'Link', description: 'Jaw, gear, and flexible couplings for shaft-to-shaft power transmission' },
   { id: 'cat-engchain', name: 'Engineering Chain', slug: 'engineering-chain', icon: 'Link', description: 'Heavy-duty engineering class chain for conveyor and material handling applications' },
+  { id: 'cat-gearmotors', name: 'Gearmotors', slug: 'gearmotors', icon: 'Settings', description: 'Integrated gear-motor units combining electric motors with gearboxes for direct-drive applications' },
 ];
 
 export const manufacturers: Manufacturer[] = [
@@ -98698,16 +98700,17 @@ const chainProducts: Product[] = [
   },
 ];
 
-// Merge existing hand-curated data with spreadsheet imports
-// Dedup by model_number: existing data takes priority
-function mergeProducts(existing: Product[], imported: Product[]): Product[] {
-  const seen = new Set(existing.map(p => p.model_number.toLowerCase()));
-  const newProducts = imported.filter(p => !seen.has(p.model_number.toLowerCase()));
-  return [...existing, ...newProducts];
+// Merge spreadsheet imports with hand-curated data
+// Spreadsheet is the source of truth; hand-curated products preserved only if
+// they don't exist in the spreadsheet (by model_number, case-insensitive)
+function mergeProducts(primary: Product[], secondary: Product[]): Product[] {
+  const seen = new Set(primary.map(p => p.model_number.toLowerCase()));
+  const extras = secondary.filter(p => !seen.has(p.model_number.toLowerCase()));
+  return [...primary, ...extras];
 }
 
-const allMotors = mergeProducts(motorProducts, xl_motorProducts);
-const allChain = mergeProducts(chainProducts, xl_chainProducts);
+const allMotors = mergeProducts(xl_motorProducts, motorProducts);
+const allChain = mergeProducts(xl_chainProducts, chainProducts);
 
 export const products: Product[] = [
   ...allMotors,
@@ -98721,6 +98724,7 @@ export const products: Product[] = [
   ...xl_couplingProducts,
   ...xl_engchainProducts,
   ...xl_gearboxProducts,
+  ...xl_gearmotorProducts,
 ];
 
 // Helper functions

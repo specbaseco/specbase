@@ -105,6 +105,21 @@ function getCategorySpecs(categoryId: string, specs: Record<string, any>): { lab
         specs.ratio_range && { label: 'Ratio', value: specs.ratio_range },
       ].filter(Boolean) as { label: string; value: any }[];
 
+    case 'cat-gearmotors': {
+      const fields = [
+        { label: 'Horsepower', value: specs.horsepower },
+        { label: 'Output RPM', value: specs.output_rpm },
+        { label: 'Ratio', value: specs.ratio },
+        { label: 'Torque (lb-in)', value: specs.torque },
+        { label: 'Series', value: specs.series },
+        { label: 'Enclosure', value: specs.enclosure_type },
+        { label: 'Voltage', value: specs.voltage },
+        { label: 'Phase', value: specs.phase },
+        { label: 'Motor Type', value: specs.motor_type },
+      ];
+      return fields.filter(f => f.value);
+    }
+
     default:
       // Generic: show first 5 non-empty specs
       return Object.entries(specs)
