@@ -157,7 +157,6 @@ const COUPLING_MAP: Record<string, string> = {
   'Max Bore (in)': 'max_bore',
   'Bore Type': 'bore_type',
   'Exact Bore (in)': 'exact_bore',
-  'Keyway Size (in)': 'keyway',
   'OD (in)': 'outer_diameter',
   'Material': 'material',
   'Nominal Torque (lb-in)': 'nominal_torque',
@@ -184,7 +183,6 @@ const GEARBOX_MAP: Record<string, string> = {
   'Environment': 'environment',
   'Ratio Range': 'ratio_range',
   'Max Input HP': 'max_input_hp',
-  'Continuous Output Torque': 'continuous_output_torque',
   'Max Output Torque (lb-in)': 'output_torque',
   'Efficiency %': 'efficiency_percentage',
 };
