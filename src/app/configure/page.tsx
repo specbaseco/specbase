@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Configure - SpecBase',
-  description: 'Interactive product configurator for industrial components. Select a category, refine with filters, and find the right part across 36+ manufacturers.',
+  description: 'Interactive product configurator for industrial components. Select a category, refine with filters, and find the right part across leading manufacturers.',
 };
 
 export default function ConfigurePage() {

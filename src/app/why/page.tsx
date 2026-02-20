@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { products, manufacturers } from '@/lib/data';
 
 export const metadata: Metadata = {
   title: 'Why SpecBase - Industrial Component Intelligence',
@@ -385,7 +386,7 @@ export default function WhyPage() {
             Try it yourself
           </h2>
           <p className="text-navy-500 dark:text-cream-400 mt-3 max-w-lg mx-auto">
-            Search 2,900+ products across 8 manufacturers. No account required.
+            Search {products.length.toLocaleString()}+ products across {manufacturers.filter(m => products.some(p => p.manufacturer_id === m.id)).length} manufacturers. No account required.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
             <Link href="/search" className="btn-primary">
