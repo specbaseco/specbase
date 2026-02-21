@@ -8,6 +8,40 @@ interface Props {
   params: { id: string };
 }
 
+// Generate Schema.org Product JSON-LD for SEO and AI discovery
+function buildProductJsonLd(product: NonNullable<ReturnType<typeof getProductWithRelations>>) {
+  const specs = product.specifications || {};
+  const additionalProperties = Object.entries(specs)
+    .filter(([, v]) => v != null && v !== '')
+    .slice(0, 30)
+    .map(([key, value]) => ({
+      '@type': 'PropertyValue',
+      name: key.replace(/_/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase()),
+      value: String(value),
+    }));
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    description: product.description,
+    sku: product.model_number,
+    mpn: product.model_number,
+    brand: {
+      '@type': 'Brand',
+      name: product.manufacturer?.name || 'Unknown',
+    },
+    manufacturer: {
+      '@type': 'Organization',
+      name: product.manufacturer?.name || 'Unknown',
+      url: product.manufacturer?.website || undefined,
+    },
+    category: product.category?.name,
+    url: `https://specbase.co/products/${product.id}`,
+    additionalProperty: additionalProperties,
+  };
+}
+
 export default function ProductDetailPage({ params }: Props) {
   const product = getProductWithRelations(params.id);
 
@@ -19,8 +53,15 @@ export default function ProductDetailPage({ params }: Props) {
     .filter(p => p.category_id === product.category_id && p.id !== product.id)
     .slice(0, 3);
 
+  const jsonLd = buildProductJsonLd(product);
+
   return (
     <div className="bg-cream-100 dark:bg-navy-900 min-h-screen">
+      {/* Schema.org Product structured data for SEO and AI discovery */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Breadcrumb */}
       <div className="bg-white dark:bg-navy-800 border-b border-cream-300 dark:border-navy-700">
         <div className="container-wide py-3">

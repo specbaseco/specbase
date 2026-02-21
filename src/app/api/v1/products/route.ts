@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 import { products, manufacturers, categories } from '@/lib/data';
-import { formatApiResponse, formatApiError, sanitizePagination, corsHeaders } from '@/lib/api-helpers';
+import { formatApiResponse, formatApiError, sanitizePagination, corsHeaders, summarizeProduct } from '@/lib/api-helpers';
 
 // Strip internal business fields from manufacturer objects
 function sanitizeManufacturer(m: typeof manufacturers[number] | undefined) {
@@ -16,6 +16,15 @@ export async function GET(request: NextRequest) {
   const q = searchParams.get('q');
   const { page, limit } = sanitizePagination(searchParams.get('page'), searchParams.get('limit'));
   const sort = searchParams.get('sort') || 'relevance';
+
+  // Require at least one filter — prevents full database enumeration
+  if (!category && !manufacturer && !q) {
+    return formatApiError(
+      'At least one filter is required: category, manufacturer, or q (search query). ' +
+      'Use GET /api/v1/categories or GET /api/v1/manufacturers to discover available filters.',
+      400
+    );
+  }
 
   let results = products.map(p => ({
     ...p,
@@ -50,10 +59,10 @@ export async function GET(request: NextRequest) {
 
   const total = results.length;
   const start = (page - 1) * limit;
-  const paged = results.slice(start, start + limit).map(p => ({
-    ...p,
-    manufacturer: sanitizeManufacturer(p.manufacturer),
-  }));
+  const paged = results.slice(start, start + limit).map(p => {
+    const sanitized = { ...p, manufacturer: sanitizeManufacturer(p.manufacturer) };
+    return summarizeProduct(sanitized); // Strip full specs from list endpoint
+  });
 
   return formatApiResponse(paged, { total, page, limit });
 }

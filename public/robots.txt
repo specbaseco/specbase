@@ -1,0 +1,18 @@
+# SpecBase — Industrial Power Transmission Product Registry
+# https://specbase.co
+
+User-agent: *
+Allow: /
+Allow: /search
+Allow: /products/
+Allow: /crossover
+Allow: /manufacturers
+Allow: /configure
+Allow: /why
+Allow: /llms.txt
+
+# Block API scraping — use the API with proper rate limits instead
+Disallow: /api/
+
+# Sitemaps
+Sitemap: https://specbase.co/sitemap.xml

@@ -28,17 +28,50 @@ export function getCorsHeaders(origin?: string | null): Record<string, string> {
 // Backwards-compatible default for routes that don't pass origin
 export const corsHeaders = getCorsHeaders();
 
-/** Clamp pagination params to safe ranges */
+/** Clamp pagination params to safe ranges.
+ *  Max 20 results per page, max 500 total accessible via offset pagination.
+ *  This prevents bulk data extraction while keeping the API useful for AI agents. */
 export function sanitizePagination(page: unknown, limit: unknown): { page: number; limit: number } {
   let p = typeof page === 'string' ? parseInt(page, 10) : typeof page === 'number' ? page : 1;
   let l = typeof limit === 'string' ? parseInt(limit, 10) : typeof limit === 'number' ? limit : 20;
 
   if (isNaN(p) || p < 1) p = 1;
   if (isNaN(l) || l < 1) l = 1;
-  if (l > 100) l = 100; // Max 100 results per page
-  if (p > 1000) p = 1000; // Sanity cap
+  if (l > 20) l = 20; // Max 20 results per page — prevents bulk extraction
+  if (p > 25) p = 25; // Max page 25 → 25 × 20 = 500 products max accessible via pagination
 
   return { page: p, limit: l };
+}
+
+/** Strip full specifications from a product for list/search endpoints.
+ *  Returns only summary-level data to prevent bulk spec scraping.
+ *  Full specs are only available via individual product GET /api/v1/products/:id */
+export function summarizeProduct(product: Record<string, any>) {
+  const { specifications, ...rest } = product;
+  // Return only a handful of key specs as a preview
+  const keySpecs: Record<string, any> = {};
+  const previewKeys = [
+    'horsepower', 'voltage', 'phase', 'frame_size', // motors
+    'shaft_size', 'housing_style', // bearings
+    'pitch', 'pitch_inches', 'ansi_chain_number', // chain
+    'section', 'length', // v-belts
+    'belt_section', 'grooves', // sheaves
+    'profile', 'pitch_mm', 'width_mm', // timing belts
+    'ansi_number', 'teeth', // sprockets
+    'bushing_type', 'series', // bushings
+    'coupling_type', // couplings
+    'chain_type', // engineering chain
+    'gearing_style', 'orientation', // gearboxes
+    'motor_type', 'gear_type', // gearmotors
+  ];
+  if (specifications) {
+    for (const key of previewKeys) {
+      if (specifications[key] != null && specifications[key] !== '') {
+        keySpecs[key] = specifications[key];
+      }
+    }
+  }
+  return { ...rest, key_specs: keySpecs, _note: 'Full specifications available at GET /api/v1/products/{id}' };
 }
 
 export function formatApiResponse<T>(
@@ -71,42 +104,8 @@ export function formatApiError(message: string, status: number = 400) {
 }
 
 // Stub: API key validation - always returns true for now
+// Rate limiting is handled by middleware.ts (tiered: 30 req/min general, 10 req/min products)
 export function validateApiKey(request: Request): boolean {
-  // TODO: Implement API key validation
-  // const apiKey = request.headers.get('X-API-Key');
-  // if (!apiKey) return false;
-  // Verify against database
+  // TODO: Implement API key validation when needed
   return true;
-}
-
-// In-memory rate limiter (per-IP, sliding window)
-const rateLimitStore = new Map<string, { count: number; resetAt: number }>();
-const RATE_LIMIT_WINDOW_MS = 60_000; // 1 minute
-const RATE_LIMIT_MAX = 60; // 60 requests per minute
-
-export function checkRateLimit(identifier: string): boolean {
-  const now = Date.now();
-  const entry = rateLimitStore.get(identifier);
-
-  if (!entry || now > entry.resetAt) {
-    rateLimitStore.set(identifier, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
-    return true;
-  }
-
-  entry.count++;
-  if (entry.count > RATE_LIMIT_MAX) {
-    return false;
-  }
-
-  return true;
-}
-
-// Clean up expired entries periodically (prevent memory leak)
-if (typeof setInterval !== 'undefined') {
-  setInterval(() => {
-    const now = Date.now();
-    rateLimitStore.forEach((entry, key) => {
-      if (now > entry.resetAt) rateLimitStore.delete(key);
-    });
-  }, 60_000);
 }
