@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 import { products, manufacturers, categories } from '@/lib/data';
-import { formatApiResponse, formatApiError, sanitizePagination, corsHeaders, summarizeProduct } from '@/lib/api-helpers';
+import { formatApiResponse, formatApiError, sanitizePagination, corsHeaders } from '@/lib/api-helpers';
 
 // Strip internal business fields from manufacturer objects
 function sanitizeManufacturer(m: typeof manufacturers[number] | undefined) {
@@ -59,10 +59,10 @@ export async function GET(request: NextRequest) {
 
   const total = results.length;
   const start = (page - 1) * limit;
-  const paged = results.slice(start, start + limit).map(p => {
-    const sanitized = { ...p, manufacturer: sanitizeManufacturer(p.manufacturer) };
-    return summarizeProduct(sanitized); // Strip full specs from list endpoint
-  });
+  const paged = results.slice(start, start + limit).map(p => ({
+    ...p,
+    manufacturer: sanitizeManufacturer(p.manufacturer),
+  }));
 
   return formatApiResponse(paged, { total, page, limit });
 }

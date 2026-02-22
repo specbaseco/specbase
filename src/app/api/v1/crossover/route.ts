@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 import { findProductByModelNumber, findCrossoverProducts, manufacturers } from '@/lib/data';
-import { formatApiResponse, formatApiError, corsHeaders, summarizeProduct } from '@/lib/api-helpers';
+import { formatApiResponse, formatApiError, corsHeaders } from '@/lib/api-helpers';
 
 // POST /api/v1/crossover
 // Find equivalent products from other manufacturers by model number.
@@ -47,8 +47,8 @@ export async function POST(request: NextRequest) {
       return rest;
     })();
 
-    // Summarize match products (strip full specs from list)
-    const summarizedMatches = matches.slice(0, maxResults).map(m => {
+    // Return full product data with specs (strip only internal business fields)
+    const crossoverResults = matches.slice(0, maxResults).map(m => {
       const { product, ...matchMeta } = m;
       const { manufacturer: mfr, ...productRest } = product;
       const safeMfr = mfr ? (() => {
@@ -57,15 +57,14 @@ export async function POST(request: NextRequest) {
       })() : undefined;
       return {
         ...matchMeta,
-        product: summarizeProduct({ ...productRest, manufacturer: safeMfr }),
+        product: { ...productRest, manufacturer: safeMfr },
       };
     });
 
     return formatApiResponse({
       source: safeSource,
-      crossovers: summarizedMatches,
+      crossovers: crossoverResults,
       total_matches: matches.length,
-      _note: 'Full specifications for each product available at GET /api/v1/products/{id}',
     });
   } catch {
     return formatApiError('Invalid request body. Expected JSON with field: model_number', 400);

@@ -53,18 +53,18 @@ SpecBase provides a REST API designed for AI agent integration:
 
 ## Rate Limits
 
-- General API: 30 requests/minute
-- Product endpoints: 10 requests/minute
-- Max 20 results per page, max 25 pages (500 products per query)
-- Full specifications only available on individual product endpoints
+- 60 requests per minute per IP (all endpoints)
+- Max 50 results per page, max 25 pages (1,250 products per query)
+- At least one filter required on product list endpoint (category, manufacturer, or query)
+- Full specifications included in all responses (list, search, crossover, and individual)
 
 ## Recommended Agent Workflow
 
 1. Call `GET /api/v1/categories` to discover product types
-2. Call `POST /api/v1/search` with category + spec filters to find products
-3. Call `GET /api/v1/products/{id}` for full specs on selected products
-4. Call `POST /api/v1/crossover` to find alternatives from other manufacturers
-5. Call `POST /api/v1/compare` to compare shortlisted products side by side
+2. Call `POST /api/v1/search` with category + spec filters to find products (full specs included)
+3. Call `POST /api/v1/crossover` with a model number to find alternatives from other manufacturers
+4. Call `POST /api/v1/compare` to compare shortlisted products side by side
+5. Call `GET /api/v1/products/{id}` if you need to look up a specific product by ID
 
 ## Contact
 

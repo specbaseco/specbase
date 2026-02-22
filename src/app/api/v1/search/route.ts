@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 import { searchProducts, manufacturers, categories, products } from '@/lib/data';
-import { formatApiResponse, formatApiError, sanitizePagination, corsHeaders, summarizeProduct } from '@/lib/api-helpers';
+import { formatApiResponse, formatApiError, sanitizePagination, corsHeaders } from '@/lib/api-helpers';
 
 // Spec filter definitions per category — which spec keys support filtering
 const CATEGORY_SPEC_FILTERS: Record<string, string[]> = {
@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
 
     const total = results.length;
     const start = (page - 1) * limit;
-    const paged = results.slice(start, start + limit).map(p => summarizeProduct(p));
+    const paged = results.slice(start, start + limit);
 
     // Build facets for AI context
     const categoryFacets = categories.map(c => ({
@@ -142,7 +142,7 @@ export async function GET(request: NextRequest) {
   const results = searchProducts(q);
   const total = results.length;
   const start = (page - 1) * limit;
-  const paged = results.slice(start, start + limit).map(p => summarizeProduct(p));
+  const paged = results.slice(start, start + limit);
 
   return formatApiResponse(
     { products: paged, total },

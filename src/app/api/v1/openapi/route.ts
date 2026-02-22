@@ -53,13 +53,13 @@ const SPEC = {
           { name: 'manufacturer', in: 'query', required: false, schema: { type: 'string' }, description: 'Manufacturer slug or name' },
           { name: 'q', in: 'query', required: false, schema: { type: 'string' }, description: 'Text search query' },
           { name: 'page', in: 'query', schema: { type: 'integer', default: 1, maximum: 25 }, description: 'Page number (max 25)' },
-          { name: 'limit', in: 'query', schema: { type: 'integer', default: 20, maximum: 20 }, description: 'Results per page (max 20)' },
+          { name: 'limit', in: 'query', schema: { type: 'integer', default: 20, maximum: 50 }, description: 'Results per page (max 50)' },
           { name: 'sort', in: 'query', schema: { type: 'string', enum: ['relevance', 'name', 'manufacturer', 'newest'] } },
         ],
         responses: {
-          '200': { description: 'Product list (key specs only — full specs via individual product endpoint)' },
+          '200': { description: 'Product list with full specifications' },
           '400': { description: 'At least one filter is required' },
-          '429': { description: 'Rate limit exceeded (10 req/min for product endpoints)' },
+          '429': { description: 'Rate limit exceeded (60 req/min)' },
         },
       },
     },
@@ -98,7 +98,7 @@ const SPEC = {
                     additionalProperties: { type: 'string' },
                   },
                   page: { type: 'integer', default: 1, maximum: 25 },
-                  limit: { type: 'integer', default: 20, maximum: 20 },
+                  limit: { type: 'integer', default: 20, maximum: 50 },
                 },
               },
               examples: {
@@ -134,7 +134,7 @@ const SPEC = {
         parameters: [
           { name: 'q', in: 'query', required: true, schema: { type: 'string' }, description: 'Search query' },
           { name: 'page', in: 'query', schema: { type: 'integer', default: 1 } },
-          { name: 'limit', in: 'query', schema: { type: 'integer', default: 20, maximum: 20 } },
+          { name: 'limit', in: 'query', schema: { type: 'integer', default: 20, maximum: 50 } },
         ],
         responses: { '200': { description: 'Search results' } },
       },
@@ -247,8 +247,8 @@ const SPEC = {
     },
   },
   'x-rate-limits': {
-    general: '30 requests per minute',
-    products: '10 requests per minute (products, search, compare, crossover)',
+    all_endpoints: '60 requests per minute per IP',
+    pagination: 'Max 50 results per page, max 25 pages (1,250 products per query)',
   },
 };
 
