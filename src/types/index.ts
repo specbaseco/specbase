@@ -8,6 +8,14 @@ export interface Manufacturer {
   partnership_status: 'active' | 'pending' | 'none';
   featured: boolean;
   created_at: string;
+  // Tier-gated fields (Verified+)
+  contact_email?: string;
+  contact_phone?: string;
+  sales_directory_url?: string;
+  find_rep_url?: string;
+  // Sponsored/Enterprise fields
+  catalog_priority?: number;
+  sponsored_categories?: string[];
 }
 
 export interface ProductCategory {

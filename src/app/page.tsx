@@ -1,7 +1,19 @@
 import Link from 'next/link';
 import SearchBar from '@/components/SearchBar';
 import CategoryCard from '@/components/CategoryCard';
+import CodeBlock from '@/components/CodeBlock';
 import { categories, manufacturers, products } from '@/lib/data';
+
+const API_DEMO_CODE = `curl -X POST https://specbase.co/api/v1/search \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "category": "motors",
+    "specs": {
+      "horsepower": "5",
+      "voltage": "460",
+      "enclosure_type": "TEFC"
+    }
+  }'`;
 
 export default function HomePage() {
   // Compute real stats from data
@@ -15,51 +27,82 @@ export default function HomePage() {
 
   return (
     <div className="bg-cream-100 dark:bg-navy-900">
-      {/* Hero */}
+      {/* Hero — Split layout: headline left, code snippet right */}
       <section className="bg-navy-800 text-white">
-        <div className="container-narrow py-20 md:py-28 text-center">
-          <div className="inline-flex items-center gap-2 bg-navy-700/50 border border-navy-600 text-cream-300 text-xs font-medium px-3 py-1.5 rounded-full mb-8">
-            <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
-            Now indexing industrial components for AI
-          </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight">
-            The Intelligence Layer for<br />
-            <span className="text-accent-light">Industrial Components</span>
-          </h1>
-          <p className="text-lg text-cream-400 mt-6 max-w-2xl mx-auto leading-relaxed">
-            Starting with power transmission and motion control.
-            Search motors, gearboxes, bearings, and more from leading manufacturers.
-          </p>
+        <div className="container-wide py-16 md:py-24">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Left: headline + copy */}
+            <div>
+              <div className="inline-flex items-center gap-2 bg-navy-700/50 border border-navy-600 text-cream-300 text-xs font-medium px-3 py-1.5 rounded-full mb-6">
+                <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
+                Now indexing industrial components for AI
+              </div>
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-tight">
+                The Intelligence Layer for<br />
+                <span className="text-accent-light">Industrial Components</span>
+              </h1>
+              <p className="text-lg text-cream-400 mt-5 max-w-xl leading-relaxed">
+                Structured product data for AI agents, engineers, and procurement tools.
+                Search motors, gearboxes, bearings, and more from leading manufacturers.
+              </p>
 
-          <div className="mt-10">
-            <SearchBar variant="hero" />
+              {/* Search bar */}
+              <div className="mt-8">
+                <SearchBar variant="hero" />
+              </div>
+            </div>
+
+            {/* Right: API code snippet */}
+            <div className="hidden lg:block">
+              <div className="text-xs text-cream-500 font-medium uppercase tracking-wider mb-3">
+                API-First Design
+              </div>
+              <CodeBlock code={API_DEMO_CODE} language="bash" />
+              <p className="text-xs text-cream-500 mt-3">
+                Full REST API with structured search, crossover matching, and product comparison.{' '}
+                <Link href="/api-docs" className="text-accent hover:text-accent-light transition-colors underline">
+                  View API Docs
+                </Link>
+              </p>
+            </div>
           </div>
 
-          {/* Dual CTA */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
-            <Link href="/why" className="flex items-center gap-2 text-sm text-cream-300 hover:text-white transition-colors group">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-              </svg>
-              Why SpecBase?
-              <span className="group-hover:translate-x-0.5 transition-transform">&rarr;</span>
+          {/* Three-track CTA row */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-12 pt-8 border-t border-navy-700">
+            <Link href="/api-docs" className="flex items-center gap-2.5 text-sm text-cream-300 hover:text-white transition-colors group">
+              <span className="w-8 h-8 rounded-lg bg-navy-700 flex items-center justify-center group-hover:bg-navy-600 transition-colors">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </span>
+              <span>
+                <span className="block font-medium">I&apos;m an AI Agent</span>
+                <span className="block text-xs text-cream-500">API Docs &rarr;</span>
+              </span>
             </Link>
             <span className="text-navy-600 hidden sm:inline">&middot;</span>
-            <Link href="/api-docs" className="flex items-center gap-2 text-sm text-cream-300 hover:text-white transition-colors group">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              API Docs
-              <span className="group-hover:translate-x-0.5 transition-transform">&rarr;</span>
+            <Link href="/search" className="flex items-center gap-2.5 text-sm text-cream-300 hover:text-white transition-colors group">
+              <span className="w-8 h-8 rounded-lg bg-navy-700 flex items-center justify-center group-hover:bg-navy-600 transition-colors">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </span>
+              <span>
+                <span className="block font-medium">I&apos;m an Engineer</span>
+                <span className="block text-xs text-cream-500">Search Products &rarr;</span>
+              </span>
             </Link>
             <span className="text-navy-600 hidden sm:inline">&middot;</span>
-            <Link href="/engineers" className="flex items-center gap-2 text-sm text-cream-300 hover:text-white transition-colors group">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-              For Engineers
-              <span className="group-hover:translate-x-0.5 transition-transform">&rarr;</span>
+            <Link href="/manufacturers" className="flex items-center gap-2.5 text-sm text-cream-300 hover:text-white transition-colors group">
+              <span className="w-8 h-8 rounded-lg bg-navy-700 flex items-center justify-center group-hover:bg-navy-600 transition-colors">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                </svg>
+              </span>
+              <span>
+                <span className="block font-medium">I&apos;m a Manufacturer</span>
+                <span className="block text-xs text-cream-500">List Your Products &rarr;</span>
+              </span>
             </Link>
           </div>
         </div>
@@ -205,16 +248,20 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Manufacturers in Registry */}
+      {/* Manufacturers in Registry — now linked to profile pages */}
       <section className="container-wide py-16">
         <p className="text-center text-sm text-cream-400 uppercase tracking-wider font-medium mb-8">
           Manufacturers in the registry
         </p>
         <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
           {activeManufacturers.map(m => (
-            <div key={m.id} className="text-lg md:text-xl font-bold text-cream-400/60 hover:text-navy-600 dark:hover:text-cream-300 transition-colors cursor-default">
+            <Link
+              key={m.id}
+              href={`/manufacturers/${m.slug}`}
+              className="text-lg md:text-xl font-bold text-cream-400/60 hover:text-accent transition-colors"
+            >
               {m.name}
-            </div>
+            </Link>
           ))}
         </div>
       </section>

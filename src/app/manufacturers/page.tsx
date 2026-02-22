@@ -1,5 +1,7 @@
 import Link from 'next/link';
-import { categories, products } from '@/lib/data';
+import ManufacturerLogo from '@/components/ManufacturerLogo';
+import TierBadge from '@/components/TierBadge';
+import { categories, manufacturers, products, getManufacturerTier, sortManufacturersByTier } from '@/lib/data';
 
 const templateMap: Record<string, string> = {
   motors: 'motors-template.csv',
@@ -16,7 +18,106 @@ const templateMap: Record<string, string> = {
   gearmotors: 'gearmotors-template.csv',
 };
 
+// 4-tier comparison data
+const tiers = [
+  {
+    name: 'Registry',
+    subtitle: 'Free',
+    highlight: false,
+    cta: { label: 'Submit Your Products', href: '#get-started' },
+    features: {
+      'Product listings': true,
+      'AI agent discoverability': true,
+      'Manufacturer profile page': true,
+      'Crossover matching': true,
+      'Contact info on profile': false,
+      '"Find Your Rep" link': false,
+      'Sales directory link': false,
+      'Verified badge': false,
+      'Preferred Data Partner badge': false,
+      'Pinned results in category': false,
+      'Catalog priority ranking': false,
+      'Custom branding': false,
+      'Analytics dashboard': false,
+      'Dedicated support': false,
+    },
+  },
+  {
+    name: 'Verified',
+    subtitle: 'Recommended',
+    highlight: true,
+    cta: { label: 'Contact Us', href: 'mailto:partners@specbase.co' },
+    features: {
+      'Product listings': true,
+      'AI agent discoverability': true,
+      'Manufacturer profile page': true,
+      'Crossover matching': true,
+      'Contact info on profile': true,
+      '"Find Your Rep" link': true,
+      'Sales directory link': true,
+      'Verified badge': true,
+      'Preferred Data Partner badge': false,
+      'Pinned results in category': false,
+      'Catalog priority ranking': false,
+      'Custom branding': false,
+      'Analytics dashboard': false,
+      'Dedicated support': false,
+    },
+  },
+  {
+    name: 'Sponsored',
+    subtitle: 'Category Partner',
+    highlight: false,
+    cta: { label: 'Contact Us', href: 'mailto:partners@specbase.co' },
+    features: {
+      'Product listings': true,
+      'AI agent discoverability': true,
+      'Manufacturer profile page': true,
+      'Crossover matching': true,
+      'Contact info on profile': true,
+      '"Find Your Rep" link': true,
+      'Sales directory link': true,
+      'Verified badge': true,
+      'Preferred Data Partner badge': true,
+      'Pinned results in category': '1 per category',
+      'Catalog priority ranking': false,
+      'Custom branding': false,
+      'Analytics dashboard': false,
+      'Dedicated support': false,
+    },
+  },
+  {
+    name: 'Enterprise',
+    subtitle: 'Partner',
+    highlight: false,
+    cta: { label: 'Contact Us', href: 'mailto:partners@specbase.co' },
+    features: {
+      'Product listings': true,
+      'AI agent discoverability': true,
+      'Manufacturer profile page': true,
+      'Crossover matching': true,
+      'Contact info on profile': true,
+      '"Find Your Rep" link': true,
+      'Sales directory link': true,
+      'Verified badge': true,
+      'Preferred Data Partner badge': true,
+      'Pinned results in category': false,
+      'Catalog priority ranking': true,
+      'Custom branding': true,
+      'Analytics dashboard': true,
+      'Dedicated support': true,
+    },
+  },
+];
+
+const featureList = Object.keys(tiers[0].features);
+
 export default function ManufacturersPage() {
+  // Active manufacturers sorted by tier
+  const activeManufacturers = sortManufacturersByTier(
+    manufacturers.filter(m => products.some(p => p.manufacturer_id === m.id))
+  );
+
   return (
     <div className="bg-cream-100 dark:bg-navy-900 min-h-screen">
       {/* Hero */}
@@ -37,9 +138,134 @@ export default function ManufacturersPage() {
             <a href="#get-started" className="btn-primary">
               Get Started
             </a>
-            <a href="#how-it-works" className="text-cream-300 hover:text-white text-sm transition-colors">
-              Learn how it works &rarr;
+            <a href="#tiers" className="text-cream-300 hover:text-white text-sm transition-colors">
+              View partnership tiers &rarr;
             </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Manufacturer Browse Grid */}
+      <section className="container-wide py-16">
+        <div className="text-center mb-10">
+          <h2 className="text-2xl md:text-3xl font-bold text-navy-800 dark:text-cream-200">Manufacturer Registry</h2>
+          <p className="text-navy-500 dark:text-cream-400 mt-3">
+            {activeManufacturers.length} manufacturers with {products.length.toLocaleString()}+ products indexed
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {activeManufacturers.map(m => {
+            const tier = getManufacturerTier(m);
+            const mfrProducts = products.filter(p => p.manufacturer_id === m.id);
+            const topCategory = categories
+              .map(c => ({ name: c.name, count: mfrProducts.filter(p => p.category_id === c.id).length }))
+              .filter(c => c.count > 0)
+              .sort((a, b) => b.count - a.count)[0];
+
+            return (
+              <Link
+                key={m.id}
+                href={`/manufacturers/${m.slug}`}
+                className="card p-5 hover:border-accent/30 hover:shadow-md transition-all group"
+              >
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-lg bg-cream-100 dark:bg-navy-700 border border-cream-300 dark:border-navy-600 flex items-center justify-center flex-shrink-0">
+                    <ManufacturerLogo manufacturerId={m.id} className="w-8 h-8" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold text-navy-800 dark:text-cream-200 group-hover:text-accent transition-colors truncate">
+                      {m.name}
+                    </p>
+                    <TierBadge tier={tier} />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between text-xs text-navy-500 dark:text-cream-400">
+                  <span>{mfrProducts.length.toLocaleString()} products</span>
+                  {topCategory && (
+                    <span className="bg-cream-200 dark:bg-navy-700 px-2 py-0.5 rounded-full truncate ml-2">
+                      {topCategory.name}
+                    </span>
+                  )}
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Partnership Tiers */}
+      <section id="tiers" className="bg-white dark:bg-navy-800 border-y border-cream-300 dark:border-navy-700">
+        <div className="container-wide py-16">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl md:text-3xl font-bold text-navy-800 dark:text-cream-200">Partnership Tiers</h2>
+            <p className="text-navy-500 dark:text-cream-400 mt-3">
+              Choose the level of visibility that fits your business
+            </p>
+          </div>
+
+          {/* Tier cards — 4 columns on desktop, 2x2 on tablet, stacked on mobile */}
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+            {tiers.map(tier => (
+              <div
+                key={tier.name}
+                className={`rounded-2xl border p-6 flex flex-col ${
+                  tier.highlight
+                    ? 'border-accent bg-accent/5 dark:bg-accent/10 ring-1 ring-accent/20 relative'
+                    : 'border-cream-300 dark:border-navy-600 bg-white dark:bg-navy-800'
+                }`}
+              >
+                {tier.highlight && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                    <span className="bg-accent text-white text-xs font-semibold px-3 py-1 rounded-full">
+                      Recommended
+                    </span>
+                  </div>
+                )}
+
+                <div className="mb-6">
+                  <h3 className="text-lg font-bold text-navy-800 dark:text-cream-200">{tier.name}</h3>
+                  <p className="text-sm text-navy-500 dark:text-cream-400">{tier.subtitle}</p>
+                </div>
+
+                <ul className="space-y-2.5 flex-1 mb-6">
+                  {featureList.map(feature => {
+                    const value = tier.features[feature as keyof typeof tier.features];
+                    const isIncluded = value === true || (typeof value === 'string');
+                    return (
+                      <li key={feature} className="flex items-start gap-2 text-sm">
+                        {isIncluded ? (
+                          <svg className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                        ) : (
+                          <svg className="w-4 h-4 text-cream-300 dark:text-navy-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
+                          </svg>
+                        )}
+                        <span className={isIncluded ? 'text-navy-800 dark:text-cream-200' : 'text-cream-400 dark:text-navy-500'}>
+                          {feature}
+                          {typeof value === 'string' && (
+                            <span className="text-xs text-accent ml-1">({value})</span>
+                          )}
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ul>
+
+                <a
+                  href={tier.cta.href}
+                  className={`block text-center text-sm font-semibold py-2.5 rounded-lg transition-colors ${
+                    tier.highlight
+                      ? 'bg-accent text-white hover:bg-accent-hover'
+                      : 'bg-cream-200 dark:bg-navy-700 text-navy-800 dark:text-cream-200 hover:bg-cream-300 dark:hover:bg-navy-600'
+                  }`}
+                >
+                  {tier.cta.label}
+                </a>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -96,7 +322,7 @@ export default function ManufacturersPage() {
         </div>
       </section>
 
-      {/* Product Categories */}
+      {/* Product Categories / Templates */}
       <section id="get-started" className="bg-white dark:bg-navy-800 border-y border-cream-300 dark:border-navy-700">
         <div className="container-wide py-16">
           <div className="text-center mb-12">
@@ -149,7 +375,7 @@ export default function ManufacturersPage() {
       </section>
 
       {/* How It Works */}
-      <section id="how-it-works" className="container-narrow py-16">
+      <section className="container-narrow py-16">
         <div className="text-center mb-12">
           <h2 className="text-2xl md:text-3xl font-bold text-navy-800 dark:text-cream-200">How It Works</h2>
         </div>

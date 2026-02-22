@@ -1,5 +1,25 @@
 import { Product, ProductCategory, Manufacturer } from '@/types';
 import { parseSearchQuery } from './search-parser';
+
+// ── Manufacturer Tier Logic ──
+export type ManufacturerTier = 'free' | 'verified' | 'sponsored' | 'enterprise';
+
+export function getManufacturerTier(m: Manufacturer): ManufacturerTier {
+  if (m.partnership_status === 'active' && m.featured && m.catalog_priority != null) return 'enterprise';
+  if (m.sponsored_categories && m.sponsored_categories.length > 0) return 'sponsored';
+  if (m.partnership_status === 'active') return 'verified';
+  return 'free';
+}
+
+const TIER_ORDER: Record<ManufacturerTier, number> = { enterprise: 0, sponsored: 1, verified: 2, free: 3 };
+
+export function sortManufacturersByTier(mfrs: Manufacturer[]): Manufacturer[] {
+  return [...mfrs].sort((a, b) => {
+    const tierDiff = TIER_ORDER[getManufacturerTier(a)] - TIER_ORDER[getManufacturerTier(b)];
+    if (tierDiff !== 0) return tierDiff;
+    return a.name.localeCompare(b.name);
+  });
+}
 import {
   xl_motorProducts,
   xl_bearingProducts,
